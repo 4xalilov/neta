@@ -1,5 +1,5 @@
 FROM python:3.12-slim
 WORKDIR /app
-RUN pip install aiogram httpx pydantic-settings
 COPY . .
+RUN pip install --no-cache-dir uv && uv pip install --system -e .
 CMD ["python", "-m", "bot"]

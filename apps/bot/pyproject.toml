@@ -1,0 +1,26 @@
+[project]
+name = "bot"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+  "aiogram>=3.13",
+  "httpx",
+  "pydantic-settings",
+  "redis",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-asyncio", "ruff"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["bot*"]
