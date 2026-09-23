@@ -31,6 +31,8 @@ keyingi ochiq vazifani oladi. Bosqichni o'tkazib yuborma.
 - [ ] 2.4 Depth Anything → parallax qatlami Remotion'da (`ReelsParallax`)
 - [ ] 2.5 VisionQA node: render kadrlarini Gemini vision tekshiradi (matn kesilgan? yuz buzilgan?)
 - [ ] 2.6 Hook A/B: 3 hook, 2 variant video
+- [x] 2.7 Motion kutubxonasi (docs/11): 14 matn animatsiyasi, uslub temalari, subtitr presetlari, o'tishlar, effektlar, SafeArea, StyleCatalog
+- [ ] 2.8 Uslub bilimlar bazasi (o'sib boruvchi): temalar JSON ma'lumot sifatida (`apps/render/src/motion/styles/themes/*.json`, zod sxema), katalog ≥ 36 tema; `style_theme` jadvali (candidate|approved|rejected); yangi tema quvuri: taklif (LLM/ega/internet ilhom) → sxema tekshiruvi → katalog kadr render → kuchli model VisionQA rubrika (o'qilishi, safe-area, kontrast, brend, o'zbek glifi) ≥ 8 → approved; rad sabablari saqlanadi; Remotion `theme` prop override bilan yangi temalar qayta deploy'siz ishlaydi
 **Qabul:** eval'da kritiklar ≥ 85% mos; ega 10 videodan ≥ 7 tasini birinchi urinishda tasdiqlaydi.
 
 ## Bosqich 3 — Xotira va audit (1 hafta)
