@@ -39,7 +39,9 @@ keyingi ochiq vazifani oladi. Bosqichni o'tkazib yuborma.
 - [ ] 3.3 Referens video: URL/fayl → Gemini (audio+video) → `structure_json` + embedding
 - [ ] 3.4 `taste_memory`: har tasdiq/rad → "nega?" so'raladi → pgvector; kritiklar top-5 o'qiydi
 - [ ] 3.5 Ovozli xabar orqali did o'rganish (Telegram voice → Gemini → taste_memory)
-**Qabul:** yangi ssenariy avvalgi rad sabablarini takrorlamaydi (eval bilan tekshiriladi).
+- [ ] 3.6 Obsidian vault (`vault/`, docs/10): brend bilimi, SOP, kontent arxivi; `engine/vault/` indekslovchi (frontmatter + embedding → pgvector, `vault_note` jadvali), o'zgargan faylni 10 daqiqada qayta indekslash, `obsidian-git` sinxron
+- [ ] 3.7 CRM "Bilim grafi" jonli sahifasi (`/vault/graph`): WebSocket orqali vault fayllari real vaqtda animatsiyali graf (force-graph), yangi fayl "portlab" paydo bo'ladi, teglar rang bilan, tanlangan fayl matni yon panelda; docs/08 tokenlari
+**Qabul:** yangi ssenariy avvalgi rad sabablarini takrorlamaydi (eval bilan tekshiriladi); vault'dagi yangi fayl 10 daqiqada Writer promptiga tushadi va grafda ko'rinadi.
 
 ## Bosqich 4 — 7 kunlik AIDA reja + nashr (1 hafta)
 - [ ] 4.1 `Strategy` node: audit + xotira → 7 kunlik reja (A/I/D/A taqsimoti, format, hook turi)
