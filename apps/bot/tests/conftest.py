@@ -33,10 +33,12 @@ class FakeMessage:
         self.audio = audio
         self.answer = AsyncMock(side_effect=self._answer)
         self.answer_voice = AsyncMock(side_effect=self._answer_voice)
+        self.answer_audio = AsyncMock(side_effect=self._answer_audio)
         self.edit_text = AsyncMock()
         self.edit_reply_markup = AsyncMock()
         self._children: list[FakeMessage] = []
         self.voice_notes_sent: list[Any] = []
+        self.audio_notes_sent: list[Any] = []
 
     async def _answer(self, text: str, reply_markup: Any = None) -> FakeMessage:
         msg = FakeMessage(
@@ -47,6 +49,12 @@ class FakeMessage:
 
     async def _answer_voice(self, voice: Any, **kwargs: Any) -> FakeMessage:
         self.voice_notes_sent.append(voice)
+        msg = FakeMessage(from_user=self.from_user, chat_id=self.chat.id)
+        self._children.append(msg)
+        return msg
+
+    async def _answer_audio(self, audio: Any, **kwargs: Any) -> FakeMessage:
+        self.audio_notes_sent.append(audio)
         msg = FakeMessage(from_user=self.from_user, chat_id=self.chat.id)
         self._children.append(msg)
         return msg

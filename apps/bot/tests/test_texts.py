@@ -68,6 +68,10 @@ CASES = [
     (texts.JARVIS_HELP, {}),
     (texts.VOICE_REPLY_NOTIFY, {"text": "Tayyor."}),
     (texts.VOICE_CLARIFY, {"question": "Qaysi lidga?"}),
+    (texts.TASK_NEW, {"title": "zakazni yopish", "due": "ertaga 15:00"}),
+    (texts.TASK_DONE_ACK, {}),
+    (texts.TASK_DELAYED_ACK, {}),
+    (texts.JARVIS_REMINDER, {"staff_name": "Aziz", "body": "zakazni yopish"}),
 ]
 
 
@@ -96,6 +100,10 @@ def test_first_line_is_bold_heading_with_emoji():
         texts.JARVIS_HELP,
         texts.VOICE_REPLY_NOTIFY,
         texts.VOICE_CLARIFY,
+        texts.TASK_NEW,
+        texts.TASK_DONE_ACK,
+        texts.TASK_DELAYED_ACK,
+        texts.JARVIS_REMINDER,
     ]
     for tpl in headings:
         first_line = tpl.strip().splitlines()[0]

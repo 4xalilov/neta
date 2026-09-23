@@ -168,3 +168,15 @@ class ApiClient:
         """GET /v1/voice/history?chat_id=&n= -> [{role: "user"|"jarvis", text, created_at}]"""
         result = await self._request("GET", "/v1/voice/history", params={"chat_id": chat_id, "n": n})
         return result if isinstance(result, list) else []
+
+    # -- tasks (kind="task" tg:notify, roadmap 5.10) ---------------------------------------------------
+    async def task_status(self, task_id: str, status: str) -> dict:
+        """POST /v1/tasks/{task_id}/status {status: "done"|"delayed"} -> {ok: true}
+
+        NOT YET IMPLEMENTED on the API side -- required so the ✅ Bajarildi /
+        ⏳ Kechikadi buttons on the `kind="task"` notify screen (see
+        `apps/bot/README.md`) can report a staff member's answer back.
+        """
+        return await self._request(
+            "POST", f"/v1/tasks/{task_id}/status", json={"status": status}
+        )

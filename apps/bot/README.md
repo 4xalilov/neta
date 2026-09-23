@@ -40,6 +40,7 @@ friendly Uzbek message (`texts.ERROR_GENERIC`) instead of crashing.
 | PATCH | `/v1/workspaces/{workspace_id}/brand-profile` | any subset of `{pronoun, voice, register}` | `BrandProfile` |
 | POST | `/v1/voice/command` | multipart form (see below) | `VoiceResult` |
 | GET | `/v1/voice/history?chat_id=<int>&n=<int>` | — | `[VoiceHistoryItem]` |
+| POST | `/v1/tasks/{task_id}/status` | `{status: "done"\|"delayed"}` | `{ok: true}` — **not implemented on the API yet**; needed for the ✅ Bajarildi / ⏳ Kechikadi buttons on the `kind="task"` notify screen (`ApiClient.task_status`) |
 
 Shapes (fields the bot reads; the API may add more):
 
@@ -66,7 +67,14 @@ Shapes (fields the bot reads; the API may add more):
   "reply_text": "Bajarildi, hammasiga ha deyildi.",
   "needs_confirmation": false,
   "actions": [{ "id": "a_...", "type": "message_lead", "level": 2, "status": "pending", "summary": "6 ta lidga yozish" }],
-  "audio_url": null, "audio_b64": null, "job_id": null
+  "audio_url": null, "audio_b64": null,
+  "audio_fmt": "ogg",       // "ogg" -> answer_voice; "mp3"|"wav" (no ffmpeg on the API side) -> answer_audio; null -> text only, no audio sent
+  "job_id": null,
+  "workspace_id": "ws_...", // the FAOL (active) workspace after this command -- stored per chat
+                            // (Redis `chat:{chat_id}:workspace_id`) and echoed back as `workspace_id`
+                            // on every later voice_command call from that chat (see "Voice-first Jarvis" below)
+  "entities": { "workspace_name": "..." } // optional; shown as a small muted "🏢 <name>" last line on the
+                                           // result screen, only when the active workspace just changed
 }
 
 // VoiceHistoryItem (voice_history response, list)
@@ -125,13 +133,30 @@ The result screen (`texts.VOICE_RESULT`, `keyboards.voice_result_kb`) is
   contains an item with `status == "pending"`; the buttons carry that action's
   `id` and call `jarvis_decision(action_id, decision="yes"|"no")`.
 - **✏️ Tuzatish** / **🔁 Qayta ayting** — always shown.
+- **🏢 `<workspace_name>`** — a small muted last line, shown only when the
+  response's `workspace_id` differs from what was active before this command
+  (see "Workspace stickiness" below) *and* `entities.workspace_name` is
+  present; otherwise the line is omitted.
 
-If `audio_url` or `audio_b64` is present, a voice note is also sent
-(`message.answer_voice`, decoding `audio_b64` into a `BufferedInputFile` when
-present, else passing the `audio_url` string straight through to Telegram).
-If `job_id` is present (the command kicked off a brief pipeline), the bot
-sends a fresh brief-progress placeholder and reuses
+If `audio_url` or `audio_b64` is present, a voice note is also sent, and
+`audio_fmt` picks how: `"ogg"` -> `message.answer_voice`, `"mp3"`/`"wav"`
+(the API's ffmpeg step is unavailable) -> `message.answer_audio`, explicit
+`null` -> no audio is sent at all (text only); a missing `audio_fmt` (older
+payloads) defaults to `"ogg"`. `audio_b64` is decoded into a
+`BufferedInputFile`; otherwise the `audio_url` string is passed straight
+through to Telegram. If `job_id` is present (the command kicked off a brief
+pipeline), the bot sends a fresh brief-progress placeholder and reuses
 `handlers/brief.py::poll_job`/`brief_progress_kb` to track it to completion.
+
+**Workspace stickiness.** The `workspace_id` in the `VoiceResult` is the
+FAOL (active) workspace *after* this command ran (e.g. "fitnes klub uchun 3
+ta reels tayyorla" switches the active client mid-conversation). The bot
+stores it per chat in Redis as `chat:{chat_id}:workspace_id`
+(`bot/voice_mode.py::get_active_workspace`/`set_active_workspace`, tolerant
+of a missing/`None` redis client same as the voice-mode flag) and sends that
+stored value as `workspace_id` on every subsequent `voice_command` call from
+that chat, ahead of the old `get_workspace(owner_tg_id)` fallback (used only
+when nothing is stored yet, e.g. the very first command in a chat).
 
 **"🎙 Jarvis rejimi"** is a per-chat on/off flag, stored in Redis as
 `chat:{chat_id}:voice_mode` (`"on"`/`"off"`, default **on** for the owner;
@@ -152,7 +177,7 @@ The API pushes screens to the bot by publishing JSON to the Redis pub/sub
 channel **`tg:notify`**:
 
 ```json
-{"chat_id": 123456789, "kind": "script|video|report|approval|voice_reply|clarify", "payload": {...}}
+{"chat_id": 123456789, "kind": "script|video|report|approval|voice_reply|clarify|task|reminder", "payload": {...}}
 ```
 
 `bot/notify.py::build_notification(kind, payload)` is the pure renderer
@@ -183,8 +208,23 @@ Payload shape per `kind`:
 
 // kind = "voice_reply"  (Jarvis's own reply pushed outside a request/response
 // cycle, e.g. a background job's result) -> text message, and if `audio_url`
-// is present the bot also sends it as a voice note (`bot.send_voice`)
-{ "text": "6 ta issiq lidga yozildi.", "audio_url": "https://.../reply.ogg" }
+// is present the bot also sends it as a voice note. `audio_fmt` picks the
+// Telegram method same as VoiceResult above: "ogg" -> bot.send_voice;
+// "mp3"/"wav" -> bot.send_audio; null -> no audio sent; missing -> "ogg".
+{ "text": "6 ta issiq lidga yozildi.", "audio_url": "https://.../reply.ogg", "audio_fmt": "ogg" }
+
+// kind = "task"  (ega ovoz bilan xodimga vazifa berdi; chat_id = xodim tg_id)
+// -> "📝 Yangi vazifa" screen, ✅ Bajarildi / ⏳ Kechikadi buttons that call
+// the new `ApiClient.task_status(task_id, status)` -> `POST /v1/tasks/{task_id}/status`
+// (see the contract table above -- **not implemented on the API side yet**)
+{ "task_id": "t_...", "title": "zakazni yopish", "due_at": "2026-09-24T15:00:00+05:00",
+  "due": "ertaga 15:00", "staff_name": "Aziz", "workspace_id": "ws_..." }
+
+// kind = "reminder"  (remind_staff niyati: xodimning ochiq vazifa(lar)i)
+// -> "🔔 Eslatma" screen, no keyboard. Shows `title` when the API sends a
+// single task; else falls back to `titles` (joined), then `note`.
+{ "staff_id": "s_...", "staff_name": "Aziz", "title": "zakazni yopish",
+  "task_ids": ["t_..."], "titles": ["zakazni yopish"], "note": null }
 
 // kind = "clarify"  (STT/intent confidence < 0.7 -> a clarifying question;
 // same ✅/❌/✏️ keyboard as "approval", reusing `jarvis_decision`, when
@@ -225,6 +265,12 @@ Payload shape per `kind`:
     (`handlers/voice.py`, `keyboards.voice_mode_kb`).
 11. **`/jarvis`** — help screen with 5 example voice commands
     (`handlers/voice.py`, `texts.JARVIS_HELP`).
+12. **Yangi vazifa (`kind="task"` notify, xodimga)** — "📝 Yangi vazifa" +
+    title + muddat, ✅ Bajarildi · ⏳ Kechikadi -> `ApiClient.task_status`
+    (`handlers/jarvis.py::on_task_status`, `keyboards.task_kb`). See "Redis
+    notify format" above.
+13. **Eslatma (`kind="reminder"` notify, xodimga)** — "🔔 Eslatma" + staff
+    name + task title(s)/note, no keyboard (`bot/notify.py`).
 
 All screens: HTML parse mode, first line bold heading with emoji, <= 6
 lines, callback_data ASCII <= 64 bytes via `keyboards.CB`
@@ -249,3 +295,7 @@ sending new messages.
   an optional `redis` parameter defaulting to `None` (treated as "unavailable
   -> default to on"), so it degrades gracefully and stays easy to unit-test
   with a plain fake (`tests/conftest.py::FakeRedis`).
+- `chat:{chat_id}:workspace_id` key — the per-chat sticky active workspace
+  for voice commands (`bot/voice_mode.py::get_active_workspace`/
+  `set_active_workspace`), same `redis=None`-tolerant shape as the flag
+  above. See "Workspace stickiness" under "Voice-first Jarvis".

@@ -6,6 +6,7 @@ from aiogram.fsm.storage.base import StorageKey
 from aiogram.fsm.storage.memory import MemoryStorage
 
 from bot import texts
+from bot.api_client import ApiError
 from bot.handlers import approval, brief, jarvis, settings, start
 from bot.keyboards import CB, script_approval_kb
 from bot.states import BriefStates, ScriptRejectStates, VideoRejectStates
@@ -244,6 +245,46 @@ async def test_jarvis_approval_decision_yes():
 
     assert ("jarvis_decision", ("action-1",), {"decision": "yes"}) in api.calls
     message.edit_text.assert_awaited_with(texts.JARVIS_APPROVAL_YES)
+
+
+# -- kind="task" screen (staff member reports back on a voice-assigned task) ---------------------------------------------------
+@pytest.mark.asyncio
+async def test_task_status_done_calls_new_api_endpoint_and_acks():
+    api = FakeApiClient(task_status={"ok": True})
+    message = FakeMessage()
+    callback = FakeCallbackQuery(data="cb:task_status:task-1:done", message=message)
+    cb_data = CB(action="task_status", id="task-1", arg="done")
+
+    await jarvis.on_task_status(callback, cb_data, api)
+
+    assert ("task_status", ("task-1",), {"status": "done"}) in api.calls
+    message.edit_text.assert_awaited_with(texts.TASK_DONE_ACK)
+
+
+@pytest.mark.asyncio
+async def test_task_status_delayed_calls_new_api_endpoint_and_acks():
+    api = FakeApiClient(task_status={"ok": True})
+    message = FakeMessage()
+    callback = FakeCallbackQuery(data="cb:task_status:task-1:delayed", message=message)
+    cb_data = CB(action="task_status", id="task-1", arg="delayed")
+
+    await jarvis.on_task_status(callback, cb_data, api)
+
+    assert ("task_status", ("task-1",), {"status": "delayed"}) in api.calls
+    message.edit_text.assert_awaited_with(texts.TASK_DELAYED_ACK)
+
+
+@pytest.mark.asyncio
+async def test_task_status_shows_generic_error_on_api_failure():
+    api = FakeApiClient(task_status=ApiError("boom"))
+    message = FakeMessage()
+    callback = FakeCallbackQuery(data="cb:task_status:task-1:done", message=message)
+    cb_data = CB(action="task_status", id="task-1", arg="done")
+
+    await jarvis.on_task_status(callback, cb_data, api)
+
+    callback.answer.assert_awaited_with(texts.ERROR_GENERIC, show_alert=True)
+    message.edit_text.assert_not_awaited()
 
 
 # -- settings ---------------------------------------------------

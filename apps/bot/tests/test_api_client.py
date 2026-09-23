@@ -177,3 +177,22 @@ async def test_approve_video_uses_video_approve_path_and_action_body():
     assert seen["path"] == "/v1/scripts/script-1/video-approve"
     assert b'"publish"' in seen["body"]
     await api.aclose()
+
+
+@pytest.mark.asyncio
+async def test_task_status_posts_status_to_new_endpoint():
+    seen = {}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen["method"] = request.method
+        seen["path"] = request.url.path
+        seen["body"] = request.content
+        return httpx.Response(200, json={"ok": True})
+
+    api = _client_with_transport(httpx.MockTransport(handler))
+    result = await api.task_status("task-1", status="done")
+    assert result == {"ok": True}
+    assert seen["method"] == "POST"
+    assert seen["path"] == "/v1/tasks/task-1/status"
+    assert b'"done"' in seen["body"]
+    await api.aclose()

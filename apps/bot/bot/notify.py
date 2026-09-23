@@ -23,6 +23,7 @@ from bot.keyboards import (
     approval_request_kb,
     jarvis_report_kb,
     script_approval_kb,
+    task_kb,
     video_approval_kb,
 )
 from bot.settings import settings
@@ -83,6 +84,25 @@ def build_notification(kind: str, payload: dict) -> tuple[str, InlineKeyboardMar
         action_id = payload.get("action_id")
         return text, (approval_request_kb(action_id) if action_id else None)
 
+    if kind == "task":
+        # A staff member was voice-assigned a task (`assign_task` intent,
+        # apps/api/README.md "Yangi tg:notify kind"). `due` is the human
+        # phrase ("ertaga 15:00"); fall back to the raw `due_at` if missing.
+        text = texts.TASK_NEW.format(
+            title=payload.get("title", "-"),
+            due=payload.get("due") or payload.get("due_at") or "-",
+        )
+        return text, task_kb(payload["task_id"])
+
+    if kind == "reminder":
+        # `remind_staff` intent -> a staff member's open task(s). Shows
+        # `title` when the API sends a single task; otherwise falls back to
+        # the `titles` list, then `note`.
+        titles = payload.get("titles") or []
+        body = payload.get("title") or (", ".join(titles) if titles else payload.get("note")) or "-"
+        text = texts.JARVIS_REMINDER.format(staff_name=payload.get("staff_name", "-"), body=body)
+        return text, None
+
     log.warning("unknown notify kind: %s", kind)
     return texts.ERROR_GENERIC, None
 
@@ -101,10 +121,17 @@ async def _handle_message(bot: Bot, raw: bytes | str) -> None:
     await bot.send_message(chat_id, text, reply_markup=keyboard)
 
     if kind == "voice_reply" and payload.get("audio_url"):
-        try:
-            await bot.send_voice(chat_id, payload["audio_url"])
-        except Exception:
-            log.exception("failed to send voice note for voice_reply")
+        # `audio_fmt` picks the Telegram send method (apps/api/README.md
+        # "Ovozli boshqaruv"): "ogg" -> send_voice, "mp3"/"wav" (no ffmpeg on
+        # the API side) -> send_audio, missing (older payloads) defaults to
+        # "ogg", explicit `null` means text-only -> no audio is sent at all.
+        audio_fmt = payload.get("audio_fmt", "ogg")
+        if audio_fmt is not None:
+            sender = bot.send_voice if audio_fmt == "ogg" else bot.send_audio
+            try:
+                await sender(chat_id, payload["audio_url"])
+            except Exception:
+                log.exception("failed to send voice note for voice_reply")
 
 
 async def run_notify_subscriber(bot: Bot, redis_url: str | None = None) -> None:

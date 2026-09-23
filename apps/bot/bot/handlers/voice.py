@@ -23,7 +23,12 @@ from bot.handlers.brief import poll_job
 from bot.keyboards import CB, brief_progress_kb, voice_mode_kb, voice_result_kb
 from bot.settings import settings
 from bot.states import VoiceStates
-from bot.voice_mode import get_voice_mode, set_voice_mode
+from bot.voice_mode import (
+    get_active_workspace,
+    get_voice_mode,
+    set_active_workspace,
+    set_voice_mode,
+)
 
 log = logging.getLogger(__name__)
 router = Router(name="voice")
@@ -49,6 +54,16 @@ async def _workspace_id(api: ApiClient) -> str | None:
     return workspace.get("id") if workspace else None
 
 
+async def _resolve_workspace_id(api: ApiClient, redis: Any, chat_id: int) -> str | None:
+    """The sticky active workspace for `chat_id` (Redis `chat:{id}:workspace_id`,
+    see `bot/voice_mode.py`), falling back to the owner's single workspace when
+    nothing is stored yet (first command in a chat, or Redis unavailable)."""
+    stored = await get_active_workspace(redis, chat_id)
+    if stored:
+        return stored
+    return await _workspace_id(api)
+
+
 async def _safe_edit(target: _Editable, text: str, **kwargs: Any) -> None:
     try:
         await target.edit_text(text, **kwargs)
@@ -57,7 +72,15 @@ async def _safe_edit(target: _Editable, text: str, **kwargs: Any) -> None:
 
 
 # -- rendering the voice_command result screen ---------------------------------------------------
-async def _render_result(placeholder: _Editable, api: ApiClient, result: dict) -> None:
+async def _render_result(
+    placeholder: _Editable,
+    api: ApiClient,
+    result: dict,
+    *,
+    redis: Any = None,
+    chat_id: int | None = None,
+    previous_workspace_id: str | None = None,
+) -> None:
     transcript = result.get("transcript") or "-"
     reply_text = result.get("reply_text") or "-"
     actions = result.get("actions") or []
@@ -65,9 +88,22 @@ async def _render_result(placeholder: _Editable, api: ApiClient, result: dict) -
     action_id = pending.get("id") if pending else None
     show_confirm = bool(result.get("needs_confirmation")) or pending is not None
 
+    text = texts.VOICE_RESULT.format(transcript=transcript, reply_text=reply_text)
+
+    # Workspace stickiness (apps/api/README.md "Ovozli boshqaruv"): the
+    # response's `workspace_id` is the FAOL workspace after this command --
+    # remember it per chat and echo it back on the next voice_command call.
+    new_workspace_id = result.get("workspace_id")
+    if new_workspace_id and chat_id is not None:
+        await set_active_workspace(redis, chat_id, new_workspace_id)
+    workspace_changed = bool(new_workspace_id) and new_workspace_id != previous_workspace_id
+    workspace_name = (result.get("entities") or {}).get("workspace_name")
+    if workspace_changed and workspace_name:
+        text += texts.VOICE_RESULT_WORKSPACE_LINE.format(workspace_name=workspace_name)
+
     await _safe_edit(
         placeholder,
-        texts.VOICE_RESULT.format(transcript=transcript, reply_text=reply_text),
+        text,
         reply_markup=voice_result_kb(action_id=action_id, show_confirm=show_confirm),
     )
 
@@ -79,6 +115,16 @@ async def _render_result(placeholder: _Editable, api: ApiClient, result: dict) -
 
 
 async def _send_voice_note(placeholder: _Editable, result: dict) -> None:
+    # `audio_fmt` (apps/api/README.md "Ovozli boshqaruv") picks the Telegram
+    # method: "ogg" -> answer_voice, "mp3"/"wav" (no ffmpeg on the API side)
+    # -> answer_audio, explicit `null` -> text only. Missing (older payloads)
+    # defaults to "ogg", matching the previous always-answer_voice behavior.
+    audio_fmt = result.get("audio_fmt", "ogg")
+    if audio_fmt is None:
+        return
+    send = placeholder.answer_voice if audio_fmt == "ogg" else placeholder.answer_audio
+    filename = "jarvis.ogg" if audio_fmt == "ogg" else f"jarvis.{audio_fmt}"
+
     audio_b64 = result.get("audio_b64")
     audio_url = result.get("audio_url")
     if audio_b64:
@@ -88,9 +134,9 @@ async def _send_voice_note(placeholder: _Editable, result: dict) -> None:
             log.warning("voice_command returned invalid audio_b64")
             audio_bytes = None
         if audio_bytes:
-            await placeholder.answer_voice(BufferedInputFile(audio_bytes, filename="jarvis.ogg"))
+            await send(BufferedInputFile(audio_bytes, filename=filename))
     elif audio_url:
-        await placeholder.answer_voice(audio_url)
+        await send(audio_url)
 
 
 async def _poll_brief(placeholder: _Editable, api: ApiClient, job_id: str) -> None:
@@ -111,6 +157,7 @@ async def _run_voice_command(
     text: str | None = None,
     workspace_id: str | None = None,
     role: str = "owner",
+    redis: Any = None,
 ) -> None:
     try:
         result = await api.voice_command(
@@ -120,12 +167,14 @@ async def _run_voice_command(
         log.exception("voice_command failed")
         await _safe_edit(placeholder, texts.ERROR_GENERIC)
         return
-    await _render_result(placeholder, api, result)
+    await _render_result(
+        placeholder, api, result, redis=redis, chat_id=chat_id, previous_workspace_id=workspace_id
+    )
 
 
 # -- entry point 1: voice / audio messages (owner + staff) ---------------------------------------------------
 @router.message(F.voice | F.audio)
-async def on_voice_message(message: Message, api: ApiClient, bot: Bot) -> None:
+async def on_voice_message(message: Message, api: ApiClient, bot: Bot, redis: Any = None) -> None:
     user = message.from_user
     file = message.voice or message.audio
     if file is None:
@@ -139,7 +188,7 @@ async def on_voice_message(message: Message, api: ApiClient, bot: Bot) -> None:
         return
 
     placeholder = await message.answer(texts.VOICE_LISTENING)
-    workspace_id = await _workspace_id(api)
+    workspace_id = await _resolve_workspace_id(api, redis, message.chat.id)
     await _run_voice_command(
         placeholder,
         api,
@@ -147,6 +196,7 @@ async def on_voice_message(message: Message, api: ApiClient, bot: Bot) -> None:
         audio=audio_bytes,
         workspace_id=workspace_id,
         role=_role(user.id if user else None),
+        redis=redis,
     )
 
 
@@ -159,7 +209,7 @@ async def on_owner_text_via_voice_mode(message: Message, api: ApiClient, redis: 
     on = await get_voice_mode(redis, message.chat.id)
     if not on:
         return  # 🎙 Jarvis rejimi off -> old flows (no dedicated catch-all here)
-    workspace_id = await _workspace_id(api)
+    workspace_id = await _resolve_workspace_id(api, redis, message.chat.id)
     placeholder = await message.answer(texts.VOICE_LISTENING)
     await _run_voice_command(
         placeholder,
@@ -168,6 +218,7 @@ async def on_owner_text_via_voice_mode(message: Message, api: ApiClient, redis: 
         text=message.text,
         workspace_id=workspace_id,
         role="owner",
+        redis=redis,
     )
 
 
@@ -181,14 +232,16 @@ async def on_voice_fix_start(callback: CallbackQuery, state: FSMContext) -> None
 
 
 @router.message(VoiceStates.waiting_correction)
-async def on_voice_correction_text(message: Message, api: ApiClient, state: FSMContext) -> None:
+async def on_voice_correction_text(
+    message: Message, api: ApiClient, state: FSMContext, redis: Any = None
+) -> None:
     await state.clear()
     corrected = (message.text or "").strip()
     if not corrected:
         await message.answer(texts.ERROR_GENERIC)
         return
     user = message.from_user
-    workspace_id = await _workspace_id(api)
+    workspace_id = await _resolve_workspace_id(api, redis, message.chat.id)
     placeholder = await message.answer(texts.VOICE_LISTENING)
     await _run_voice_command(
         placeholder,
@@ -197,6 +250,7 @@ async def on_voice_correction_text(message: Message, api: ApiClient, state: FSMC
         text=corrected,
         workspace_id=workspace_id,
         role=_role(user.id if user else None),
+        redis=redis,
     )
 
 

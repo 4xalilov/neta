@@ -5,6 +5,7 @@ from bot.keyboards import (
     menu_kb,
     script_approval_kb,
     settings_kb,
+    task_kb,
     video_approval_kb,
     voice_mode_kb,
     voice_result_kb,
@@ -51,6 +52,15 @@ def test_approval_request_kb_actions():
     kb = approval_request_kb("action-1")
     texts = [b.text for row in kb.inline_keyboard for b in row]
     assert texts == ["✅ Ha", "❌ Yo'q", "✏️ Tahrir"]
+
+
+def test_task_kb_actions_and_callback_data():
+    kb = task_kb("task-1")
+    texts = [b.text for row in kb.inline_keyboard for b in row]
+    assert texts == ["✅ Bajarildi", "⏳ Kechikadi"]
+    data = _all_callback_data(kb)
+    assert "cb:task_status:task-1:done" in data
+    assert "cb:task_status:task-1:delayed" in data
 
 
 def test_settings_kb_marks_current_choice():
@@ -106,6 +116,7 @@ def test_all_callback_data_is_ascii_and_at_most_64_bytes():
         video_approval_kb(long_id),
         jarvis_report_kb(long_id),
         approval_request_kb(long_id),
+        task_kb(long_id),
         settings_kb("siz", "madina", "neutral"),
         voice_mode_kb(True),
         voice_result_kb(action_id=long_id, show_confirm=True),

@@ -6,6 +6,7 @@ from bot.keyboards import (
     approval_request_kb,
     jarvis_report_kb,
     script_approval_kb,
+    task_kb,
     video_approval_kb,
 )
 from bot.notify import build_notification
@@ -74,6 +75,52 @@ def test_clarify_kind_without_action_id_has_no_keyboard():
     assert kb is None
 
 
+# -- kind="task" (a staff member was voice-assigned a task) ---------------------------------------------------
+def test_task_kind_renders_new_task_screen_with_status_buttons():
+    payload = {
+        "task_id": "t1",
+        "title": "zakazni yopish",
+        "due_at": "2026-09-24T15:00:00+05:00",
+        "due": "ertaga 15:00",
+        "staff_name": "Aziz",
+        "workspace_id": "ws1",
+    }
+    text, kb = build_notification("task", payload)
+    assert "Yangi vazifa" in text
+    assert "zakazni yopish" in text
+    assert "ertaga 15:00" in text  # human `due`, not the raw `due_at`
+    assert kb.inline_keyboard == task_kb("t1").inline_keyboard
+
+
+def test_task_kind_falls_back_to_due_at_when_due_missing():
+    payload = {"task_id": "t1", "title": "zakazni yopish", "due_at": "2026-09-24T15:00:00+05:00"}
+    text, _ = build_notification("task", payload)
+    assert "2026-09-24T15:00:00+05:00" in text
+
+
+# -- kind="reminder" (remind_staff intent) ---------------------------------------------------
+def test_reminder_kind_shows_title_when_present():
+    payload = {"staff_id": "s1", "staff_name": "Aziz", "title": "zakazni yopish", "task_ids": ["t1"]}
+    text, kb = build_notification("reminder", payload)
+    assert "Eslatma" in text
+    assert "Aziz" in text
+    assert "zakazni yopish" in text
+    assert kb is None
+
+
+def test_reminder_kind_falls_back_to_titles_list_without_a_single_title():
+    payload = {"staff_name": "Aziz", "titles": ["zakazni yopish", "hisobot yuborish"]}
+    text, _ = build_notification("reminder", payload)
+    assert "zakazni yopish" in text
+    assert "hisobot yuborish" in text
+
+
+def test_reminder_kind_falls_back_to_note_without_titles():
+    payload = {"staff_name": "Aziz", "note": "2 ta vazifa muddati o'tdi"}
+    text, _ = build_notification("reminder", payload)
+    assert "2 ta vazifa muddati o'tdi" in text
+
+
 @pytest.mark.asyncio
 async def test_handle_message_sends_voice_note_for_voice_reply_with_audio_url():
     from unittest.mock import AsyncMock
@@ -108,3 +155,80 @@ async def test_handle_message_skips_voice_note_when_no_audio_url():
 
     bot.send_message.assert_awaited_once()
     bot.send_voice.assert_not_awaited()
+
+
+# -- audio_fmt routing (apps/api/README.md "Ovozli boshqaruv") ---------------------------------------------------
+@pytest.mark.asyncio
+async def test_handle_message_uses_send_audio_for_mp3_audio_fmt():
+    from unittest.mock import AsyncMock
+
+    from bot.notify import _handle_message
+
+    bot = AsyncMock()
+    raw = json.dumps(
+        {
+            "chat_id": 42,
+            "kind": "voice_reply",
+            "payload": {
+                "text": "Tayyor.",
+                "audio_url": "https://cdn.example.com/a.mp3",
+                "audio_fmt": "mp3",
+            },
+        }
+    )
+
+    await _handle_message(bot, raw)
+
+    bot.send_audio.assert_awaited_once_with(42, "https://cdn.example.com/a.mp3")
+    bot.send_voice.assert_not_awaited()
+
+
+@pytest.mark.asyncio
+async def test_handle_message_uses_send_audio_for_wav_audio_fmt():
+    from unittest.mock import AsyncMock
+
+    from bot.notify import _handle_message
+
+    bot = AsyncMock()
+    raw = json.dumps(
+        {
+            "chat_id": 42,
+            "kind": "voice_reply",
+            "payload": {
+                "text": "Tayyor.",
+                "audio_url": "https://cdn.example.com/a.wav",
+                "audio_fmt": "wav",
+            },
+        }
+    )
+
+    await _handle_message(bot, raw)
+
+    bot.send_audio.assert_awaited_once_with(42, "https://cdn.example.com/a.wav")
+    bot.send_voice.assert_not_awaited()
+
+
+@pytest.mark.asyncio
+async def test_handle_message_skips_audio_entirely_when_audio_fmt_is_null():
+    from unittest.mock import AsyncMock
+
+    from bot.notify import _handle_message
+
+    bot = AsyncMock()
+    raw = json.dumps(
+        {
+            "chat_id": 42,
+            "kind": "voice_reply",
+            "payload": {
+                "text": "Tayyor.",
+                "audio_url": "https://cdn.example.com/a.ogg",
+                "audio_fmt": None,
+            },
+        }
+    )
+
+    await _handle_message(bot, raw)
+
+    bot.send_message.assert_awaited_once()
+    bot.send_voice.assert_not_awaited()
+    bot.send_audio.assert_not_awaited()

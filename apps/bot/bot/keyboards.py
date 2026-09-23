@@ -140,6 +140,18 @@ def voice_mode_kb(on: bool) -> InlineKeyboardMarkup:
     )
 
 
+# -- new task assigned to a staff member (kind="task" notify) ---------------------------------------------------
+def task_kb(task_id: str) -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                _btn("✅ Bajarildi", "task_status", id_=task_id, arg="done"),
+                _btn("⏳ Kechikadi", "task_status", id_=task_id, arg="delayed"),
+            ]
+        ]
+    )
+
+
 # -- voice command result screen ---------------------------------------------------
 def voice_result_kb(
     *, action_id: str | None = None, show_confirm: bool = False

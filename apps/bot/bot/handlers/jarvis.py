@@ -11,6 +11,8 @@ from bot.api_client import ApiClient, ApiError
 from bot.keyboards import CB, jarvis_report_kb
 from bot.settings import settings
 
+_TASK_STATUS_ACK = {"done": texts.TASK_DONE_ACK, "delayed": texts.TASK_DELAYED_ACK}
+
 log = logging.getLogger(__name__)
 router = Router(name="jarvis")
 
@@ -100,6 +102,21 @@ async def on_approval_no(callback: CallbackQuery, callback_data: CB, api: ApiCli
     await callback.answer("Rad etildi ❌")
     if callback.message is not None:
         await callback.message.edit_text(texts.JARVIS_APPROVAL_NO)
+
+
+# -- kind="task" screen (a staff member was voice-assigned a task) ---------------------------------------------------
+@router.callback_query(CB.filter(F.action == "task_status"))
+async def on_task_status(callback: CallbackQuery, callback_data: CB, api: ApiClient) -> None:
+    status = callback_data.arg  # "done" | "delayed"
+    try:
+        await api.task_status(callback_data.id, status=status)
+    except ApiError:
+        log.exception("task_status failed")
+        await callback.answer(texts.ERROR_GENERIC, show_alert=True)
+        return
+    await callback.answer("Saqlandi ✅")
+    if callback.message is not None:
+        await callback.message.edit_text(_TASK_STATUS_ACK.get(status, texts.TASK_DONE_ACK))
 
 
 @router.callback_query(CB.filter(F.action == "appr_edit"))

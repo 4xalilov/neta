@@ -45,6 +45,175 @@ def _voice_result(**overrides) -> dict:
     return result
 
 
+# -- workspace stickiness (apps/api/README.md "Ovozli boshqaruv": `workspace_id`
+# in the voice_command response is the new active workspace) ---------------------------------------------------
+@pytest.mark.asyncio
+async def test_voice_command_sends_stored_workspace_id_from_redis(monkeypatch):
+    monkeypatch.setattr(voice.settings, "owner_tg_id", 1)
+    redis = FakeRedis()
+    redis.store["chat:1:workspace_id"] = "ws-stored"
+    # get_workspace would return a different id -- the stored one must win.
+    api = FakeApiClient(get_workspace={"id": "ws-other"}, voice_command=_voice_result())
+    message = FakeMessage(from_user=FakeUser(id=1, full_name="Owner"), voice=SimpleNamespace(file_id="v1"))
+    bot = FakeBot()
+
+    await voice.on_voice_message(message, api, bot, redis)
+
+    assert any(
+        kwargs.get("workspace_id") == "ws-stored"
+        for name, _, kwargs in api.calls
+        if name == "voice_command"
+    )
+
+
+@pytest.mark.asyncio
+async def test_voice_command_falls_back_to_get_workspace_when_nothing_stored(monkeypatch):
+    monkeypatch.setattr(voice.settings, "owner_tg_id", 1)
+    redis = FakeRedis()  # nothing stored yet
+    api = FakeApiClient(get_workspace={"id": "ws1"}, voice_command=_voice_result())
+    message = FakeMessage(from_user=FakeUser(id=1, full_name="Owner"), voice=SimpleNamespace(file_id="v1"))
+    bot = FakeBot()
+
+    await voice.on_voice_message(message, api, bot, redis)
+
+    assert any(
+        kwargs.get("workspace_id") == "ws1" for name, _, kwargs in api.calls if name == "voice_command"
+    )
+
+
+@pytest.mark.asyncio
+async def test_voice_result_workspace_id_is_persisted_to_redis(monkeypatch):
+    monkeypatch.setattr(voice.settings, "owner_tg_id", 1)
+    redis = FakeRedis()
+    api = FakeApiClient(
+        get_workspace={"id": "ws1"}, voice_command=_voice_result(workspace_id="ws2")
+    )
+    message = FakeMessage(from_user=FakeUser(id=1, full_name="Owner"), voice=SimpleNamespace(file_id="v1"))
+    bot = FakeBot()
+
+    await voice.on_voice_message(message, api, bot, redis)
+
+    assert redis.store["chat:1:workspace_id"] == "ws2"
+
+
+@pytest.mark.asyncio
+async def test_voice_result_shows_workspace_name_when_it_changed(monkeypatch):
+    monkeypatch.setattr(voice.settings, "owner_tg_id", 1)
+    redis = FakeRedis()  # previous active workspace resolves to "ws1" via get_workspace
+    api = FakeApiClient(
+        get_workspace={"id": "ws1"},
+        voice_command=_voice_result(
+            workspace_id="ws2",
+            entities={"workspace_name": "Fitnes klub"},
+        ),
+    )
+    message = FakeMessage(from_user=FakeUser(id=1, full_name="Owner"), voice=SimpleNamespace(file_id="v1"))
+    bot = FakeBot()
+
+    await voice.on_voice_message(message, api, bot, redis)
+
+    placeholder = message._children[0]
+    rendered = placeholder.edit_text.await_args.args[0]
+    assert "🏢" in rendered and "Fitnes klub" in rendered
+
+
+@pytest.mark.asyncio
+async def test_voice_result_hides_workspace_name_when_unchanged(monkeypatch):
+    monkeypatch.setattr(voice.settings, "owner_tg_id", 1)
+    redis = FakeRedis()
+    redis.store["chat:1:workspace_id"] = "ws1"
+    api = FakeApiClient(
+        get_workspace={"id": "ws1"},
+        voice_command=_voice_result(
+            workspace_id="ws1",  # same workspace as before
+            entities={"workspace_name": "Fitnes klub"},
+        ),
+    )
+    message = FakeMessage(from_user=FakeUser(id=1, full_name="Owner"), voice=SimpleNamespace(file_id="v1"))
+    bot = FakeBot()
+
+    await voice.on_voice_message(message, api, bot, redis)
+
+    placeholder = message._children[0]
+    rendered = placeholder.edit_text.await_args.args[0]
+    assert "🏢" not in rendered
+
+
+@pytest.mark.asyncio
+async def test_voice_result_hides_workspace_name_when_missing_even_if_changed(monkeypatch):
+    monkeypatch.setattr(voice.settings, "owner_tg_id", 1)
+    redis = FakeRedis()
+    api = FakeApiClient(
+        get_workspace={"id": "ws1"},
+        voice_command=_voice_result(workspace_id="ws2"),  # no entities.workspace_name
+    )
+    message = FakeMessage(from_user=FakeUser(id=1, full_name="Owner"), voice=SimpleNamespace(file_id="v1"))
+    bot = FakeBot()
+
+    await voice.on_voice_message(message, api, bot, redis)
+
+    placeholder = message._children[0]
+    rendered = placeholder.edit_text.await_args.args[0]
+    assert "🏢" not in rendered
+
+
+# -- audio_fmt routing (apps/api/README.md "Ovozli boshqaruv") ---------------------------------------------------
+@pytest.mark.asyncio
+async def test_voice_result_mp3_audio_fmt_uses_answer_audio(monkeypatch):
+    monkeypatch.setattr(voice.settings, "owner_tg_id", 1)
+    audio_b64 = base64.b64encode(b"mp3-bytes").decode()
+    api = FakeApiClient(
+        get_workspace={"id": "ws1"},
+        voice_command=_voice_result(audio_b64=audio_b64, audio_fmt="mp3"),
+    )
+    message = FakeMessage(from_user=FakeUser(id=1, full_name="Owner"), voice=SimpleNamespace(file_id="v1"))
+    bot = FakeBot()
+
+    await voice.on_voice_message(message, api, bot)
+
+    placeholder = message._children[0]
+    assert placeholder.audio_notes_sent  # sent via answer_audio
+    assert placeholder.voice_notes_sent == []  # not via answer_voice
+
+
+@pytest.mark.asyncio
+async def test_voice_result_wav_audio_fmt_uses_answer_audio(monkeypatch):
+    monkeypatch.setattr(voice.settings, "owner_tg_id", 1)
+    api = FakeApiClient(
+        get_workspace={"id": "ws1"},
+        voice_command=_voice_result(
+            audio_url="https://cdn.example.com/jarvis.wav", audio_fmt="wav"
+        ),
+    )
+    message = FakeMessage(from_user=FakeUser(id=1, full_name="Owner"), voice=SimpleNamespace(file_id="v1"))
+    bot = FakeBot()
+
+    await voice.on_voice_message(message, api, bot)
+
+    placeholder = message._children[0]
+    assert placeholder.audio_notes_sent == ["https://cdn.example.com/jarvis.wav"]
+    assert placeholder.voice_notes_sent == []
+
+
+@pytest.mark.asyncio
+async def test_voice_result_null_audio_fmt_sends_no_audio_at_all(monkeypatch):
+    monkeypatch.setattr(voice.settings, "owner_tg_id", 1)
+    api = FakeApiClient(
+        get_workspace={"id": "ws1"},
+        voice_command=_voice_result(
+            audio_url="https://cdn.example.com/jarvis.ogg", audio_fmt=None
+        ),
+    )
+    message = FakeMessage(from_user=FakeUser(id=1, full_name="Owner"), voice=SimpleNamespace(file_id="v1"))
+    bot = FakeBot()
+
+    await voice.on_voice_message(message, api, bot)
+
+    placeholder = message._children[0]
+    assert placeholder.voice_notes_sent == []
+    assert placeholder.audio_notes_sent == []
+
+
 # -- voice/audio message happy path ---------------------------------------------------
 @pytest.mark.asyncio
 async def test_voice_message_shows_transcript_and_reply_and_sends_voice_note(monkeypatch):

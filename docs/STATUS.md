@@ -1,6 +1,6 @@
 # STATUS — joriy holat (Claude Code har sessiyada shu yerdan boshlaydi)
 
-**Joriy bosqich:** 2 yakunlanmoqda / 3 va 5 qisman
+**Joriy bosqich:** 2 yakunlandi (2.4/2.6 dan tashqari) / 3 va 5 qisman; 5.10 ovozli boshqaruv kod tayyor
 **Keyingi vazifa:** REAL SINOV — serverda `docker compose up`, `.env` kalitlari, birinchi haqiqiy Reels (1-bosqich qabul mezoni). Keyin 2.6 (hook A/B), 3.1–3.5, 4.1/4.3/4.4.
 
 ## Bajarilgan (kod + testlar; tashqi servislar mock bilan)
@@ -10,9 +10,10 @@
 - 3.6–3.7: Obsidian vault indekslovchi + `/vault/graph` jonli bilim grafi.
 - 4.2: interrupt() tasdiq (Telegram orqali).
 - 5.1–5.5, 5.7, 5.8 (skelet): Twenty/Chatwoot adapterlar (yo'llar TAXMIN), LeadScorer/TaskManager/Reporter, supervisor + policy gate, webhook, `/crm` dashboard (KPI, voronka, ROI, Jarvis jurnali inline tasdiq, demo-seed), bot tasdiqlari real ijrochiga ulangan.
+- 5.10 Ovozli boshqaruv: STT adapter (gemini/whisper/aisha/uzbekvoice/azure), niyat tahlili (16 intent) + o'zbek sana parser, owner_memory, ovozli javob (TTS→ogg), `/v1/voice/command`, bot ovoz rejimi (transkript, tuzatish, ✅/❌, voice note, 🎙 Jarvis rejimi, workspace eslab qolish), xodim vazifa ekrani + `/v1/tasks`.
 - Hujjatlar: 08 dizayn tizimi, 09 TTS tadqiqoti, 10 vault, 11 motion kutubxonasi; roadmap 7.6–7.8 (montaj agenti, xom videodan Reels, musiqa agenti).
 
-Testlar: API 335, bot 66, Remotion 121 — hammasi o'tadi. Ruff/typecheck toza.
+Testlar: API 416, bot 134, Remotion 121 — hammasi o'tadi. Ruff/typecheck toza.
 
 ## Bajarilmagan / tekshirilmagan
 - Hech bir tashqi API real chaqirilmagan (Gemini/Claude, Edge/Azure TTS, fal.ai, Twenty, Chatwoot) — muhitda tarmoq bloklangan, kalitlar yo'q.
@@ -31,4 +32,4 @@ Testlar: API 335, bot 66, Remotion 121 — hammasi o'tadi. Ruff/typecheck toza.
 
 ## Jurnal
 - 2026-09-24: loyiha skeleti yaratildi; qaror — Chatwoot + Twenty + LiveKit (docs/07).
-- 2026-09-24: 0–2 bosqichlar kodi, 3.6–3.7, 5.x skelet, motion kutubxonasi (45 tema), uslub darvozasi, CRM dashboard — 28 commit, ~25k qator, 522 test. Real servislar bilan sinov keyingi qadam.
+- 2026-09-24: 0–2 bosqichlar kodi, 3.6–3.7, 5.x skelet, motion kutubxonasi (45 tema), uslub darvozasi, CRM dashboard, 5.10 ovozli boshqaruv — 38 commit, 671 test. Real servislar bilan sinov keyingi qadam.

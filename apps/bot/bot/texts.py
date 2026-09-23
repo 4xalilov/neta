@@ -86,6 +86,9 @@ REGISTER_LABELS = {"casual": "Erkin", "neutral": "Neytral", "formal": "Rasmiy"}
 # -- voice-first Jarvis (roadmap 5.10) ---------------------------------------------------
 VOICE_LISTENING = "🎙 <b>Eshitdim, bajaryapman…</b>"
 VOICE_RESULT = "🗣 <i>«{transcript}»</i>\n{reply_text}"
+# small muted last line, appended only when the active workspace changed
+# (`entities.workspace_name` from the voice_command response, see bot/handlers/voice.py)
+VOICE_RESULT_WORKSPACE_LINE = "\n🏢 <i>{workspace_name}</i>"
 VOICE_ASK_CORRECTION = "✏️ <b>Tuzatish</b>\nTo'g'ri matnni yozing."
 VOICE_RETRY = "🔁 <b>Qayta ayting</b>\nOvozli xabar yuboring."
 
@@ -108,3 +111,9 @@ JARVIS_HELP = (
 # -- notify: voice_reply / clarify (API -> bot push, bot/notify.py) ---------------------------------------------------
 VOICE_REPLY_NOTIFY = "🗣 <b>Jarvis</b>\n{text}"
 VOICE_CLARIFY = "❓ <b>Aniqlashtirish</b>\n{question}"
+
+# -- notify: task / reminder (kind="task"/"reminder", sent to a staff member) ---------------------------------------------------
+TASK_NEW = "📝 <b>Yangi vazifa</b>\n{title}\n⏰ muddat: {due}"
+TASK_DONE_ACK = "✅ <b>Bajarildi deb belgilandi</b>"
+TASK_DELAYED_ACK = "⏳ <b>Kechikadi deb belgilandi</b>"
+JARVIS_REMINDER = "🔔 <b>Eslatma</b>\n{staff_name}\n{body}"
