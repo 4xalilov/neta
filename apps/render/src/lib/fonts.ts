@@ -10,8 +10,12 @@ import { continueRender, delayRender, staticFile } from "remotion";
 import { loadFont as loadJakarta } from "@remotion/google-fonts/PlusJakartaSans";
 import { loadFont as loadManrope } from "@remotion/google-fonts/Manrope";
 import { loadFont as loadInter } from "@remotion/google-fonts/Inter";
+import { loadFont as loadPlayfair } from "@remotion/google-fonts/PlayfairDisplay";
+import { loadFont as loadAnton } from "@remotion/google-fonts/Anton";
 
-// Unicode ranges from Google Fonts. NOTE: U+02BB/U+02BC (Uzbek ʻ ʼ) live in `latin`.
+// Unicode ranges from Google Fonts. NOTE: U+02BB/U+02BC (Uzbek ʻ ʼ) are routed to
+// the `latin` file — but not every family actually HAS those glyphs there
+// (see FONT_UZ_GLYPHS below, verified by __tests__/fonts.test.ts).
 const LATIN =
   "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD";
 const LATIN_EXT =
@@ -26,16 +30,55 @@ interface LocalFace {
 
 /** Files expected in public/fonts (see public/fonts/README.md). */
 export const LOCAL_FONTS: Record<string, LocalFace[]> = {
+  // The "-800" files are actually the variable font (wght 200–800).
   "Plus Jakarta Sans": [
-    { file: "fonts/PlusJakartaSans-800-latin.woff2", weight: "800", unicodeRange: LATIN },
-    { file: "fonts/PlusJakartaSans-800-latin-ext.woff2", weight: "800", unicodeRange: LATIN_EXT },
+    { file: "fonts/PlusJakartaSans-800-latin.woff2", weight: "200 800", unicodeRange: LATIN },
+    { file: "fonts/PlusJakartaSans-800-latin-ext.woff2", weight: "200 800", unicodeRange: LATIN_EXT },
   ],
   Manrope: [
     { file: "fonts/Manrope-var-latin.woff2", weight: "200 800", unicodeRange: LATIN },
     { file: "fonts/Manrope-var-latin-ext.woff2", weight: "200 800", unicodeRange: LATIN_EXT },
     { file: "fonts/Manrope-var-cyrillic.woff2", weight: "200 800", unicodeRange: CYRILLIC },
   ],
+  // Serif display for the editorial / luxury themes (variable wght 400–900).
+  "Playfair Display": [
+    { file: "fonts/PlayfairDisplay-var-latin.woff2", weight: "400 900", unicodeRange: LATIN },
+    { file: "fonts/PlayfairDisplay-var-latin-ext.woff2", weight: "400 900", unicodeRange: LATIN_EXT },
+    { file: "fonts/PlayfairDisplay-var-cyrillic.woff2", weight: "400 900", unicodeRange: CYRILLIC },
+  ],
+  // Condensed poster face for the hype theme (single weight 400).
+  Anton: [
+    { file: "fonts/Anton-400-latin.woff2", weight: "400", unicodeRange: LATIN },
+    { file: "fonts/Anton-400-latin-ext.woff2", weight: "400", unicodeRange: LATIN_EXT },
+  ],
 };
+
+/**
+ * Does the family's `latin` file contain the Uzbek modifier letters
+ * U+02BB (ʻ, oʻ/gʻ) and U+02BC (ʼ, tutuq belgisi)? Verified against the woff2
+ * files by __tests__/fonts.test.ts. Families marked `false` get the visually
+ * identical U+2018 / U+2019 at render time (uzbekSafe) instead of a fallback-
+ * font glyph with different weight/metrics. The source text (script.tts_text)
+ * is never changed — only what is painted.
+ */
+export const FONT_UZ_GLYPHS: Record<string, boolean> = {
+  "Plus Jakarta Sans": false,
+  Manrope: false,
+  "Playfair Display": true,
+  Anton: true,
+};
+
+/** First family name of a CSS font-family stack (`"A", B, sans-serif` → `A`). */
+export const primaryFamily = (stack: string) => stack.split(",")[0]!.trim().replace(/^["']|["']$/g, "");
+
+/**
+ * Replace ʻ/ʼ with ‘/’ when the (primary) font lacks them. Accepts a family
+ * name or a CSS stack. Unknown families are left untouched.
+ */
+export function uzbekSafe(text: string, family: string): string {
+  if (FONT_UZ_GLYPHS[primaryFamily(family)] !== false) return text;
+  return text.replace(/\u02BB/g, "\u2018").replace(/\u02BC/g, "\u2019");
+}
 
 const GOOGLE: Record<string, () => void> = {
   "Plus Jakarta Sans": () =>
@@ -43,6 +86,9 @@ const GOOGLE: Record<string, () => void> = {
   Manrope: () =>
     loadManrope("normal", { weights: ["700", "800"], subsets: ["latin", "latin-ext", "cyrillic"] }),
   Inter: () => loadInter("normal", { weights: ["800"], subsets: ["latin", "latin-ext"] }),
+  "Playfair Display": () =>
+    loadPlayfair("normal", { weights: ["600", "700", "800"], subsets: ["latin", "latin-ext", "cyrillic"] }),
+  Anton: () => loadAnton("normal", { weights: ["400"], subsets: ["latin", "latin-ext"] }),
 };
 
 const requested = new Set<string>();

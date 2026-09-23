@@ -34,3 +34,36 @@ export function kenBurns(frame: number, durationInFrames: number, sceneIndex = 0
 
 export const kenBurnsCss = (t: KenBurnsTransform) =>
   `scale(${t.scale}) translate(${t.translateX}%, ${t.translateY}%)`;
+
+export type KenBurnsMode = "in" | "out" | "left" | "right" | "none";
+
+/**
+ * Ken Burns by mode (scene prop `kenBurns`):
+ * - `in`   : the classic push-in above (1.0 → 1.12, alternating diagonal drift)
+ * - `out`  : pull-out 1.12 → 1.0, drift reversed
+ * - `left` / `right`: constant 1.12 zoom, horizontal pan across the margin
+ * - `none` : static (scale 1)
+ * Every mode keeps the pan inside the zoom margin (no visible image edge).
+ */
+export function kenBurnsMode(frame: number, durationInFrames: number, mode: KenBurnsMode = "in", sceneIndex = 0): KenBurnsTransform {
+  const d = Math.max(1, durationInFrames);
+  const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
+  switch (mode) {
+    case "none":
+      return { scale: 1, translateX: 0, translateY: 0 };
+    case "out": {
+      const t = kenBurns(d - Math.min(Math.max(frame, 0), d), d, sceneIndex);
+      return t;
+    }
+    case "left":
+    case "right": {
+      const scale = KB_SCALE_TO;
+      const margin = ((scale - 1) / 2 / scale) * 100;
+      const p = interpolate(frame, [0, d], [-1, 1], clamp);
+      const dir = mode === "left" ? -1 : 1;
+      return { scale, translateX: dir * p * margin * 0.9, translateY: 0 };
+    }
+    default:
+      return kenBurns(frame, d, sceneIndex);
+  }
+}

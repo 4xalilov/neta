@@ -66,3 +66,23 @@ describe("timing helpers", () => {
     expect(totalFrames([])).toBe(1);
   });
 });
+
+describe("variable transitions (StyleTheme / scene.transition)", () => {
+  it("clamps each cut to its neighbours and keeps scene starts on the audio timeline", async () => {
+    const { transitionList, sequenceFramesVar, sceneStarts } = await import("../lib/timing");
+    const frames = [120, 6, 150, 90];
+    const trans = transitionList(frames, [99, 10, 20, 0]);
+    expect(trans).toEqual([0, 5, 5, 0]);
+    const seq = sequenceFramesVar(frames, trans);
+    // TransitionSeries start of scene i = sum(seq[<i]) - sum(trans[1..i])
+    let acc = 0;
+    let overlap = 0;
+    const starts = sceneStarts(frames);
+    seq.forEach((len, i) => {
+      overlap += trans[i]!;
+      expect(acc - overlap).toBe(starts[i]);
+      acc += len;
+    });
+    expect(acc - trans.reduce((a, b) => a + b, 0)).toBe(frames.reduce((a, b) => a + b, 0));
+  });
+});

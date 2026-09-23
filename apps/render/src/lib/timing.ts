@@ -45,3 +45,36 @@ export function transitionFrames(frames: number[], wanted = TRANSITION_FRAMES): 
 export function sequenceFrames(frames: number[], transition: number): number[] {
   return frames.map((f, i) => (i < frames.length - 1 ? f + transition : f));
 }
+
+/**
+ * Per-cut transition lengths (StyleTheme / scene `transition`). `wanted[i]` is
+ * the transition INTO scene i (wanted[0] is ignored). Each one is clamped so it
+ * never exceeds either neighbouring scene (TransitionSeries requirement).
+ */
+export function transitionList(frames: number[], wanted: number[]): number[] {
+  return frames.map((f, i) => {
+    if (i === 0) return 0;
+    const w = Math.max(0, Math.round(wanted[i] ?? TRANSITION_FRAMES));
+    return Math.max(0, Math.min(w, f - 1, frames[i - 1]! - 1));
+  });
+}
+
+/**
+ * Sequence lengths for variable transitions: scene i is extended by the
+ * transition that follows it, so scene i still starts at sum(frames[<i]) and
+ * the total stays sum(frames).
+ */
+export function sequenceFramesVar(frames: number[], transitions: number[]): number[] {
+  return frames.map((f, i) => (i < frames.length - 1 ? f + (transitions[i + 1] ?? 0) : f));
+}
+
+/** Start frame of every scene on the composition timeline. */
+export function sceneStarts(frames: number[]): number[] {
+  const out: number[] = [];
+  let acc = 0;
+  for (const f of frames) {
+    out.push(acc);
+    acc += f;
+  }
+  return out;
+}

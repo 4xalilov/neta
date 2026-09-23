@@ -6,11 +6,20 @@ MinIO/S3 and returns the object URI as the job result.
 
 ```
 src/
-  index.ts / Root.tsx         registerRoot + <Composition> ReelsBasic, ReelsParallax
+  index.ts / Root.tsx         registerRoot + <Composition> ReelsBasic, ReelsParallax, StyleCatalog
   props.ts                    zod props schema, brand defaults (docs/08), demo props
-  compositions/               ReelsBasic.tsx, ReelsParallax.tsx
-  components/                 Reel (shared layout), KenBurnsImage, ParallaxImage,
-                              Subtitles, Background, Logo, CTA
+  compositions/               ReelsBasic.tsx, ReelsParallax.tsx, StyleCatalog.tsx (review sheet)
+  components/                 Reel (shared themed layout), Headline, CTA, KenBurnsImage,
+                              ParallaxImage, ThemeBackground, Background, Subtitles, Logo
+  motion/                     motion library (docs/11-motion-library.md):
+    easings.ts timing.ts        expo/back/anticipate/overshoot curves, spring presets, stagger/presence
+    text/                       14 text-reveal presets + registry (WordPop, Kinetic, Counter…)
+    fx/                         Vignette, FilmGrain, LightLeak, Shake, ChromaticAberration, Glow,
+                                ProgressBar, Particles, GradientMesh, LensFlare
+    transitions/                zoomPunch, whipPan, glitchCut, maskCircle, slice + built-ins, pickTransition()
+    layout/                     SafeArea (IG safe zones), LowerThird, Chip/Badge, Card, Divider, ImageFrame
+    styles/                     StyleTheme zod schema, 7 themes, getTheme(), resolveLook(theme, brand)
+    captions/                   caption presets karaoke / boxHighlight / pillGlass / bigWord / lineByLine
   lib/                        captions (pageWords), kenBurns, timing, metadata, fonts, env
   render.ts                   bundle() once per process → selectComposition → renderMedia
   storage.ts                  S3/MinIO upload (forcePathStyle)
@@ -18,7 +27,8 @@ src/
   worker.ts                   BullMQ Worker (queue $RENDER_QUEUE, default "render")
   enqueue.ts                  manual producer (npm run enqueue)
   renderLocal.ts              npm run render:demo → out/demo.mp4
-public/fonts/                 offline brand fonts (Plus Jakarta Sans 800, Manrope)
+  renderCatalog.ts            npm run render:catalog → out/catalog/<theme>.png
+public/fonts/                 offline fonts (Plus Jakarta Sans, Manrope, Playfair Display, Anton)
 ```
 
 ## Scripts
@@ -29,11 +39,24 @@ public/fonts/                 offline brand fonts (Plus Jakarta Sans 800, Manrop
 | `npm test` | vitest (`src/__tests__`) |
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run render:demo` | render `defaultProps` → `out/demo.mp4`, no Redis/S3 needed |
+| `npm run render:catalog` | one PNG still per StyleTheme → `out/catalog/<theme>.png` (scale 0.5, 540×960) |
 | `npm run worker` | start the BullMQ worker (`node --import tsx src/worker.ts`) |
 | `npm run enqueue -- props.json [ReelsParallax] [--wait]` | push a job (bare props or a full job payload) |
 
 `render:demo` env: `DEMO_SECONDS=2` (truncate timeline), `DEMO_COMPOSITION=ReelsParallax`,
 `DEMO_PROPS=file.json`, `DEMO_OUT=name.mp4`.
+
+`render:catalog` env: `CATALOG_THEMES=bold,neon` (subset), `CATALOG_SCALE=0.5`,
+`CATALOG_FRAME=100` (frame inside each 130-frame theme segment), `CATALOG_SAFE=1`
+(paints the Instagram unsafe zones; writes `<theme>-safe.png`). It uses the same
+`REMOTION_BROWSER` / `REMOTION_CHROME_MODE` handling as the worker:
+
+```bash
+REMOTION_BROWSER=/opt/pw-browsers/chromium-1194/chrome-linux/chrome npm run render:catalog
+```
+
+In Studio, the **StyleCatalog** composition plays every theme for 130 frames, showing its hook preset,
+its secondary preset, caption preset, fx stack and default transition over a demo scene.
 
 ## Environment
 
@@ -76,9 +99,45 @@ ffmpeg/ffprobe are bundled with Remotion (`@remotion/compositor-linux-x64-*`); u
   "brand": {                                     // every field optional → docs/08 tokens
     "font": "Plus Jakarta Sans", "color": "#E6EAF2", "accent": "#FACC15",
     "bg": "#0B0F19", "surface": "#131A2A", "logoUrl": null
-  }
+  },
+
+  // ── motion library (all optional; old props render exactly with the "bold" theme) ──
+  "style": "bold",                // bold | minimal | neon | editorial | corporate | hype | luxury
+  "hookText": "Bugun *50%* chegirma", // big hook 0–3 s (scene 0 textAnim or theme.defaultTextAnim)
+  "captionPreset": null           // karaoke | boxHighlight | pillGlass | bigWord | lineByLine; null → theme
 }
 ```
+
+Per scene (all optional):
+
+```jsonc
+{
+  "title": "*1 500 000* soʻm",    // headline for the first 2.5 s of the scene; *stars* = accent/marker word
+  "textAnim": "Counter",          // WordPop | CharCascade | MaskWipe | TypeWriter | SlideMask | Glitch | Counter |
+                                  // Highlighter | Split3D | Scramble | Kinetic | Outline2Fill | BounceIn | BlurFocus
+  "transition": "whipPan",        // INTO this scene: fade | slide | wipe | flip | iris | clockWipe | zoomPunch |
+                                  // whipPan | glitchCut | maskCircle | slice | none
+  "fx": ["shake", "lightLeak"],   // added to the theme stack: grain | vignette | lightLeak | particles | lensFlare |
+                                  // progressBar | shake | chromatic | glow
+  "kenBurns": "left",             // in | out | left | right | none
+  "captionPreset": "bigWord"      // overrides props/theme preset for this scene's words
+}
+```
+
+- **Lenient enums**: an unknown `textAnim` / `transition` / `kenBurns` / `captionPreset`
+  becomes `null`, which means the theme default. The job does not fail. Unknown
+  `fx` names and unknown `style` names (→ `bold`) are ignored the same way.
+- **Theme vs brand**: a `brand` field that differs from the docs/08 default was set on
+  purpose and wins over the theme (e.g. `style:"neon"` with `brand.accent:"#FF5500"`
+  keeps orange). Brand fields left at their defaults take the theme colours and fonts.
+- **Text placement**: the hook and titles go in the upper safe area, the CTA card sits above the
+  caption band, and captions sit 22 % from the bottom. Everything stays inside the Instagram
+  safe zone (top 14 %, bottom 22 %, sides 5 %; `motion/layout/safeArea.ts`). Font size
+  is auto-fitted (`fitFontSize`) to the theme's `maxLines`.
+- If `hookText` is set, scene 0's `title` is not shown (the hook covers it). A title that
+  would overlap the CTA (last 2.5 s) is shortened or dropped.
+- Render cost with `REMOTION_BROWSER` Chromium, 13 s demo: bold ≈ 59 s, hype ≈ 55 s,
+  neon ≈ 134 s (glow + particles + chromatic bursts).
 
 - `words[].start/end` are **seconds from the composition start** (i.e. the TTS audio
   timeline), not from the scene start. Put each word in the scene during which it is spoken;

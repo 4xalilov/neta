@@ -40,3 +40,25 @@ describe("kenBurns", () => {
     expect(Number.isFinite(kenBurns(0, 0).scale)).toBe(true);
   });
 });
+
+describe("kenBurnsMode", async () => {
+  const { kenBurnsMode } = await import("../lib/kenBurns");
+  const D = 150;
+  it.each(["in", "out", "left", "right", "none"] as const)("%s never exposes the image edge", (mode) => {
+    for (let f = 0; f <= D; f += 5) {
+      const t = kenBurnsMode(f, D, mode, 1);
+      expect(t.scale).toBeGreaterThanOrEqual(1);
+      const margin = ((t.scale - 1) / 2 / t.scale) * 100;
+      expect(Math.abs(t.translateX)).toBeLessThanOrEqual(margin + 1e-9);
+      expect(Math.abs(t.translateY)).toBeLessThanOrEqual(margin + 1e-9);
+    }
+  });
+
+  it("in zooms in, out zooms out, left/right pan in opposite directions, none is static", () => {
+    expect(kenBurnsMode(D, D, "in").scale).toBeGreaterThan(kenBurnsMode(0, D, "in").scale);
+    expect(kenBurnsMode(D, D, "out").scale).toBeLessThan(kenBurnsMode(0, D, "out").scale);
+    expect(Math.sign(kenBurnsMode(D, D, "left").translateX)).toBe(-Math.sign(kenBurnsMode(D, D, "right").translateX));
+    expect(kenBurnsMode(70, D, "none")).toEqual({ scale: 1, translateX: 0, translateY: 0 });
+    expect(kenBurnsMode(40, D, "in", 1)).toEqual(kenBurns(40, D, 1)); // default = legacy behaviour
+  });
+});

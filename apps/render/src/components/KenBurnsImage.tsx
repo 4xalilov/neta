@@ -1,11 +1,11 @@
 import React from "react";
 import { AbsoluteFill, Img, useCurrentFrame, useVideoConfig } from "remotion";
-import { kenBurns, kenBurnsCss } from "../lib/kenBurns";
+import { kenBurnsCss, kenBurnsMode, type KenBurnsMode } from "../lib/kenBurns";
 
-export const KenBurnsImage: React.FC<{ src: string; sceneIndex: number }> = ({ src, sceneIndex }) => {
+export const KenBurnsImage: React.FC<{ src: string; sceneIndex: number; mode?: KenBurnsMode }> = ({ src, sceneIndex, mode = "in" }) => {
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig(); // = this Sequence's length
-  const t = kenBurns(frame, durationInFrames, sceneIndex);
+  const t = kenBurnsMode(frame, durationInFrames, mode, sceneIndex);
   return (
     <AbsoluteFill style={{ overflow: "hidden" }}>
       <Img

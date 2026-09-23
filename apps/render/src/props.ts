@@ -1,6 +1,20 @@
 import { z } from "zod";
 import { zColor } from "@remotion/zod-types";
 import { evenWords } from "./lib/captions";
+import { TEXT_ANIMS } from "./motion/text/names";
+import { TRANSITIONS } from "./motion/transitions/names";
+import { CAPTION_PRESETS } from "./motion/captions/registry";
+import { KEN_BURNS_MODES } from "./motion/styles/kenBurnsModes";
+
+/** Theme used when `style` is omitted (see src/motion/styles). */
+export const DEFAULT_STYLE = "bold";
+
+/**
+ * Lenient enum for LLM-written props: a valid name passes, null/omitted stays
+ * null, an unknown name becomes null (→ theme default) instead of failing the
+ * whole render job.
+ */
+const lenientEnum = <T extends readonly [string, ...string[]]>(values: T) => z.enum(values).nullish().catch(null);
 
 /**
  * Brand tokens — docs/08-design-system.md "Remotion Reels tokenlari".
@@ -40,6 +54,21 @@ export const sceneSchema = z.object({
   words: z.array(wordSchema).default([]),
   /** Static caption shown for the whole scene when it has no word timings. */
   subtitle: z.string().nullish(),
+  /**
+   * Headline overlay shown during the first 2.5 s of the scene, animated with
+   * `textAnim`. Wrap key words in *asterisks* for the accent / highlighter.
+   */
+  title: z.string().nullish(),
+  /** Text preset for `title` (motion/text); null/unknown → theme.defaultTextAnim. */
+  textAnim: lenientEnum(TEXT_ANIMS),
+  /** Transition INTO this scene (ignored on scene 0); null → theme.defaultTransition. */
+  transition: lenientEnum(TRANSITIONS),
+  /** Extra fx for this scene on top of the theme stack (unknown names are ignored). */
+  fx: z.array(z.string()).nullish(),
+  /** Ken Burns move; null → theme.kenBurns. */
+  kenBurns: lenientEnum(KEN_BURNS_MODES),
+  /** Caption preset override for this scene's words; null → props/theme preset. */
+  captionPreset: lenientEnum(CAPTION_PRESETS),
 });
 
 export const brandSchema = z.object({
@@ -56,6 +85,12 @@ export const reelsPropsSchema = z.object({
   cta: z.string().nullish(),
   scenes: z.array(sceneSchema).min(1),
   brand: brandSchema.default({ ...BRAND_DEFAULTS }),
+  /** StyleTheme name: bold | minimal | neon | editorial | corporate | hype | luxury (unknown → bold). */
+  style: z.string().default(DEFAULT_STYLE),
+  /** Big hook headline for 0–3 s, animated with scene 0's textAnim or theme.defaultTextAnim. */
+  hookText: z.string().nullish(),
+  /** Caption preset for the whole video (scene `captionPreset` wins); null → theme.captionPreset. */
+  captionPreset: lenientEnum(CAPTION_PRESETS),
 });
 
 /** Props as sent by the API (optional fields may be omitted). */
@@ -115,6 +150,8 @@ export const defaultProps: ReelsProps = {
       durationS: 4,
       words: evenWords("Har bir soʻz oʻz vaqtida sariq rangda yonadi.", 4.1, 7.8),
       subtitle: null,
+      title: "Har bir soʻz *yonadi*",
+      textAnim: "Highlighter",
     },
     {
       imageUrl: placeholderImage("#10B981", "#0B0F19", "Sahna 3"),
@@ -122,9 +159,14 @@ export const defaultProps: ReelsProps = {
       durationS: 5,
       words: evenWords("Rasm, ovoz va subtitr — hammasi avtomatik.", 8.1, 10.4),
       subtitle: null,
+      title: "*100%* avtomatik",
+      textAnim: "Counter",
     },
   ],
   brand: { ...BRAND_DEFAULTS },
+  style: DEFAULT_STYLE,
+  hookText: "Reels *5 daqiqada* tayyor",
+  captionPreset: null,
 };
 
 /**

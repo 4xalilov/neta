@@ -11,13 +11,17 @@
     "typecheck": "tsc --noEmit",
     "render:demo": "node --import tsx src/renderLocal.ts",
     "worker": "node --import tsx src/worker.ts",
-    "enqueue": "node --import tsx src/enqueue.ts"
+    "enqueue": "node --import tsx src/enqueue.ts",
+    "render:catalog": "node --import tsx src/renderCatalog.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1138.0",
     "@remotion/bundler": "4.0.527",
     "@remotion/cli": "4.0.527",
     "@remotion/google-fonts": "4.0.527",
+    "@remotion/light-leaks": "4.0.527",
+    "@remotion/motion-blur": "4.0.527",
+    "@remotion/noise": "4.0.527",
     "@remotion/renderer": "4.0.527",
     "@remotion/transitions": "4.0.527",
     "@remotion/zod-types": "4.0.527",
