@@ -45,6 +45,10 @@ from engine.api.vault_routes import router as vault_router
 
 app.include_router(vault_router)
 
+from engine.api.crm_routes import router as crm_router
+
+app.include_router(crm_router)
+
 
 @app.get("/health")
 async def health() -> dict:

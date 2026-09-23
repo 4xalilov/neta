@@ -48,6 +48,12 @@ class Settings(BaseSettings):
     vault_dir: str = "/app/vault"
     vault_reindex_minutes: int = 10
     embedding_provider: str = "hash"
+    # CRM dashboard (docs/06 "CRM web-sahifa", roadmap 5.8) "Demo ma'lumot yuklash"
+    # tugmasi/POST /v1/crm/demo-seed uchun. DIQQAT: productionda albatta ``false``
+    # bo'lishi kerak — aks holda ega haqiqiy workspace'iga soxta lid/sotuv yozilishi
+    # mumkin (endpoint "workspace'da lid yo'q bo'lsagina" ishlaydi, lekin baribir
+    # ishlab chiqarishda ochiq qoldirilmasin).
+    crm_demo_seed_enabled: bool = True
 
 
 settings = Settings()

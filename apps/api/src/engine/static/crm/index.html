@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>AI Marketing Engine · CRM</title>
+<meta name="description" content="CRM dashboard — lidlar, kampaniya ROI, xodimlar va Jarvis jurnali." />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%236366F1'/%3E%3Cstop offset='1' stop-color='%2322D3EE'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='43' font-family='Arial, Helvetica, sans-serif' font-size='26' font-weight='800' fill='%23050710' text-anchor='middle'%3EAI%3C/text%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/crm/static/crm.css" />
+</head>
+<body>
+<div class="bg-gradient" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">AI</span>
+    <span class="brand-text">AI Marketing Engine <span class="brand-sep">·</span> CRM</span>
+  </div>
+  <nav class="nav" aria-label="Asosiy navigatsiya">
+    <a class="nav-link active" href="/crm">Dashboard</a>
+    <a class="nav-link" href="/vault/graph">Bilim grafi</a>
+    <a class="nav-link" href="#jarvis">Jarvis jurnali</a>
+  </nav>
+  <div class="topbar-actions">
+    <span class="conn-dot live" id="refresh-dot" title="Avto-yangilanish: har 30s"></span>
+    <button class="ghost-btn" id="refresh-btn" type="button">↻ Yangilash</button>
+  </div>
+</header>
+
+<main class="page">
+
+  <section class="empty-state" id="empty-state" hidden>
+    <div class="empty-card">
+      <div class="empty-title">Hali ma'lumot yo'q</div>
+      <p class="empty-text">Dashboardni ko'rish uchun demo ma'lumot yuklang — lidlar, kampaniyalar, vazifalar va Jarvis jurnali namunasi.</p>
+      <button class="primary-btn" id="demo-seed-btn" type="button">Demo ma'lumot yuklash</button>
+    </div>
+  </section>
+
+  <section class="kpi-row" id="kpi-row" aria-label="Asosiy ko'rsatkichlar">
+    <div class="kpi-card fade-up" style="--d:0">
+      <div class="kpi-icon">🧲</div>
+      <div class="kpi-body">
+        <div class="kpi-label">Lidlar bugun</div>
+        <div class="kpi-value" id="kpi-leads-today" data-val="0">0</div>
+        <div class="kpi-delta" id="kpi-leads-today-delta">—</div>
+      </div>
+    </div>
+    <div class="kpi-card fade-up" style="--d:1">
+      <div class="kpi-icon">🔥</div>
+      <div class="kpi-body">
+        <div class="kpi-label">Issiq lidlar</div>
+        <div class="kpi-value" id="kpi-hot" data-val="0">0</div>
+        <div class="kpi-delta" id="kpi-hot-delta">—</div>
+      </div>
+    </div>
+    <div class="kpi-card fade-up" style="--d:2">
+      <div class="kpi-icon">🤝</div>
+      <div class="kpi-body">
+        <div class="kpi-label">Sotuvlar</div>
+        <div class="kpi-value" id="kpi-deals" data-val="0">0</div>
+        <div class="kpi-delta" id="kpi-deals-delta">—</div>
+      </div>
+    </div>
+    <div class="kpi-card fade-up" style="--d:3">
+      <div class="kpi-icon">💰</div>
+      <div class="kpi-body">
+        <div class="kpi-label">Daromad (so'm)</div>
+        <div class="kpi-value" id="kpi-revenue" data-val="0">0</div>
+        <div class="kpi-delta" id="kpi-revenue-delta">—</div>
+      </div>
+    </div>
+    <div class="kpi-card fade-up" style="--d:4">
+      <div class="kpi-icon">💵</div>
+      <div class="kpi-body">
+        <div class="kpi-label">Xarajat/lid ($)</div>
+        <div class="kpi-value" id="kpi-cpl" data-val="0">$0.00</div>
+        <div class="kpi-delta" id="kpi-cpl-delta">—</div>
+      </div>
+    </div>
+    <div class="kpi-card fade-up warn" style="--d:5">
+      <div class="kpi-icon">⏰</div>
+      <div class="kpi-body">
+        <div class="kpi-label">Muddati o'tgan vazifalar</div>
+        <div class="kpi-value" id="kpi-overdue" data-val="0">0</div>
+        <div class="kpi-delta" id="kpi-overdue-delta">—</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid-2col">
+    <div class="card fade-up" style="--d:6">
+      <div class="card-head">
+        <h2>Lidlar oqimi (30 kun)</h2>
+        <span class="card-sub" id="trend-sub">jami 0 lid</span>
+      </div>
+      <div class="chart-wrap"><canvas id="trend-chart" height="220"></canvas></div>
+    </div>
+    <div class="card fade-up" style="--d:7">
+      <div class="card-head">
+        <h2>Voronka</h2>
+        <span class="card-sub" id="funnel-sub">0 lid</span>
+      </div>
+      <div class="funnel" id="funnel"></div>
+    </div>
+  </section>
+
+  <section class="card fade-up" style="--d:8">
+    <div class="card-head">
+      <h2>Kampaniyalar ROI</h2>
+      <span class="card-sub">Reels → lidlar → sotuvlar</span>
+    </div>
+    <div class="table-wrap">
+      <table class="campaigns-table">
+        <thead>
+          <tr>
+            <th>Kampaniya</th>
+            <th>Qamrov</th>
+            <th>Xarajat</th>
+            <th>Lidlar</th>
+            <th>Sotuvlar</th>
+            <th>Daromad</th>
+            <th>ROI</th>
+          </tr>
+        </thead>
+        <tbody id="campaigns-body">
+          <tr class="empty-row"><td colspan="7">Ma'lumot yo'q</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card fade-up" style="--d:9">
+    <div class="card-head">
+      <h2>Xodimlar</h2>
+      <span class="card-sub" id="staff-sub">0 xodim</span>
+    </div>
+    <div class="staff-grid" id="staff-grid"></div>
+  </section>
+
+  <section class="card fade-up" id="jarvis" style="--d:10">
+    <div class="card-head">
+      <h2>Jarvis jurnali</h2>
+      <span class="card-sub" id="pending-sub">0 ta tasdiq kutilmoqda</span>
+    </div>
+    <ul class="jarvis-list" id="jarvis-list"></ul>
+  </section>
+
+</main>
+
+<script src="/crm/static/chart.umd.js"></script>
+<script>if (typeof Chart === "undefined") { document.write('<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"><\/script>'); }</script>
+<script src="/crm/static/crm.js"></script>
+</body>
+</html>
