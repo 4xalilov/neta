@@ -41,6 +41,10 @@ except ImportError:
 if jarvis_router is not None:
     app.include_router(jarvis_router)
 
+from engine.api.vault_routes import router as vault_router
+
+app.include_router(vault_router)
+
 
 @app.get("/health")
 async def health() -> dict:

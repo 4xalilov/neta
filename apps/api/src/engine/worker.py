@@ -17,6 +17,7 @@ import time
 import uuid
 from typing import Any, ClassVar
 
+from arq import cron
 from arq.connections import RedisSettings
 from langgraph.types import Command
 from sqlalchemy import select
@@ -25,6 +26,7 @@ from engine import cost_sink, db, jobs
 from engine.graphs.day_subgraph import close_graph, get_graph
 from engine.models import BrandProfile, ReferenceVideo, TasteMemory, Workspace
 from engine.settings import settings
+from engine.vault.cron import reindex_job
 
 logger = logging.getLogger(__name__)
 
@@ -242,7 +244,9 @@ async def shutdown(ctx: dict) -> None:
 class WorkerSettings:
     functions: ClassVar[list] = [run_brief, resume_brief]
     # Placeholder: 4.4 analytics (48h), 5.8 kunlik hisobot 09:00 — arq.cron(...) bilan.
-    cron_jobs: ClassVar[list] = []
+    cron_jobs: ClassVar[list] = [
+        cron(reindex_job, minute=set(range(0, 60, settings.vault_reindex_minutes))),
+    ]
     redis_settings = RedisSettings.from_dsn(settings.redis_url)
     on_startup = startup
     on_shutdown = shutdown

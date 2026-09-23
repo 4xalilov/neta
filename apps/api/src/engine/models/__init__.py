@@ -37,6 +37,7 @@ from engine.models.crm import (
     Staff,
     Task,
 )
+from engine.models.vault import VaultNote
 
 __all__ = [
     "Asset",
@@ -67,5 +68,6 @@ __all__ = [
     "Task",
     "TasteMemory",
     "TasteMemoryKind",
+    "VaultNote",
     "Workspace",
 ]
