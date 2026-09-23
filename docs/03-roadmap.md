@@ -71,7 +71,9 @@ Poydevor: Chatwoot + Twenty CRM (docs/07). Meta App Review'ni 3-bosqichdan boshl
 ## Bosqich 6 — Jarvis telefon rejimi (LiveKit) (2–3 hafta)
 - [ ] 6.1 `infra/livekit/` — LiveKit server + SIP service self-host; mahalliy operator SIP trunk, test raqami
 - [ ] 6.2 STT nomzodlar (Gemini Live, mahalliy uz STT, Whisper zaxira) — 50 real qo'ng'iroq testi `evals/voice_test.md`
-- [ ] 6.3 `jarvis/voice_agent.py` — LiveKit Agent: Jarvis system prompt + CRM tool'lar (lead o'qish, task yaratish, xulosa yozish)
+- [ ] 6.3 `jarvis/voice_agent.py` — LiveKit Agent: Jarvis system prompt + CRM tool'lar (lead o'qish, task yaratish, xulosa yozish); 5.10 dagi `intents`/`voice` quvurini qayta ishlatadi
+- [ ] 6.3a **Rahbar Jarvis'ga qo'ng'iroq qiladi** (kiruvchi): raqam tanish (owner phone), "Eshitaman" → buyruq → bajarish → tasdiq savoli ovozda; barge-in; ≤ 1.5 s
+- [ ] 6.3b **Jarvis rahbarga qo'ng'iroq qiladi** (chiquvchi): hodisalar — vazifa bajarildi, muddat o'tdi/eskalatsiya, 09:00 kunlik hisobot, tasdiq kutilmoqda; sozlama: qaysi hodisada qo'ng'iroq / qaysida Telegram, "bezovta qilmaslik" oynasi (23:00–08:00), javob bermasa Telegram voice note
 - [ ] 6.4 Avval xodimlarga qo'ng'iroq (vazifa berish, holat so'rash)
 - [ ] 6.5 Lidga qo'ng'iroq skripti + `requires_approval` → 2 haftadan keyin avtonom
 - [ ] 6.6 Yozib olish, transkript, xulosa → `call_log` + Twenty'da activity
