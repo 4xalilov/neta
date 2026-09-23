@@ -1,0 +1,95 @@
+{
+  "name": "telegram-blue",
+  "label": "Telegram Blue",
+  "description": "Telegram-uslub: och koʻk fon, Rubik, chat-pufak kartalar, TypeWriter, slide.",
+  "tone": "light",
+  "fonts": {
+    "display": {
+      "family": "Rubik",
+      "weight": 700,
+      "lightWeight": 400,
+      "uppercase": false,
+      "letterSpacing": -0.02,
+      "charEm": 0.63
+    },
+    "body": {
+      "family": "Inter",
+      "weight": 500,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.58
+    }
+  },
+  "colors": {
+    "bg": "#EAF4FC",
+    "surface": "#FFFFFF",
+    "text": "#0F1B2A",
+    "muted": "#50667D",
+    "primary": "#2AABEE",
+    "accent": "#0B6FB0",
+    "highlight": "#2AABEE",
+    "onHighlight": "#0F1B2A"
+  },
+  "captionPreset": "pillGlass",
+  "captionStyle": {
+    "font": "body",
+    "uppercase": false,
+    "stroke": 0,
+    "scale": 1
+  },
+  "defaultTextAnim": "TypeWriter",
+  "secondaryTextAnim": "Counter",
+  "ctaTextAnim": "BounceIn",
+  "defaultTransition": "slide",
+  "transitionFrames": 12,
+  "fx": [
+    "progressBar"
+  ],
+  "fxIntensity": {},
+  "background": {
+    "kind": "pattern",
+    "colors": [
+      "#EAF4FC",
+      "#D6EAF9"
+    ],
+    "pattern": "dots",
+    "patternColor": "#2AABEE",
+    "patternOpacity": 0.16,
+    "angle": 160
+  },
+  "headline": {
+    "size": 100,
+    "hookSize": 116,
+    "align": "left",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 4px 26px #EAF4FCd9",
+    "scrim": 0.72
+  },
+  "card": {
+    "glass": false,
+    "radius": 36
+  },
+  "kenBurns": "in",
+  "tempo": 1,
+  "meta": {
+    "family": "social",
+    "mood": [
+      "friendly",
+      "clear",
+      "helpful"
+    ],
+    "niches": [
+      "telegram-channel",
+      "news",
+      "services",
+      "education"
+    ],
+    "aida": [
+      "interest",
+      "action"
+    ],
+    "description_uz": "Telegram ruhida: och koʻk fon, xabar yozilayotgandek matn, chat-pufak kartalar. Telegram kanal reklamasi, xizmatlar va yangiliklar uchun.",
+    "since": "2026-09"
+  }
+}

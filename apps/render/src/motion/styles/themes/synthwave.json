@@ -1,0 +1,102 @@
+{
+  "name": "synthwave",
+  "label": "Synthwave",
+  "description": "80-yillar retro: Russo One, binafsha kechki osmon, perspektiv toʻr + quyosh, nur, doira-niqob.",
+  "tone": "dark",
+  "fonts": {
+    "display": {
+      "family": "Russo One",
+      "weight": 400,
+      "uppercase": true,
+      "letterSpacing": 0.03,
+      "charEm": 0.72
+    },
+    "body": {
+      "family": "Montserrat",
+      "weight": 600,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.64
+    }
+  },
+  "colors": {
+    "bg": "#12002B",
+    "surface": "#220A45",
+    "text": "#FFF1FF",
+    "muted": "#C9A7E8",
+    "primary": "#FF2BD6",
+    "accent": "#FF6EC7",
+    "highlight": "#FFB800",
+    "onHighlight": "#12002B"
+  },
+  "captionPreset": "karaoke",
+  "captionStyle": {
+    "font": "body",
+    "uppercase": false,
+    "stroke": 5,
+    "strokeColor": "#12002B",
+    "scale": 1
+  },
+  "defaultTextAnim": "Split3D",
+  "secondaryTextAnim": "Scramble",
+  "ctaTextAnim": "Outline2Fill",
+  "defaultTransition": "maskCircle",
+  "transitionFrames": 14,
+  "fx": [
+    "glow",
+    "grain",
+    "particles"
+  ],
+  "fxIntensity": {
+    "grain": 0.06,
+    "glow": 28
+  },
+  "background": {
+    "kind": "pattern",
+    "colors": [
+      "#12002B",
+      "#3B0764",
+      "#FF2BD6"
+    ],
+    "pattern": "retroGrid",
+    "patternColor": "#FF2BD6",
+    "patternOpacity": 0.5,
+    "angle": 180
+  },
+  "headline": {
+    "size": 96,
+    "hookSize": 112,
+    "align": "center",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 0 26px rgba(255,43,214,0.6)",
+    "scrim": 0.45
+  },
+  "card": {
+    "glass": true,
+    "radius": 16
+  },
+  "kenBurns": "in",
+  "tempo": 1,
+  "particlesColor": "#FF6EC7",
+  "meta": {
+    "family": "neon",
+    "mood": [
+      "nostalgic",
+      "dreamy",
+      "retro"
+    ],
+    "niches": [
+      "music",
+      "nightlife",
+      "events",
+      "gaming"
+    ],
+    "aida": [
+      "attention",
+      "interest"
+    ],
+    "description_uz": "80-yillar synthwave: binafsha kechki osmon, perspektiv neon toʻr va quyosh, blokli retro-futuristik shrift. Musiqa, tadbirlar va tungi hayot uchun.",
+    "since": "2026-09"
+  }
+}

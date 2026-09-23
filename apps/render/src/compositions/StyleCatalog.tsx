@@ -3,7 +3,7 @@ import { z } from "zod";
 import { AbsoluteFill, Series, useVideoConfig, type CalculateMetadataFunction } from "remotion";
 import { evenWords } from "../lib/captions";
 import { BRAND_DEFAULTS, placeholderImage } from "../props";
-import { getTheme, resolveLook, THEME_NAMES, type Look } from "../motion/styles";
+import { getTheme, pickTheme, resolveLook, THEME_NAMES, type Look } from "../motion/styles";
 import { Captions } from "../motion/captions";
 import { FilmGrain, LensFlare, Particles, ProgressBar, Vignette, ChromaticAberration } from "../motion/fx";
 import { Chip, regions, SafeAreaOverlay } from "../motion/layout";
@@ -19,17 +19,30 @@ export const CATALOG_STILL_FRAME = 100;
 export const styleCatalogSchema = z.object({
   /** Themes to show (in order); default = all. */
   themes: z.array(z.string()).default([...THEME_NAMES]),
+  /**
+   * Full theme objects shown after `themes` (theme:validate renders a candidate
+   * that is not in the bundle this way). Invalid ones fall back to "bold".
+   */
+  themeObjects: z.array(z.unknown()).default([]),
   /** Paint the Instagram unsafe zones (review aid). */
   showSafeArea: z.boolean().default(false),
 });
 export type StyleCatalogProps = z.output<typeof styleCatalogSchema>;
 
-export const catalogDefaultProps: StyleCatalogProps = { themes: [...THEME_NAMES], showSafeArea: false };
+export const catalogDefaultProps: StyleCatalogProps = { themes: [...THEME_NAMES], themeObjects: [], showSafeArea: false };
 
 export const calculateCatalogMetadata: CalculateMetadataFunction<StyleCatalogProps> = ({ props }) => {
   const p = styleCatalogSchema.parse(props);
-  return { durationInFrames: Math.max(1, p.themes.length) * CATALOG_SEGMENT, props: p };
+  return { durationInFrames: Math.max(1, p.themes.length + p.themeObjects.length) * CATALOG_SEGMENT, props: p };
 };
+
+/** Looks for the catalog: named themes, then full theme objects. */
+export function catalogLooks(themes: string[], themeObjects: unknown[] = []): Look[] {
+  return [
+    ...themes.map((t) => getTheme(t)),
+    ...themeObjects.map((o) => pickTheme("bold", o).theme),
+  ].map((t) => resolveLook(t, { ...BRAND_DEFAULTS }));
+}
 
 /** Demo copy per text preset, so every preset shows what it is good at. */
 const DEMO_TEXT: Record<TextAnim, string> = {
@@ -49,7 +62,8 @@ const DEMO_TEXT: Record<TextAnim, string> = {
   BlurFocus: "Nafislik *har* detalda",
 };
 
-const Segment: React.FC<{ look: Look; showSafeArea: boolean }> = ({ look, showSafeArea }) => {
+/** One theme's demo frame (also used, frozen and scaled, by CatalogSheet). */
+export const Segment: React.FC<{ look: Look; showSafeArea: boolean }> = ({ look, showSafeArea }) => {
   const { width, height } = useVideoConfig();
   const theme = look.theme;
   const reg = regions(width, height);
@@ -67,12 +81,16 @@ const Segment: React.FC<{ look: Look; showSafeArea: boolean }> = ({ look, showSa
     <AbsoluteFill style={{ background: look.colors.bg }}>
       <ThemeBackground look={look} />
       <AbsoluteFill style={{ opacity: 0.55 }}>{scene}</AbsoluteFill>
-      <AbsoluteFill style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.2) 45%, rgba(0,0,0,0.6) 100%)" }} />
+      <AbsoluteFill
+        style={{
+          background: `linear-gradient(180deg, rgba(${look.scrimRgb},0.78) 0%, rgba(${look.scrimRgb},0.25) 45%, rgba(${look.scrimRgb},0.62) 100%)`,
+        }}
+      />
       {theme.fx.includes("vignette") ? <Vignette intensity={I.vignette ?? 0.5} /> : null}
       {theme.fx.includes("particles") ? <Particles color={theme.particlesColor ?? look.colors.accent} count={36} seed={theme.name} /> : null}
       {theme.fx.includes("lensFlare") ? <LensFlare intensity={0.35} color={look.colors.accent} /> : null}
       <div style={{ position: "absolute", left: reg.safe.left, top: reg.safe.top - 10, display: "flex", gap: 16, alignItems: "center" }}>
-        <Chip text={theme.label} fontFamily={look.body.stack} background={look.colors.accent} color={look.colors.onHighlight} fontSize={30} startFrame={0} />
+        <Chip text={theme.label} fontFamily={look.body.stack} background={look.colors.highlight} color={look.colors.onHighlight} fontSize={30} startFrame={0} />
         <span style={{ fontFamily: look.body.stack, fontWeight: 600, fontSize: 26, color: look.colors.text, opacity: 0.8 }}>
           {primary} · {secondary} · {theme.captionPreset} · {theme.defaultTransition}
         </span>
@@ -115,8 +133,8 @@ const Segment: React.FC<{ look: Look; showSafeArea: boolean }> = ({ look, showSa
  * default (hook) and secondary text preset, caption preset and fx stack over a
  * demo scene. `npm run render:catalog` grabs one still per theme.
  */
-export const StyleCatalog: React.FC<StyleCatalogProps> = ({ themes, showSafeArea }) => {
-  const looks = useMemo(() => themes.map((t) => resolveLook(getTheme(t), { ...BRAND_DEFAULTS })), [themes]);
+export const StyleCatalog: React.FC<StyleCatalogProps> = ({ themes, themeObjects = [], showSafeArea }) => {
+  const looks = useMemo(() => catalogLooks(themes, themeObjects), [themes, themeObjects]);
   return (
     <Series>
       {looks.map((look, i) => (

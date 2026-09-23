@@ -1,0 +1,102 @@
+{
+  "name": "neon",
+  "label": "Neon",
+  "description": "Tungi neon: cyan/magenta, Glitch matn, xromatik aberratsiya, nur, glitch-kesim.",
+  "tone": "dark",
+  "fonts": {
+    "display": {
+      "family": "Plus Jakarta Sans",
+      "weight": 800,
+      "lightWeight": 300,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.64
+    },
+    "body": {
+      "family": "Manrope",
+      "weight": 600,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.56
+    }
+  },
+  "colors": {
+    "bg": "#05010F",
+    "surface": "#140A2A",
+    "text": "#F5F3FF",
+    "muted": "#A78BFA",
+    "primary": "#E879F9",
+    "accent": "#22D3EE",
+    "highlight": "#E879F9",
+    "onHighlight": "#05010F"
+  },
+  "captionPreset": "bigWord",
+  "captionStyle": {
+    "font": "display",
+    "uppercase": true,
+    "stroke": 0,
+    "scale": 1
+  },
+  "defaultTextAnim": "Glitch",
+  "secondaryTextAnim": "Scramble",
+  "ctaTextAnim": "Outline2Fill",
+  "defaultTransition": "glitchCut",
+  "transitionFrames": 8,
+  "fx": [
+    "chromatic",
+    "glow",
+    "particles",
+    "grain"
+  ],
+  "fxIntensity": {
+    "grain": 0.06,
+    "chromatic": 14,
+    "glow": 26
+  },
+  "background": {
+    "kind": "mesh",
+    "colors": [
+      "#7C3AED88",
+      "#22D3EE55",
+      "#E879F977"
+    ],
+    "patternOpacity": 0.16,
+    "angle": 160
+  },
+  "headline": {
+    "size": 108,
+    "hookSize": 128,
+    "align": "center",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 0 24px rgba(34,211,238,0.55)",
+    "scrim": 0.45
+  },
+  "card": {
+    "glass": true,
+    "radius": 28
+  },
+  "kenBurns": "in",
+  "tempo": 1,
+  "particlesColor": "#22D3EE",
+  "meta": {
+    "family": "neon",
+    "mood": [
+      "electric",
+      "nocturnal",
+      "techy"
+    ],
+    "niches": [
+      "tech",
+      "gaming",
+      "nightlife",
+      "youth"
+    ],
+    "aida": [
+      "attention",
+      "interest"
+    ],
+    "description_uz": "Tungi neon: cyan va magenta nur, glitch matn, xromatik effekt. Texnologiya, geyming, tungi hayot va yoshlar auditoriyasi uchun.",
+    "since": "2026-08"
+  }
+}

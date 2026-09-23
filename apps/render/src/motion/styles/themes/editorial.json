@@ -1,0 +1,95 @@
+{
+  "name": "editorial",
+  "label": "Editorial",
+  "description": "Jurnal uslubi: Playfair Display serif sarlavha, harf-kaskad, marker, slice kesim.",
+  "tone": "dark",
+  "fonts": {
+    "display": {
+      "family": "Playfair Display",
+      "weight": 800,
+      "lightWeight": 400,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.56
+    },
+    "body": {
+      "family": "Manrope",
+      "weight": 600,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.56
+    }
+  },
+  "colors": {
+    "bg": "#14110F",
+    "surface": "#1E1A17",
+    "text": "#F5EFE6",
+    "muted": "#A89F92",
+    "primary": "#F59E0B",
+    "accent": "#F59E0B",
+    "highlight": "#F59E0B",
+    "onHighlight": "#14110F"
+  },
+  "captionPreset": "lineByLine",
+  "captionStyle": {
+    "font": "body",
+    "uppercase": false,
+    "stroke": 0,
+    "scale": 1
+  },
+  "defaultTextAnim": "CharCascade",
+  "secondaryTextAnim": "Highlighter",
+  "ctaTextAnim": "SlideMask",
+  "defaultTransition": "slice",
+  "transitionFrames": 16,
+  "fx": [
+    "grain",
+    "vignette"
+  ],
+  "fxIntensity": {
+    "grain": 0.09,
+    "vignette": 0.5
+  },
+  "background": {
+    "kind": "solid",
+    "colors": [
+      "#14110F"
+    ],
+    "patternOpacity": 0.16,
+    "angle": 160
+  },
+  "headline": {
+    "size": 110,
+    "hookSize": 128,
+    "align": "left",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 8px 30px rgba(0,0,0,0.55)",
+    "scrim": 0.45
+  },
+  "card": {
+    "glass": false,
+    "radius": 8
+  },
+  "kenBurns": "left",
+  "tempo": 1.15,
+  "meta": {
+    "family": "editorial",
+    "mood": [
+      "stylish",
+      "thoughtful"
+    ],
+    "niches": [
+      "fashion",
+      "cafe",
+      "blog",
+      "expert"
+    ],
+    "aida": [
+      "interest",
+      "desire"
+    ],
+    "description_uz": "Jurnal sahifasi: serif sarlavha, harfma-harf kaskad, amber marker. Moda, kafe, blog va ekspert kontent uchun.",
+    "since": "2026-08"
+  }
+}

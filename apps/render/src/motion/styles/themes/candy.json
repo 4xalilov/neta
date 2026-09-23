@@ -1,0 +1,99 @@
+{
+  "name": "candy",
+  "label": "Candy",
+  "description": "Konfet: toʻq rezavor fon, Nunito 900, pushti-yalpiz, konfetti, doira-niqob, nur.",
+  "tone": "dark",
+  "fonts": {
+    "display": {
+      "family": "Nunito",
+      "weight": 900,
+      "lightWeight": 400,
+      "uppercase": false,
+      "letterSpacing": -0.02,
+      "charEm": 0.62
+    },
+    "body": {
+      "family": "Nunito",
+      "weight": 800,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.6
+    }
+  },
+  "colors": {
+    "bg": "#2D0A2E",
+    "surface": "#45104A",
+    "text": "#FFF0FA",
+    "muted": "#E0A6D8",
+    "primary": "#FF4FB8",
+    "accent": "#FF8AD8",
+    "highlight": "#7CF3E0",
+    "onHighlight": "#2D0A2E"
+  },
+  "captionPreset": "boxHighlight",
+  "captionStyle": {
+    "font": "body",
+    "uppercase": false,
+    "stroke": 0,
+    "scale": 1
+  },
+  "defaultTextAnim": "WordPop",
+  "secondaryTextAnim": "Outline2Fill",
+  "ctaTextAnim": "BounceIn",
+  "defaultTransition": "maskCircle",
+  "transitionFrames": 12,
+  "fx": [
+    "particles",
+    "glow"
+  ],
+  "fxIntensity": {
+    "glow": 14
+  },
+  "background": {
+    "kind": "pattern",
+    "colors": [
+      "#2D0A2E",
+      "#45104A"
+    ],
+    "pattern": "confetti",
+    "patternColor": "#7CF3E0",
+    "patternOpacity": 0.18,
+    "angle": 160
+  },
+  "headline": {
+    "size": 112,
+    "hookSize": 130,
+    "align": "center",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 8px 0 rgba(255,79,184,0.55)",
+    "scrim": 0.45
+  },
+  "card": {
+    "glass": true,
+    "radius": 40
+  },
+  "kenBurns": "in",
+  "tempo": 1,
+  "particlesColor": "#7CF3E0",
+  "meta": {
+    "family": "playful",
+    "mood": [
+      "sweet",
+      "vivid",
+      "fun"
+    ],
+    "niches": [
+      "sweets",
+      "desserts",
+      "cosmetics",
+      "toys"
+    ],
+    "aida": [
+      "attention",
+      "desire"
+    ],
+    "description_uz": "Konfet doʻkoni: toʻq rezavor fon, pushti va yalpiz ranglari, yumaloq qalin harflar, konfetti. Shirinliklar, desert, oʻyinchoq va kosmetika uchun.",
+    "since": "2026-09"
+  }
+}

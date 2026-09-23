@@ -1,0 +1,100 @@
+{
+  "name": "sport-energy",
+  "label": "Sport Energy",
+  "description": "Sport: Oswald tor harflar, elektr-laym aksent, tezlik chiziqlari, whip-pan, silkinish.",
+  "tone": "dark",
+  "fonts": {
+    "display": {
+      "family": "Oswald",
+      "weight": 700,
+      "lightWeight": 300,
+      "uppercase": true,
+      "letterSpacing": 0.01,
+      "charEm": 0.55
+    },
+    "body": {
+      "family": "Inter",
+      "weight": 800,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.6
+    }
+  },
+  "colors": {
+    "bg": "#06121F",
+    "surface": "#0E2236",
+    "text": "#FFFFFF",
+    "muted": "#9FB3C8",
+    "primary": "#FF5A1F",
+    "accent": "#D7FF1F",
+    "highlight": "#FF5A1F",
+    "onHighlight": "#0A0A0A"
+  },
+  "captionPreset": "boxHighlight",
+  "captionStyle": {
+    "font": "body",
+    "uppercase": true,
+    "stroke": 5,
+    "scale": 1
+  },
+  "defaultTextAnim": "WordPop",
+  "secondaryTextAnim": "Counter",
+  "ctaTextAnim": "Outline2Fill",
+  "defaultTransition": "whipPan",
+  "transitionFrames": 10,
+  "fx": [
+    "shake",
+    "progressBar",
+    "grain"
+  ],
+  "fxIntensity": {
+    "grain": 0.05,
+    "shake": 10
+  },
+  "background": {
+    "kind": "pattern",
+    "colors": [
+      "#06121F",
+      "#0E2236"
+    ],
+    "pattern": "stripes",
+    "patternColor": "#D7FF1F",
+    "patternOpacity": 0.1,
+    "angle": 135
+  },
+  "headline": {
+    "size": 150,
+    "hookSize": 172,
+    "align": "center",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 8px 0 rgba(0,0,0,0.4)",
+    "scrim": 0.45
+  },
+  "card": {
+    "glass": false,
+    "radius": 12
+  },
+  "kenBurns": "in",
+  "tempo": 0.85,
+  "meta": {
+    "family": "bold",
+    "mood": [
+      "energetic",
+      "competitive",
+      "fast"
+    ],
+    "niches": [
+      "sport-club",
+      "sportswear",
+      "marathon",
+      "esports"
+    ],
+    "aida": [
+      "attention",
+      "action"
+    ],
+    "description_uz": "Sport energiyasi: tor baland harflar, elektr-laym aksent, diagonal tezlik chiziqlari va keskin kesimlar. Sport klublari, sport kiyim va musobaqalar uchun.",
+    "since": "2026-09"
+  }
+}

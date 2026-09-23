@@ -1,0 +1,97 @@
+{
+  "name": "glitch-dark",
+  "label": "Glitch Dark",
+  "description": "Qorongʻi glitch: Rubik 900, qora fon, qizil/cyan RGB-ajralish, Glitch→Kinetic, keskin kesim.",
+  "tone": "dark",
+  "fonts": {
+    "display": {
+      "family": "Rubik",
+      "weight": 900,
+      "lightWeight": 400,
+      "uppercase": true,
+      "letterSpacing": 0.01,
+      "charEm": 0.7
+    },
+    "body": {
+      "family": "JetBrains Mono",
+      "weight": 600,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.6
+    }
+  },
+  "colors": {
+    "bg": "#000000",
+    "surface": "#111111",
+    "text": "#FFFFFF",
+    "muted": "#8A8A8A",
+    "primary": "#FF0055",
+    "accent": "#FF2E63",
+    "highlight": "#08F7FE",
+    "onHighlight": "#000000"
+  },
+  "captionPreset": "bigWord",
+  "captionStyle": {
+    "font": "display",
+    "uppercase": true,
+    "stroke": 0,
+    "scale": 0.9
+  },
+  "defaultTextAnim": "Glitch",
+  "secondaryTextAnim": "Kinetic",
+  "ctaTextAnim": "Scramble",
+  "defaultTransition": "glitchCut",
+  "transitionFrames": 6,
+  "fx": [
+    "chromatic",
+    "shake",
+    "grain"
+  ],
+  "fxIntensity": {
+    "grain": 0.12,
+    "shake": 6,
+    "chromatic": 22
+  },
+  "background": {
+    "kind": "solid",
+    "colors": [
+      "#000000"
+    ],
+    "patternOpacity": 0.16,
+    "angle": 160
+  },
+  "headline": {
+    "size": 110,
+    "hookSize": 128,
+    "align": "center",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "4px 0 0 rgba(255,0,85,0.7), -4px 0 0 rgba(8,247,254,0.7)",
+    "scrim": 0.45
+  },
+  "card": {
+    "glass": false,
+    "radius": 0
+  },
+  "kenBurns": "in",
+  "tempo": 0.85,
+  "meta": {
+    "family": "neon",
+    "mood": [
+      "aggressive",
+      "dark",
+      "rebellious"
+    ],
+    "niches": [
+      "music",
+      "nightclub",
+      "streetwear",
+      "gaming"
+    ],
+    "aida": [
+      "attention"
+    ],
+    "description_uz": "Qorongʻi glitch: toza qora fon, qizil-cyan RGB ajralish, titroq va keskin kesimlar. Musiqa, tungi klub, streetwear va geyming uchun.",
+    "since": "2026-09"
+  }
+}

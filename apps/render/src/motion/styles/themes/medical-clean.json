@@ -1,0 +1,93 @@
+{
+  "name": "medical-clean",
+  "label": "Medical Clean",
+  "description": "Klinika: oq-moviy fon, Rubik, feruza aksent, shisha subtitr, progress chizigʻi.",
+  "tone": "light",
+  "fonts": {
+    "display": {
+      "family": "Rubik",
+      "weight": 600,
+      "lightWeight": 400,
+      "uppercase": false,
+      "letterSpacing": -0.02,
+      "charEm": 0.62
+    },
+    "body": {
+      "family": "Inter",
+      "weight": 500,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.58
+    }
+  },
+  "colors": {
+    "bg": "#EFF8F9",
+    "surface": "#FFFFFF",
+    "text": "#0B2A3C",
+    "muted": "#4A6878",
+    "primary": "#0EA5A4",
+    "accent": "#0F766E",
+    "highlight": "#7DD3C8",
+    "onHighlight": "#0B2A3C"
+  },
+  "captionPreset": "pillGlass",
+  "captionStyle": {
+    "font": "body",
+    "uppercase": false,
+    "stroke": 0,
+    "scale": 1
+  },
+  "defaultTextAnim": "MaskWipe",
+  "secondaryTextAnim": "Counter",
+  "ctaTextAnim": "SlideMask",
+  "defaultTransition": "slide",
+  "transitionFrames": 14,
+  "fx": [
+    "progressBar"
+  ],
+  "fxIntensity": {},
+  "background": {
+    "kind": "gradient",
+    "colors": [
+      "#EFF8F9",
+      "#D6F0F1"
+    ],
+    "patternOpacity": 0.16,
+    "angle": 180
+  },
+  "headline": {
+    "size": 100,
+    "hookSize": 116,
+    "align": "center",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 4px 26px #EFF8F9d9",
+    "scrim": 0.72
+  },
+  "card": {
+    "glass": true,
+    "radius": 32
+  },
+  "kenBurns": "out",
+  "tempo": 1.1,
+  "meta": {
+    "family": "minimal",
+    "mood": [
+      "trustworthy",
+      "calm",
+      "clean"
+    ],
+    "niches": [
+      "clinic",
+      "dentistry",
+      "pharmacy",
+      "laboratory"
+    ],
+    "aida": [
+      "interest",
+      "desire"
+    ],
+    "description_uz": "Toza tibbiy koʻrinish: oq-moviy fon, feruza aksent, yumshoq shisha subtitr. Klinika, stomatologiya, dorixona va laboratoriyalar uchun.",
+    "since": "2026-09"
+  }
+}

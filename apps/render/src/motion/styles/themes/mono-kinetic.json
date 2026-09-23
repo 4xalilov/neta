@@ -1,0 +1,94 @@
+{
+  "name": "mono-kinetic",
+  "label": "Mono Kinetic",
+  "description": "Monoxrom kinetik tipografiya: JetBrains Mono, qora-oq, Kinetic ritm, toʻgʻridan kesim.",
+  "tone": "dark",
+  "fonts": {
+    "display": {
+      "family": "JetBrains Mono",
+      "weight": 800,
+      "lightWeight": 200,
+      "uppercase": true,
+      "letterSpacing": -0.02,
+      "charEm": 0.62
+    },
+    "body": {
+      "family": "JetBrains Mono",
+      "weight": 500,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.6
+    }
+  },
+  "colors": {
+    "bg": "#0A0A0A",
+    "surface": "#161616",
+    "text": "#FAFAFA",
+    "muted": "#9A9A9A",
+    "primary": "#FAFAFA",
+    "accent": "#FFFFFF",
+    "highlight": "#FAFAFA",
+    "onHighlight": "#0A0A0A"
+  },
+  "captionPreset": "boxHighlight",
+  "captionStyle": {
+    "font": "body",
+    "uppercase": true,
+    "stroke": 0,
+    "scale": 0.85
+  },
+  "defaultTextAnim": "Kinetic",
+  "secondaryTextAnim": "TypeWriter",
+  "ctaTextAnim": "Split3D",
+  "defaultTransition": "none",
+  "transitionFrames": 0,
+  "fx": [
+    "grain"
+  ],
+  "fxIntensity": {
+    "grain": 0.05
+  },
+  "background": {
+    "kind": "solid",
+    "colors": [
+      "#0A0A0A"
+    ],
+    "patternOpacity": 0.16,
+    "angle": 160
+  },
+  "headline": {
+    "size": 100,
+    "hookSize": 116,
+    "align": "left",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 0 0 transparent",
+    "scrim": 0.55
+  },
+  "card": {
+    "glass": false,
+    "radius": 0
+  },
+  "kenBurns": "none",
+  "tempo": 0.9,
+  "meta": {
+    "family": "minimal",
+    "mood": [
+      "minimal",
+      "rhythmic",
+      "raw"
+    ],
+    "niches": [
+      "agency",
+      "podcast",
+      "tech",
+      "personal-brand"
+    ],
+    "aida": [
+      "attention",
+      "interest"
+    ],
+    "description_uz": "Monoxrom kinetik tipografiya: faqat qora va oq, monospace shrift, ritmik katta-kichik soʻzlar, keskin kesimlar. Podkast, agentlik va shaxsiy brend uchun.",
+    "since": "2026-09"
+  }
+}

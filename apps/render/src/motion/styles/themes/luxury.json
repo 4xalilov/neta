@@ -1,0 +1,99 @@
+{
+  "name": "luxury",
+  "label": "Luxury",
+  "description": "Premium: toʻq fon, oltin #D4AF37, Playfair, sekin BlurFocus, vinyetka, oltin chang.",
+  "tone": "dark",
+  "fonts": {
+    "display": {
+      "family": "Playfair Display",
+      "weight": 600,
+      "lightWeight": 400,
+      "uppercase": false,
+      "letterSpacing": 0.01,
+      "charEm": 0.55
+    },
+    "body": {
+      "family": "Manrope",
+      "weight": 500,
+      "uppercase": false,
+      "letterSpacing": 0.02,
+      "charEm": 0.58
+    }
+  },
+  "colors": {
+    "bg": "#07070A",
+    "surface": "#121017",
+    "text": "#F4EFE3",
+    "muted": "#9A8F78",
+    "primary": "#D4AF37",
+    "accent": "#D4AF37",
+    "highlight": "#D4AF37",
+    "onHighlight": "#07070A"
+  },
+  "captionPreset": "lineByLine",
+  "captionStyle": {
+    "font": "body",
+    "uppercase": false,
+    "stroke": 0,
+    "scale": 0.9
+  },
+  "defaultTextAnim": "BlurFocus",
+  "secondaryTextAnim": "CharCascade",
+  "ctaTextAnim": "BlurFocus",
+  "defaultTransition": "fade",
+  "transitionFrames": 20,
+  "fx": [
+    "vignette",
+    "grain",
+    "particles",
+    "lensFlare"
+  ],
+  "fxIntensity": {
+    "grain": 0.06,
+    "vignette": 0.7
+  },
+  "background": {
+    "kind": "mesh",
+    "colors": [
+      "#D4AF3730",
+      "#3B2F1A66"
+    ],
+    "patternOpacity": 0.16,
+    "angle": 160
+  },
+  "headline": {
+    "size": 96,
+    "hookSize": 112,
+    "align": "center",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 8px 30px rgba(0,0,0,0.55)",
+    "scrim": 0.45
+  },
+  "card": {
+    "glass": true,
+    "radius": 4
+  },
+  "kenBurns": "out",
+  "tempo": 1.5,
+  "particlesColor": "#D4AF37",
+  "meta": {
+    "family": "luxury",
+    "mood": [
+      "premium",
+      "elegant",
+      "slow"
+    ],
+    "niches": [
+      "jewelry",
+      "perfume",
+      "premium-restaurant",
+      "real-estate"
+    ],
+    "aida": [
+      "desire"
+    ],
+    "description_uz": "Premium: toʻq fon, oltin aksent, sekin fokuslanuvchi serif matn, oltin chang. Zargarlik, parfyum, premium restoran uchun.",
+    "since": "2026-08"
+  }
+}

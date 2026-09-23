@@ -1,0 +1,95 @@
+{
+  "name": "handwritten",
+  "label": "Handwritten",
+  "description": "Qoʻlyozma: Caveat, daftar qogʻozi, koʻk siyoh, sariq marker, TypeWriter, wipe.",
+  "tone": "light",
+  "fonts": {
+    "display": {
+      "family": "Caveat",
+      "weight": 700,
+      "lightWeight": 400,
+      "uppercase": false,
+      "letterSpacing": 0,
+      "charEm": 0.46
+    },
+    "body": {
+      "family": "Nunito",
+      "weight": 600,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.58
+    }
+  },
+  "colors": {
+    "bg": "#FFFDF6",
+    "surface": "#FFFFFF",
+    "text": "#222222",
+    "muted": "#666055",
+    "primary": "#2563EB",
+    "accent": "#1D4ED8",
+    "highlight": "#FFE45C",
+    "onHighlight": "#222222"
+  },
+  "captionPreset": "karaoke",
+  "captionStyle": {
+    "font": "display",
+    "uppercase": false,
+    "stroke": 0,
+    "scale": 1.2
+  },
+  "defaultTextAnim": "TypeWriter",
+  "secondaryTextAnim": "Highlighter",
+  "ctaTextAnim": "MaskWipe",
+  "defaultTransition": "wipe",
+  "transitionFrames": 14,
+  "fx": [
+    "grain"
+  ],
+  "fxIntensity": {
+    "grain": 0.05
+  },
+  "background": {
+    "kind": "pattern",
+    "colors": [
+      "#FFFDF6"
+    ],
+    "pattern": "lines",
+    "patternColor": "#2563EB",
+    "patternOpacity": 0.16,
+    "angle": 160
+  },
+  "headline": {
+    "size": 132,
+    "hookSize": 152,
+    "align": "left",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 4px 26px #FFFDF6d9",
+    "scrim": 0.72
+  },
+  "card": {
+    "glass": false,
+    "radius": 14
+  },
+  "kenBurns": "right",
+  "tempo": 1.05,
+  "meta": {
+    "family": "playful",
+    "mood": [
+      "personal",
+      "friendly",
+      "honest"
+    ],
+    "niches": [
+      "personal-brand",
+      "tutoring",
+      "coaching",
+      "blog"
+    ],
+    "aida": [
+      "interest"
+    ],
+    "description_uz": "Qoʻlda yozilgandek: daftar qogʻozi, koʻk siyoh, sariq marker. Shaxsiy brend, murabbiylik, repetitorlik va blog uchun samimiy uslub.",
+    "since": "2026-09"
+  }
+}

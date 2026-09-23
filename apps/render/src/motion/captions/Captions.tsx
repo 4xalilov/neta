@@ -19,6 +19,10 @@ export interface CaptionLook {
   stroke?: number;
   /** Multiplier on the preset font size. */
   scale?: number;
+  /** Outline colour (default black; light themes use their bg). */
+  strokeColor?: string;
+  /** "r,g,b" of text shadows (default black; light themes use their bg). */
+  shadowRgb?: string;
 }
 
 export interface CaptionGroup {
@@ -51,17 +55,21 @@ export function pageGroups(groups: CaptionGroup[], fallback: CaptionPreset): Tag
   });
 }
 
-const baseText = (look: CaptionLook, size: number, stroke: number): React.CSSProperties => ({
+const baseText = (look: CaptionLook, size: number, stroke: number): React.CSSProperties => {
+  const sc = look.strokeColor ?? "#000";
+  const sh = look.shadowRgb ?? "0,0,0";
+  return {
   fontFamily: look.fontFamily,
   fontWeight: look.fontWeight ?? 800,
   fontSize: size * (look.scale ?? 1),
   lineHeight: 1.18,
   letterSpacing: "-0.01em",
   textTransform: look.uppercase ? "uppercase" : undefined,
-  WebkitTextStroke: stroke ? `${stroke}px #000` : undefined,
+  WebkitTextStroke: stroke ? `${stroke}px ${sc}` : undefined,
   paintOrder: stroke ? "stroke fill" : undefined,
-  textShadow: stroke ? "0 6px 18px rgba(0,0,0,0.55), 0 0 2px #000" : "0 4px 16px rgba(0,0,0,0.45)",
-});
+  textShadow: stroke ? `0 6px 18px rgba(${sh},0.55), 0 0 2px ${sc}` : `0 4px 16px rgba(${sh},0.45)`,
+  };
+};
 
 /** Band anchored 22 % from the bottom (docs/08), inside the side margins. */
 const Band: React.FC<{ children: React.ReactNode; scale?: number; style?: React.CSSProperties }> = ({ children, scale = 1, style }) => (
@@ -240,7 +248,7 @@ function LineByLine({ page, t, frame, fps, look }: RenderArgs) {
   const f0 = Math.round(page.start * fps);
   const p = interpolate(frame - f0, [0, 9], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: (x) => 1 - Math.pow(1 - x, 4) });
   return (
-    <Band style={{ ...baseText(look, CAPTION_META.lineByLine.fontSize, 0), fontWeight: look.fontWeight ?? 700, textShadow: "0 4px 20px rgba(0,0,0,0.7)" }}>
+    <Band style={{ ...baseText(look, CAPTION_META.lineByLine.fontSize, 0), fontWeight: look.fontWeight ?? 700, textShadow: `0 4px 20px rgba(${look.shadowRgb ?? "0,0,0"},0.7)` }}>
       <div style={{ overflow: "hidden", paddingBottom: "0.1em" }}>
         <div style={{ transform: `translateY(${(1 - p) * 105}%)` }}>
           {page.words.map((word, i) => (

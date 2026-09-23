@@ -1,0 +1,98 @@
+{
+  "name": "tech-blue",
+  "label": "Tech Blue",
+  "description": "Texnologiya: Space Grotesk, koʻk toʻr fon, Scramble matn, doira-niqob kesim.",
+  "tone": "dark",
+  "fonts": {
+    "display": {
+      "family": "Space Grotesk",
+      "weight": 700,
+      "lightWeight": 300,
+      "uppercase": false,
+      "letterSpacing": -0.02,
+      "charEm": 0.62
+    },
+    "body": {
+      "family": "Inter",
+      "weight": 500,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.58
+    }
+  },
+  "colors": {
+    "bg": "#030B1F",
+    "surface": "#0A1733",
+    "text": "#EAF2FF",
+    "muted": "#8CA3C7",
+    "primary": "#2563EB",
+    "accent": "#38BDF8",
+    "highlight": "#2563EB",
+    "onHighlight": "#FFFFFF"
+  },
+  "captionPreset": "boxHighlight",
+  "captionStyle": {
+    "font": "body",
+    "uppercase": false,
+    "stroke": 0,
+    "scale": 1
+  },
+  "defaultTextAnim": "Scramble",
+  "secondaryTextAnim": "Counter",
+  "ctaTextAnim": "MaskWipe",
+  "defaultTransition": "maskCircle",
+  "transitionFrames": 14,
+  "fx": [
+    "progressBar",
+    "vignette"
+  ],
+  "fxIntensity": {
+    "vignette": 0.35
+  },
+  "background": {
+    "kind": "pattern",
+    "colors": [
+      "#030B1F",
+      "#0A1733"
+    ],
+    "pattern": "grid",
+    "patternColor": "#38BDF8",
+    "patternOpacity": 0.1,
+    "angle": 160
+  },
+  "headline": {
+    "size": 100,
+    "hookSize": 118,
+    "align": "center",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 0 28px rgba(56,189,248,0.35)",
+    "scrim": 0.45
+  },
+  "card": {
+    "glass": true,
+    "radius": 20
+  },
+  "kenBurns": "in",
+  "tempo": 1,
+  "meta": {
+    "family": "minimal",
+    "mood": [
+      "smart",
+      "modern",
+      "precise"
+    ],
+    "niches": [
+      "it",
+      "saas",
+      "startup",
+      "edtech"
+    ],
+    "aida": [
+      "interest",
+      "desire"
+    ],
+    "description_uz": "Texnologik koʻk: grotesk shrift, koʻk toʻr fon, “shifrlanib” chiqadigan matn. IT, SaaS, startap va onlayn taʼlim uchun.",
+    "since": "2026-09"
+  }
+}

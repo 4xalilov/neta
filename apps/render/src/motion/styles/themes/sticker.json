@@ -1,0 +1,99 @@
+{
+  "name": "sticker",
+  "label": "Sticker",
+  "description": "Stiker uslubi: keng Unbounded, qalin kontur va qattiq soya, konfetti fon, doira-niqob kesim.",
+  "tone": "dark",
+  "fonts": {
+    "display": {
+      "family": "Unbounded",
+      "weight": 800,
+      "lightWeight": 400,
+      "uppercase": false,
+      "letterSpacing": -0.02,
+      "charEm": 0.82
+    },
+    "body": {
+      "family": "Rubik",
+      "weight": 700,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.6
+    }
+  },
+  "colors": {
+    "bg": "#1A1033",
+    "surface": "#2A1A4F",
+    "text": "#FFFFFF",
+    "muted": "#B9A8E6",
+    "primary": "#FF4FA3",
+    "accent": "#B6F23B",
+    "highlight": "#FF4FA3",
+    "onHighlight": "#1A1033"
+  },
+  "captionPreset": "boxHighlight",
+  "captionStyle": {
+    "font": "body",
+    "uppercase": false,
+    "stroke": 5,
+    "strokeColor": "#1A1033",
+    "scale": 0.95
+  },
+  "defaultTextAnim": "BounceIn",
+  "secondaryTextAnim": "Highlighter",
+  "ctaTextAnim": "Outline2Fill",
+  "defaultTransition": "maskCircle",
+  "transitionFrames": 12,
+  "fx": [
+    "grain"
+  ],
+  "fxIntensity": {
+    "grain": 0.05
+  },
+  "background": {
+    "kind": "pattern",
+    "colors": [
+      "#1A1033",
+      "#2B1760"
+    ],
+    "pattern": "confetti",
+    "patternColor": "#FF4FA3",
+    "patternOpacity": 0.22,
+    "angle": 160
+  },
+  "headline": {
+    "size": 92,
+    "hookSize": 104,
+    "align": "center",
+    "maxLines": 4,
+    "stroke": 7,
+    "strokeColor": "#1A1033",
+    "shadow": "0 10px 0 #FF4FA3",
+    "scrim": 0.45
+  },
+  "card": {
+    "glass": false,
+    "radius": 44
+  },
+  "kenBurns": "in",
+  "tempo": 1,
+  "meta": {
+    "family": "bold",
+    "mood": [
+      "playful",
+      "loud",
+      "youthful"
+    ],
+    "niches": [
+      "streetwear",
+      "youth",
+      "cafe",
+      "events"
+    ],
+    "aida": [
+      "attention",
+      "interest"
+    ],
+    "description_uz": "Stiker-pack koʻrinishi: keng qalin harflar, kontur va pushti qattiq soya, konfetti fon. Yoshlar brendi, streetwear, kafe va tadbirlar uchun.",
+    "since": "2026-09"
+  }
+}

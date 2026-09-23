@@ -5,6 +5,7 @@ import { TEXT_ANIMS } from "./motion/text/names";
 import { TRANSITIONS } from "./motion/transitions/names";
 import { CAPTION_PRESETS } from "./motion/captions/registry";
 import { KEN_BURNS_MODES } from "./motion/styles/kenBurnsModes";
+import { renderThemeSchema } from "./motion/styles/schema";
 
 /** Theme used when `style` is omitted (see src/motion/styles). */
 export const DEFAULT_STYLE = "bold";
@@ -85,8 +86,22 @@ export const reelsPropsSchema = z.object({
   cta: z.string().nullish(),
   scenes: z.array(sceneSchema).min(1),
   brand: brandSchema.default({ ...BRAND_DEFAULTS }),
-  /** StyleTheme name: bold | minimal | neon | editorial | corporate | hype | luxury (unknown → bold). */
+  /** StyleTheme name from the catalog (docs/11, 45+ themes; unknown → bold). */
   style: z.string().default(DEFAULT_STYLE),
+  /**
+   * Full StyleTheme object (e.g. a DB-approved theme the bundle has never
+   * seen). Valid → wins over `style`; invalid → warning + null (→ `style`), the
+   * job does not fail. `meta` is optional here.
+   */
+  theme: renderThemeSchema.nullish().catch((ctx) => {
+    console.warn(
+      `[theme] invalid props.theme ignored, using style: ${ctx.error.issues
+        .slice(0, 5)
+        .map((i) => `${i.path.join(".") || "(root)"}: ${i.message}`)
+        .join("; ")}`,
+    );
+    return null;
+  }),
   /** Big hook headline for 0–3 s, animated with scene 0's textAnim or theme.defaultTextAnim. */
   hookText: z.string().nullish(),
   /** Caption preset for the whole video (scene `captionPreset` wins); null → theme.captionPreset. */
@@ -167,6 +182,7 @@ export const defaultProps: ReelsProps = {
   style: DEFAULT_STYLE,
   hookText: "Reels *5 daqiqada* tayyor",
   captionPreset: null,
+  theme: null,
 };
 
 /**

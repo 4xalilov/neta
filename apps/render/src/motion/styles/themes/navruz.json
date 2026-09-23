@@ -1,0 +1,100 @@
+{
+  "name": "navruz",
+  "label": "Navruz",
+  "description": "Navroʻz: feruza fon, ikat (abr) naqsh, oltin aksent, Montserrat, doira-niqob, uchqunlar.",
+  "tone": "dark",
+  "fonts": {
+    "display": {
+      "family": "Montserrat",
+      "weight": 800,
+      "lightWeight": 400,
+      "uppercase": false,
+      "letterSpacing": -0.02,
+      "charEm": 0.68
+    },
+    "body": {
+      "family": "Nunito",
+      "weight": 700,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.58
+    }
+  },
+  "colors": {
+    "bg": "#042F3A",
+    "surface": "#0B4351",
+    "text": "#F4FBF9",
+    "muted": "#9CCFD0",
+    "primary": "#14B8A6",
+    "accent": "#FFD166",
+    "highlight": "#2DD4BF",
+    "onHighlight": "#042F3A"
+  },
+  "captionPreset": "karaoke",
+  "captionStyle": {
+    "font": "display",
+    "uppercase": false,
+    "stroke": 5,
+    "strokeColor": "#021A20",
+    "scale": 1
+  },
+  "defaultTextAnim": "SlideMask",
+  "secondaryTextAnim": "Highlighter",
+  "ctaTextAnim": "BounceIn",
+  "defaultTransition": "maskCircle",
+  "transitionFrames": 14,
+  "fx": [
+    "particles",
+    "lightLeak"
+  ],
+  "fxIntensity": {
+    "lightLeak": 0.4
+  },
+  "background": {
+    "kind": "pattern",
+    "colors": [
+      "#042F3A",
+      "#075E6B"
+    ],
+    "pattern": "ikat",
+    "patternColor": "#2DD4BF",
+    "patternOpacity": 0.24,
+    "angle": 160
+  },
+  "headline": {
+    "size": 100,
+    "hookSize": 116,
+    "align": "center",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 8px 30px rgba(0,0,0,0.55)",
+    "scrim": 0.45
+  },
+  "card": {
+    "glass": true,
+    "radius": 28
+  },
+  "kenBurns": "in",
+  "tempo": 1,
+  "particlesColor": "#FFD166",
+  "meta": {
+    "family": "uzbek",
+    "mood": [
+      "festive",
+      "springlike",
+      "joyful"
+    ],
+    "niches": [
+      "holiday-promo",
+      "restaurant",
+      "retail",
+      "tourism"
+    ],
+    "aida": [
+      "attention",
+      "desire"
+    ],
+    "description_uz": "Navroʻz bayrami: feruza fon, abr (ikat) naqshi, oltin quyosh aksenti va uchqunlar. Bayram aksiyalari, restoran, savdo va turizm uchun.",
+    "since": "2026-09"
+  }
+}

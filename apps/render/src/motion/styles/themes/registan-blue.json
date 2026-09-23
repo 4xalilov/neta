@@ -1,0 +1,98 @@
+{
+  "name": "registan-blue",
+  "label": "Registan Blue",
+  "description": "Registon: kobalt koʻk, girih yulduz naqsh, Montserrat katta harflar, oltin marker, iris.",
+  "tone": "dark",
+  "fonts": {
+    "display": {
+      "family": "Montserrat",
+      "weight": 800,
+      "lightWeight": 400,
+      "uppercase": true,
+      "letterSpacing": 0.03,
+      "charEm": 0.74
+    },
+    "body": {
+      "family": "Inter",
+      "weight": 500,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.58
+    }
+  },
+  "colors": {
+    "bg": "#06184A",
+    "surface": "#0E2566",
+    "text": "#F4F8FF",
+    "muted": "#9FB4E0",
+    "primary": "#1E5AD6",
+    "accent": "#5EC8F2",
+    "highlight": "#F2C14E",
+    "onHighlight": "#06184A"
+  },
+  "captionPreset": "pillGlass",
+  "captionStyle": {
+    "font": "body",
+    "uppercase": false,
+    "stroke": 0,
+    "scale": 1
+  },
+  "defaultTextAnim": "SlideMask",
+  "secondaryTextAnim": "Counter",
+  "ctaTextAnim": "MaskWipe",
+  "defaultTransition": "iris",
+  "transitionFrames": 14,
+  "fx": [
+    "lensFlare",
+    "grain"
+  ],
+  "fxIntensity": {
+    "grain": 0.05
+  },
+  "background": {
+    "kind": "pattern",
+    "colors": [
+      "#06184A",
+      "#0E2566"
+    ],
+    "pattern": "girih",
+    "patternColor": "#5EC8F2",
+    "patternOpacity": 0.18,
+    "angle": 160
+  },
+  "headline": {
+    "size": 88,
+    "hookSize": 104,
+    "align": "center",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 8px 30px rgba(0,0,0,0.55)",
+    "scrim": 0.45
+  },
+  "card": {
+    "glass": true,
+    "radius": 18
+  },
+  "kenBurns": "out",
+  "tempo": 1.1,
+  "meta": {
+    "family": "uzbek",
+    "mood": [
+      "majestic",
+      "proud",
+      "calm"
+    ],
+    "niches": [
+      "tourism",
+      "hotel",
+      "education",
+      "culture"
+    ],
+    "aida": [
+      "interest",
+      "desire"
+    ],
+    "description_uz": "Registon maydoni: kobalt-koʻk majolika, girih yulduz naqshi, oltin marker va salobatli bosh harflar. Turizm, mehmonxona, taʼlim va madaniyat uchun.",
+    "since": "2026-09"
+  }
+}

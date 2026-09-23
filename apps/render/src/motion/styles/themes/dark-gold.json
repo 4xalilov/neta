@@ -1,0 +1,97 @@
+{
+  "name": "dark-gold",
+  "label": "Dark Gold",
+  "description": "Qora-oltin: Cormorant Garamond katta harflar, keng oraliq, oltin chang, linza chaqnashi.",
+  "tone": "dark",
+  "fonts": {
+    "display": {
+      "family": "Cormorant Garamond",
+      "weight": 700,
+      "lightWeight": 400,
+      "uppercase": true,
+      "letterSpacing": 0.08,
+      "charEm": 0.66
+    },
+    "body": {
+      "family": "Montserrat",
+      "weight": 500,
+      "uppercase": false,
+      "letterSpacing": 0.06,
+      "charEm": 0.64
+    }
+  },
+  "colors": {
+    "bg": "#0B0A08",
+    "surface": "#17140F",
+    "text": "#F2E8D5",
+    "muted": "#A39478",
+    "primary": "#C9A227",
+    "accent": "#E0B84F",
+    "highlight": "#C9A227",
+    "onHighlight": "#0B0A08"
+  },
+  "captionPreset": "karaoke",
+  "captionStyle": {
+    "font": "body",
+    "uppercase": true,
+    "stroke": 0,
+    "scale": 0.78
+  },
+  "defaultTextAnim": "CharCascade",
+  "secondaryTextAnim": "BlurFocus",
+  "ctaTextAnim": "MaskWipe",
+  "defaultTransition": "fade",
+  "transitionFrames": 18,
+  "fx": [
+    "particles",
+    "vignette",
+    "lensFlare"
+  ],
+  "fxIntensity": {
+    "vignette": 0.6
+  },
+  "background": {
+    "kind": "gradient",
+    "colors": [
+      "#0B0A08",
+      "#1D170C"
+    ],
+    "patternOpacity": 0.16,
+    "angle": 180
+  },
+  "headline": {
+    "size": 96,
+    "hookSize": 112,
+    "align": "center",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 6px 30px rgba(0,0,0,0.7)",
+    "scrim": 0.45
+  },
+  "card": {
+    "glass": false,
+    "radius": 2
+  },
+  "kenBurns": "out",
+  "tempo": 1.35,
+  "particlesColor": "#E0B84F",
+  "meta": {
+    "family": "luxury",
+    "mood": [
+      "opulent",
+      "exclusive",
+      "slow"
+    ],
+    "niches": [
+      "jewelry",
+      "watches",
+      "premium-restaurant",
+      "hotel"
+    ],
+    "aida": [
+      "desire"
+    ],
+    "description_uz": "Qora va oltin: keng oraliqli klassik bosh harflar, sekin harf-kaskad, oltin chang. Soat, zargarlik, premium restoran va mehmonxonalar uchun.",
+    "since": "2026-09"
+  }
+}

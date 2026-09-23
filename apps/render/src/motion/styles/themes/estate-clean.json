@@ -1,0 +1,90 @@
+{
+  "name": "estate-clean",
+  "label": "Estate Clean",
+  "description": "Koʻchmas mulk: oq-kulrang fon, Tenor Sans keng harflar, toʻq koʻk, bronza, sekin wipe.",
+  "tone": "light",
+  "fonts": {
+    "display": {
+      "family": "Tenor Sans",
+      "weight": 400,
+      "uppercase": true,
+      "letterSpacing": 0.06,
+      "charEm": 0.74
+    },
+    "body": {
+      "family": "Inter",
+      "weight": 500,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.58
+    }
+  },
+  "colors": {
+    "bg": "#F4F6F8",
+    "surface": "#FFFFFF",
+    "text": "#13223A",
+    "muted": "#5A6B80",
+    "primary": "#13223A",
+    "accent": "#8A6A20",
+    "highlight": "#13223A",
+    "onHighlight": "#FFFFFF"
+  },
+  "captionPreset": "lineByLine",
+  "captionStyle": {
+    "font": "body",
+    "uppercase": false,
+    "stroke": 0,
+    "scale": 1
+  },
+  "defaultTextAnim": "MaskWipe",
+  "secondaryTextAnim": "Counter",
+  "ctaTextAnim": "SlideMask",
+  "defaultTransition": "wipe",
+  "transitionFrames": 16,
+  "fx": [],
+  "fxIntensity": {},
+  "background": {
+    "kind": "gradient",
+    "colors": [
+      "#F4F6F8",
+      "#E1E7EE"
+    ],
+    "patternOpacity": 0.16,
+    "angle": 180
+  },
+  "headline": {
+    "size": 84,
+    "hookSize": 98,
+    "align": "left",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 4px 26px #F4F6F8d9",
+    "scrim": 0.72
+  },
+  "card": {
+    "glass": true,
+    "radius": 8
+  },
+  "kenBurns": "out",
+  "tempo": 1.15,
+  "meta": {
+    "family": "finance",
+    "mood": [
+      "premium",
+      "trustworthy",
+      "airy"
+    ],
+    "niches": [
+      "real-estate",
+      "construction",
+      "interior",
+      "mortgage"
+    ],
+    "aida": [
+      "interest",
+      "desire"
+    ],
+    "description_uz": "Toza koʻchmas mulk: yorugʻ havodor fon, keng oraliqli bosh harflar, toʻq koʻk va bronza, sekin kamera. Uy-joy, qurilish, interyer va ipoteka uchun.",
+    "since": "2026-09"
+  }
+}

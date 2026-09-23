@@ -1,0 +1,92 @@
+{
+  "name": "academic",
+  "label": "Academic",
+  "description": "Akademik: fil suyagi fon, Lora serif, toʻq koʻk matn, oltin marker, chiziqli daftar.",
+  "tone": "light",
+  "fonts": {
+    "display": {
+      "family": "Lora",
+      "weight": 700,
+      "lightWeight": 400,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.6
+    },
+    "body": {
+      "family": "Inter",
+      "weight": 500,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.58
+    }
+  },
+  "colors": {
+    "bg": "#F7F4EC",
+    "surface": "#FFFFFF",
+    "text": "#1B2A41",
+    "muted": "#5B6475",
+    "primary": "#1B2A41",
+    "accent": "#8C2F39",
+    "highlight": "#F2D492",
+    "onHighlight": "#1B2A41"
+  },
+  "captionPreset": "pillGlass",
+  "captionStyle": {
+    "font": "body",
+    "uppercase": false,
+    "stroke": 0,
+    "scale": 1
+  },
+  "defaultTextAnim": "MaskWipe",
+  "secondaryTextAnim": "Counter",
+  "ctaTextAnim": "SlideMask",
+  "defaultTransition": "fade",
+  "transitionFrames": 16,
+  "fx": [],
+  "fxIntensity": {},
+  "background": {
+    "kind": "pattern",
+    "colors": [
+      "#F7F4EC"
+    ],
+    "pattern": "lines",
+    "patternColor": "#1B2A41",
+    "patternOpacity": 0.1,
+    "angle": 160
+  },
+  "headline": {
+    "size": 100,
+    "hookSize": 116,
+    "align": "left",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 4px 26px #F7F4ECd9",
+    "scrim": 0.72
+  },
+  "card": {
+    "glass": false,
+    "radius": 12
+  },
+  "kenBurns": "out",
+  "tempo": 1.15,
+  "meta": {
+    "family": "editorial",
+    "mood": [
+      "calm",
+      "credible",
+      "scholarly"
+    ],
+    "niches": [
+      "education",
+      "courses",
+      "tutoring",
+      "university"
+    ],
+    "aida": [
+      "interest",
+      "desire"
+    ],
+    "description_uz": "Akademik uslub: fil suyagi rang fon, serif sarlavha, toʻq koʻk matn va oltin marker. Oʻquv markazlari, kurslar, repetitorlar va universitetlar uchun.",
+    "since": "2026-09"
+  }
+}

@@ -3,7 +3,7 @@ import { AbsoluteFill, Html5Audio, interpolate, Sequence, useCurrentFrame, useVi
 import { TransitionSeries } from "@remotion/transitions";
 import type { ReelsProps, Scene } from "../props";
 import { CTA_SECONDS, sceneFrames, sceneStarts, sequenceFramesVar, transitionList } from "../lib/timing";
-import { getTheme, resolveLook, type Look } from "../motion/styles";
+import { pickTheme, resolveLook, type Look } from "../motion/styles";
 import { pickTransition } from "../motion/transitions";
 import { normalizeFx, type FxName } from "../motion/fx/names";
 import { ChromaticAberration, FilmGrain, LensFlare, LightLeak, Particles, ProgressBar, Shake, Vignette } from "../motion/fx";
@@ -38,13 +38,13 @@ export function scrimOpacity(frame: number, windows: TextWindow[]): number {
   );
 }
 
-const HeadlineScrim: React.FC<{ windows: TextWindow[]; strength: number }> = ({ windows, strength }) => {
+const HeadlineScrim: React.FC<{ windows: TextWindow[]; strength: number; rgb?: string }> = ({ windows, strength, rgb = "0,0,0" }) => {
   const frame = useCurrentFrame();
   const o = scrimOpacity(frame, windows) * strength;
   if (o <= 0) return null;
   return (
     <AbsoluteFill
-      style={{ opacity: o, background: "linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.75) 30%, rgba(0,0,0,0) 58%)" }}
+      style={{ opacity: o, background: `linear-gradient(180deg, rgba(${rgb},0.9) 0%, rgba(${rgb},0.75) 30%, rgba(${rgb},0) 58%)` }}
     />
   );
 };
@@ -97,7 +97,7 @@ const SceneLayer: React.FC<{
           <LightLeak intensity={I.lightLeak ?? 0.55} seed={index} />
         </Sequence>
       ) : null}
-      {title && scene.title ? <HeadlineScrim windows={[title]} strength={theme.headline.scrim} /> : null}
+      {title && scene.title ? <HeadlineScrim windows={[title]} strength={theme.headline.scrim} rgb={look.scrimRgb} /> : null}
       {title && scene.title ? (
         <Headline
           text={scene.title}
@@ -118,8 +118,9 @@ const SceneLayer: React.FC<{
 
 /**
  * Shared layout of ReelsBasic / ReelsParallax, driven by a StyleTheme
- * (props.style) plus per-scene overrides (textAnim, title, transition, fx,
- * kenBurns, captionPreset). Old props (no style) render with the "bold" theme.
+ * (props.theme when valid, else props.style) plus per-scene overrides
+ * (textAnim, title, transition, fx, kenBurns, captionPreset). Old props (no
+ * style) render with the "bold" theme.
  */
 export const Reel: React.FC<ReelsProps & { parallax: boolean; debugSafeArea?: boolean }> = ({
   audioUrl,
@@ -128,12 +129,13 @@ export const Reel: React.FC<ReelsProps & { parallax: boolean; debugSafeArea?: bo
   brand,
   parallax,
   style,
+  theme: themeOverride,
   hookText,
   captionPreset,
   debugSafeArea = false,
 }) => {
   const { fps, durationInFrames, width, height } = useVideoConfig();
-  const theme = useMemo(() => getTheme(style), [style]);
+  const theme = useMemo(() => pickTheme(style, themeOverride).theme, [style, themeOverride]);
   const look = useMemo(() => resolveLook(theme, brand), [theme, brand]);
   const reg = regions(width, height);
 
@@ -209,9 +211,9 @@ export const Reel: React.FC<ReelsProps & { parallax: boolean; debugSafeArea?: bo
       <ThemeBackground look={look} />
       <TransitionSeries>{series}</TransitionSeries>
       {/* Legibility scrims: caption band (always) and headline area (while a title is on screen). */}
-      <AbsoluteFill style={{ background: "linear-gradient(180deg, transparent 55%, rgba(0,0,0,0.55) 100%)" }} />
+      <AbsoluteFill style={{ background: `linear-gradient(180deg, transparent 55%, rgba(${look.scrimRgb},${theme.tone === "light" ? 0.72 : 0.55}) 100%)` }} />
       {/* Hook scrim here; scene-title scrims live inside each scene, under the title. */}
-      {hook ? <HeadlineScrim windows={[hook]} strength={theme.headline.scrim} /> : null}
+      {hook ? <HeadlineScrim windows={[hook]} strength={theme.headline.scrim} rgb={look.scrimRgb} /> : null}
       {anyFx("vignette") ? <Vignette intensity={I.vignette ?? 0.5} /> : null}
       {anyFx("particles") ? <Particles color={theme.particlesColor ?? look.colors.accent} count={36} seed={theme.name} /> : null}
       {anyFx("lensFlare") ? <LensFlare intensity={0.35} color={look.colors.accent} /> : null}

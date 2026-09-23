@@ -1,0 +1,97 @@
+{
+  "name": "kids",
+  "label": "Kids",
+  "description": "Bolalar: Fredoka yumaloq harflar, yorqin koʻk-sariq, katta soʻz subtitr, flip.",
+  "tone": "light",
+  "fonts": {
+    "display": {
+      "family": "Fredoka",
+      "weight": 700,
+      "lightWeight": 400,
+      "uppercase": false,
+      "letterSpacing": 0,
+      "charEm": 0.58
+    },
+    "body": {
+      "family": "Nunito",
+      "weight": 800,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.6
+    }
+  },
+  "colors": {
+    "bg": "#FFF8E1",
+    "surface": "#FFFFFF",
+    "text": "#1E1B4B",
+    "muted": "#5B5A7A",
+    "primary": "#3B82F6",
+    "accent": "#C8103A",
+    "highlight": "#FFD23F",
+    "onHighlight": "#1E1B4B"
+  },
+  "captionPreset": "bigWord",
+  "captionStyle": {
+    "font": "display",
+    "uppercase": true,
+    "stroke": 7,
+    "strokeColor": "#FFFFFF",
+    "scale": 1
+  },
+  "defaultTextAnim": "BounceIn",
+  "secondaryTextAnim": "Counter",
+  "ctaTextAnim": "WordPop",
+  "defaultTransition": "flip",
+  "transitionFrames": 12,
+  "fx": [
+    "particles"
+  ],
+  "fxIntensity": {},
+  "background": {
+    "kind": "pattern",
+    "colors": [
+      "#FFF8E1",
+      "#FFEFC2"
+    ],
+    "pattern": "dots",
+    "patternColor": "#3B82F6",
+    "patternOpacity": 0.2,
+    "angle": 160
+  },
+  "headline": {
+    "size": 116,
+    "hookSize": 136,
+    "align": "center",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 4px 26px #FFF8E1d9",
+    "scrim": 0.72
+  },
+  "card": {
+    "glass": false,
+    "radius": 44
+  },
+  "kenBurns": "in",
+  "tempo": 0.9,
+  "particlesColor": "#3B82F6",
+  "meta": {
+    "family": "playful",
+    "mood": [
+      "fun",
+      "bright",
+      "cheerful"
+    ],
+    "niches": [
+      "kindergarten",
+      "toys",
+      "kids-education",
+      "kids-clothes"
+    ],
+    "aida": [
+      "attention",
+      "interest"
+    ],
+    "description_uz": "Bolalar dunyosi: yorqin koʻk-sariq ranglar, yumaloq harflar, sakrovchi animatsiya va ulkan soʻz subtitr. Bogʻcha, oʻyinchoqlar va bolalar taʼlimi uchun.",
+    "since": "2026-09"
+  }
+}

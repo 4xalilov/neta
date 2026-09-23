@@ -1,0 +1,100 @@
+{
+  "name": "y2k",
+  "label": "Y2K",
+  "description": "2000-yillar: Syne katta harflar, xrom/kislota ranglar, kontur→toʻla matn, flip, xromatik.",
+  "tone": "dark",
+  "fonts": {
+    "display": {
+      "family": "Syne",
+      "weight": 700,
+      "lightWeight": 400,
+      "uppercase": true,
+      "letterSpacing": 0,
+      "charEm": 0.78
+    },
+    "body": {
+      "family": "Space Grotesk",
+      "weight": 600,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.58
+    }
+  },
+  "colors": {
+    "bg": "#0D0221",
+    "surface": "#1B0A3A",
+    "text": "#F8F7FF",
+    "muted": "#B8A8E8",
+    "primary": "#7DF9FF",
+    "accent": "#FF77E9",
+    "highlight": "#C3F73A",
+    "onHighlight": "#0D0221"
+  },
+  "captionPreset": "pillGlass",
+  "captionStyle": {
+    "font": "body",
+    "uppercase": true,
+    "stroke": 0,
+    "scale": 0.95
+  },
+  "defaultTextAnim": "Outline2Fill",
+  "secondaryTextAnim": "Scramble",
+  "ctaTextAnim": "BounceIn",
+  "defaultTransition": "flip",
+  "transitionFrames": 14,
+  "fx": [
+    "chromatic",
+    "particles",
+    "grain"
+  ],
+  "fxIntensity": {
+    "grain": 0.06,
+    "chromatic": 8
+  },
+  "background": {
+    "kind": "mesh",
+    "colors": [
+      "#FF77E977",
+      "#7DF9FF66",
+      "#C3F73A44"
+    ],
+    "patternOpacity": 0.16,
+    "angle": 160
+  },
+  "headline": {
+    "size": 92,
+    "hookSize": 108,
+    "align": "center",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 0 30px rgba(255,119,233,0.55)",
+    "scrim": 0.45
+  },
+  "card": {
+    "glass": true,
+    "radius": 40
+  },
+  "kenBurns": "in",
+  "tempo": 1,
+  "particlesColor": "#FF77E9",
+  "meta": {
+    "family": "bold",
+    "mood": [
+      "retro",
+      "playful",
+      "trendy"
+    ],
+    "niches": [
+      "fashion",
+      "music",
+      "streetwear",
+      "beauty"
+    ],
+    "aida": [
+      "attention",
+      "interest"
+    ],
+    "description_uz": "Y2K nostalgiyasi: xrom va kislotali ranglar, konturdan toʻladigan matn, shisha subtitr. Moda, musiqa va trenddagi yoshlar brendlari uchun.",
+    "since": "2026-09"
+  }
+}

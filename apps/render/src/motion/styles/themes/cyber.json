@@ -1,0 +1,101 @@
+{
+  "name": "cyber",
+  "label": "Cyber",
+  "description": "Kiber: Exo 2 katta harflar, matritsa-yashil, skan-chiziqlar, Scramble→Glitch, glitch-kesim.",
+  "tone": "dark",
+  "fonts": {
+    "display": {
+      "family": "Exo 2",
+      "weight": 800,
+      "lightWeight": 300,
+      "uppercase": true,
+      "letterSpacing": 0.02,
+      "charEm": 0.66
+    },
+    "body": {
+      "family": "Exo 2",
+      "weight": 600,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.58
+    }
+  },
+  "colors": {
+    "bg": "#020409",
+    "surface": "#0B1220",
+    "text": "#E8FFF8",
+    "muted": "#7FA89C",
+    "primary": "#00FFA3",
+    "accent": "#00FFA3",
+    "highlight": "#FFE600",
+    "onHighlight": "#020409"
+  },
+  "captionPreset": "boxHighlight",
+  "captionStyle": {
+    "font": "body",
+    "uppercase": true,
+    "stroke": 0,
+    "scale": 1
+  },
+  "defaultTextAnim": "Scramble",
+  "secondaryTextAnim": "Glitch",
+  "ctaTextAnim": "TypeWriter",
+  "defaultTransition": "glitchCut",
+  "transitionFrames": 8,
+  "fx": [
+    "chromatic",
+    "glow",
+    "grain"
+  ],
+  "fxIntensity": {
+    "grain": 0.07,
+    "chromatic": 10,
+    "glow": 18
+  },
+  "background": {
+    "kind": "pattern",
+    "colors": [
+      "#020409",
+      "#04140F"
+    ],
+    "pattern": "scanlines",
+    "patternColor": "#00FFA3",
+    "patternOpacity": 0.08,
+    "angle": 160
+  },
+  "headline": {
+    "size": 100,
+    "hookSize": 118,
+    "align": "center",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 0 22px rgba(0,255,163,0.45)",
+    "scrim": 0.45
+  },
+  "card": {
+    "glass": true,
+    "radius": 6
+  },
+  "kenBurns": "in",
+  "tempo": 1,
+  "meta": {
+    "family": "neon",
+    "mood": [
+      "futuristic",
+      "edgy",
+      "techy"
+    ],
+    "niches": [
+      "gaming",
+      "cybersecurity",
+      "it",
+      "esports"
+    ],
+    "aida": [
+      "attention",
+      "interest"
+    ],
+    "description_uz": "Kiberpank terminal: matritsa-yashil nur, CRT skan-chiziqlar, shifrlangan matn. Geyming, kiberxavfsizlik, IT va kibersport uchun.",
+    "since": "2026-09"
+  }
+}

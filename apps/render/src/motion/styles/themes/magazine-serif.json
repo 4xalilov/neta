@@ -1,0 +1,96 @@
+{
+  "name": "magazine-serif",
+  "label": "Magazine Serif",
+  "description": "Glyanets jurnal muqovasi: DM Serif Display, pushti aksent, 3D soʻzlar, iris kesim, light leak.",
+  "tone": "dark",
+  "fonts": {
+    "display": {
+      "family": "DM Serif Display",
+      "weight": 400,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.56
+    },
+    "body": {
+      "family": "Montserrat",
+      "weight": 500,
+      "uppercase": false,
+      "letterSpacing": 0.04,
+      "charEm": 0.64
+    }
+  },
+  "colors": {
+    "bg": "#120C10",
+    "surface": "#1E1519",
+    "text": "#FFF8F3",
+    "muted": "#B5A39B",
+    "primary": "#FF6F91",
+    "accent": "#FF8FA3",
+    "highlight": "#FF8FA3",
+    "onHighlight": "#120C10"
+  },
+  "captionPreset": "karaoke",
+  "captionStyle": {
+    "font": "body",
+    "uppercase": true,
+    "stroke": 0,
+    "scale": 0.8
+  },
+  "defaultTextAnim": "Split3D",
+  "secondaryTextAnim": "Highlighter",
+  "ctaTextAnim": "MaskWipe",
+  "defaultTransition": "iris",
+  "transitionFrames": 16,
+  "fx": [
+    "vignette",
+    "lightLeak"
+  ],
+  "fxIntensity": {
+    "vignette": 0.4,
+    "lightLeak": 0.4
+  },
+  "background": {
+    "kind": "mesh",
+    "colors": [
+      "#FF6F9133",
+      "#6B2B4855"
+    ],
+    "patternOpacity": 0.16,
+    "angle": 160
+  },
+  "headline": {
+    "size": 124,
+    "hookSize": 144,
+    "align": "center",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 8px 30px rgba(0,0,0,0.55)",
+    "scrim": 0.45
+  },
+  "card": {
+    "glass": true,
+    "radius": 6
+  },
+  "kenBurns": "right",
+  "tempo": 1.1,
+  "meta": {
+    "family": "editorial",
+    "mood": [
+      "chic",
+      "glossy",
+      "confident"
+    ],
+    "niches": [
+      "fashion",
+      "beauty",
+      "lifestyle",
+      "boutique"
+    ],
+    "aida": [
+      "interest",
+      "desire"
+    ],
+    "description_uz": "Glyanets jurnal muqovasi: yirik kontrastli serif, pushti aksent, iliq yorugʻlik sizishi. Moda, goʻzallik, butik va lifestyle uchun.",
+    "since": "2026-09"
+  }
+}

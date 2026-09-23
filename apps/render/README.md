@@ -8,7 +8,7 @@ MinIO/S3 and returns the object URI as the job result.
 src/
   index.ts / Root.tsx         registerRoot + <Composition> ReelsBasic, ReelsParallax, StyleCatalog
   props.ts                    zod props schema, brand defaults (docs/08), demo props
-  compositions/               ReelsBasic.tsx, ReelsParallax.tsx, StyleCatalog.tsx (review sheet)
+  compositions/               ReelsBasic.tsx, ReelsParallax.tsx, StyleCatalog.tsx (review), CatalogSheet.tsx (contact sheet)
   components/                 Reel (shared themed layout), Headline, CTA, KenBurnsImage,
                               ParallaxImage, ThemeBackground, Background, Subtitles, Logo
   motion/                     motion library (docs/11-motion-library.md):
@@ -18,17 +18,21 @@ src/
                                 ProgressBar, Particles, GradientMesh, LensFlare
     transitions/                zoomPunch, whipPan, glitchCut, maskCircle, slice + built-ins, pickTransition()
     layout/                     SafeArea (IG safe zones), LowerThird, Chip/Badge, Card, Divider, ImageFrame
-    styles/                     StyleTheme zod schema, 7 themes, getTheme(), resolveLook(theme, brand)
+    styles/                     StyleTheme zod schema, themes/*.json (45 themes as DATA) + generated themes/index.ts,
+                                registry (getTheme, pickTheme), resolveLook(theme, brand), contrast (WCAG), patterns
     captions/                   caption presets karaoke / boxHighlight / pillGlass / bigWord / lineByLine
-  lib/                        captions (pageWords), kenBurns, timing, metadata, fonts, env
+  lib/                        captions (pageWords), kenBurns, timing, metadata, fonts, env,
+                              woff2/fontFiles (cmap glyph checks), themeFiles, themeValidate, stills (Node-side)
+  cli/                        themesIndex.ts, themesSchema.ts, validateTheme.ts
   render.ts                   bundle() once per process → selectComposition → renderMedia
   storage.ts                  S3/MinIO upload (forcePathStyle)
   job.ts                      job schema + processRenderJob()
   worker.ts                   BullMQ Worker (queue $RENDER_QUEUE, default "render")
   enqueue.ts                  manual producer (npm run enqueue)
   renderLocal.ts              npm run render:demo → out/demo.mp4
-  renderCatalog.ts            npm run render:catalog → out/catalog/<theme>.png
-public/fonts/                 offline fonts (Plus Jakarta Sans, Manrope, Playfair Display, Anton)
+  renderCatalog.ts            npm run render:catalog → out/catalog/<theme>.png + out/catalog/_sheet.png
+schemas/style-theme.schema.json   JSON Schema of a theme (generated; the Python side validates candidates with it)
+public/fonts/                 28 offline OFL font families (see public/fonts/README.md)
 ```
 
 ## Scripts
@@ -39,7 +43,10 @@ public/fonts/                 offline fonts (Plus Jakarta Sans, Manrope, Playfai
 | `npm test` | vitest (`src/__tests__`) |
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run render:demo` | render `defaultProps` → `out/demo.mp4`, no Redis/S3 needed |
-| `npm run render:catalog` | one PNG still per StyleTheme → `out/catalog/<theme>.png` (scale 0.5, 540×960) |
+| `npm run render:catalog` | one PNG still per StyleTheme → `out/catalog/<theme>.png` (scale 0.5, 540×960) + contact sheet `out/catalog/_sheet.png` (6 columns) |
+| `npm run themes:index` | regenerate `src/motion/styles/themes/index.ts` from the `*.json` files (`-- --check`: fail if stale) |
+| `npm run themes:schema` | write `schemas/style-theme.schema.json` (JSON Schema draft 2020-12; `-- --check`) |
+| `npm run theme:validate -- <theme.json> [--still out.png] [--no-still]` | render-side quality gate for a theme candidate (see below) |
 | `npm run worker` | start the BullMQ worker (`node --import tsx src/worker.ts`) |
 | `npm run enqueue -- props.json [ReelsParallax] [--wait]` | push a job (bare props or a full job payload) |
 
@@ -48,15 +55,50 @@ public/fonts/                 offline fonts (Plus Jakarta Sans, Manrope, Playfai
 
 `render:catalog` env: `CATALOG_THEMES=bold,neon` (subset), `CATALOG_SCALE=0.5`,
 `CATALOG_FRAME=100` (frame inside each 130-frame theme segment), `CATALOG_SAFE=1`
-(paints the Instagram unsafe zones; writes `<theme>-safe.png`). It uses the same
-`REMOTION_BROWSER` / `REMOTION_CHROME_MODE` handling as the worker:
+(paints the Instagram unsafe zones; writes `<theme>-safe.png`), `CATALOG_SHEET=0` (skip the sheet),
+`CATALOG_CONCURRENCY=1` (parallel tabs are not faster here). One bundle + one browser for the whole run:
+45 stills ≈ 35 s + sheet ≈ 2.5 s. It uses the same `REMOTION_BROWSER` / `REMOTION_CHROME_MODE` handling as the worker:
 
 ```bash
 REMOTION_BROWSER=/opt/pw-browsers/chromium-1194/chrome-linux/chrome npm run render:catalog
 ```
 
 In Studio, the **StyleCatalog** composition plays every theme for 130 frames, showing its hook preset,
-its secondary preset, caption preset, fx stack and default transition over a demo scene.
+its secondary preset, caption preset, fx stack and default transition over a demo scene. **CatalogSheet**
+shows all of them at once (frame 100, 6-column grid).
+
+## Themes are data (roadmap 2.8)
+
+Every theme is `src/motion/styles/themes/<name>.json`, validated with the zod `StyleTheme` schema when the
+registry loads (`src/motion/styles/registry.ts`); `getTheme(name)` is unchanged (unknown → `bold`). The list
+of imports lives in the generated `themes/index.ts` (explicit JSON imports — works in Remotion's webpack,
+vitest and tsx). Catalog, families, moods, niches and AIDA fit: docs/11-motion-library.md.
+
+**Add a theme**
+
+1. Copy a similar JSON to `src/motion/styles/themes/<name>.json` (`name` = file name, `a-z0-9-`), fill `meta`.
+2. `npm run themes:index`
+3. `npm run theme:validate -- src/motion/styles/themes/<name>.json` and look at the still it prints.
+4. `npm test` (registry, contrast, fonts, index freshness) and `npm run render:catalog`.
+
+A new font: put the woff2 subsets + `OFL-<Family>.txt` in `public/fonts/`, register it in `LOCAL_FONTS` and
+`FONT_UZ_GLYPHS` (`src/lib/fonts.ts`); `fonts.test.ts` tells you the correct ʻ/ʼ values.
+
+**`theme:validate` contract** — prints one JSON object on stdout (logs on stderr):
+
+```jsonc
+// exit 0
+{ "ok": true, "name": "navruz-2", "still": "/abs/out/validate/navruz-2.png", "warnings": [ … ], "contrast": [ { "pair": "text/bg", "ratio": 13.6, "min": 4.5, "ok": true }, … ] }
+// exit 1 (exit 2 = usage / render error)
+{ "ok": false, "name": "navruz-2", "problems": [ { "code": "contrast", "path": "colors", "message": "text/bg: #2A4F5A on #042F3A = 1.61:1 < 4.5:1" } ], "warnings": [ … ], "contrast": [ … ], "still": "/abs/…png" }
+```
+
+Problem codes: `json`, `schema` (with `path`), `font_unavailable`, `font_files_missing`, `font_weight`,
+`uzbek_table`, `uzbek_glyphs`, `contrast` (text/bg, text/surface, accent/bg, onHighlight/highlight ≥ 4.5;
+muted/bg ≥ 3; highlight/bg ≥ 1.25), `anim_duplicate`, `pattern_missing`, `tone_mismatch`, `render`.
+Warnings: `font_network`, `no_cyrillic`, `headline_size`, `name_exists`. The still (StyleCatalog frame 100,
+540×960; default `out/validate/<name>.png`) is rendered whenever the schema passes, so the Python side can run
+VisionQA on it. The core is `validateTheme()` in `src/lib/themeValidate.ts`.
 
 ## Environment
 
@@ -102,7 +144,9 @@ ffmpeg/ffprobe are bundled with Remotion (`@remotion/compositor-linux-x64-*`); u
   },
 
   // ── motion library (all optional; old props render exactly with the "bold" theme) ──
-  "style": "bold",                // bold | minimal | neon | editorial | corporate | hype | luxury
+  "style": "bold",                // any catalog theme name (docs/11, 45 themes); unknown → bold
+  "theme": null,                  // optional FULL StyleTheme object (schemas/style-theme.schema.json, meta optional):
+                                  // valid → wins over `style` (DB-approved themes without redeploy); invalid → warning, `style` is used
   "hookText": "Bugun *50%* chegirma", // big hook 0–3 s (scene 0 textAnim or theme.defaultTextAnim)
   "captionPreset": null           // karaoke | boxHighlight | pillGlass | bigWord | lineByLine; null → theme
 }
@@ -126,7 +170,8 @@ Per scene (all optional):
 
 - **Lenient enums**: an unknown `textAnim` / `transition` / `kenBurns` / `captionPreset`
   becomes `null`, which means the theme default. The job does not fail. Unknown
-  `fx` names and unknown `style` names (→ `bold`) are ignored the same way.
+  `fx` names and unknown `style` names (→ `bold`) are ignored the same way. An invalid `theme`
+  object is dropped (`null`, warning in the log) and `style` is used.
 - **Theme vs brand**: a `brand` field that differs from the docs/08 default was set on
   purpose and wins over the theme (e.g. `style:"neon"` with `brand.accent:"#FF5500"`
   keeps orange). Brand fields left at their defaults take the theme colours and fonts.

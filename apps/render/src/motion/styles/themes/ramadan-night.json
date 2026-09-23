@@ -1,0 +1,99 @@
+{
+  "name": "ramadan-night",
+  "label": "Ramadan Night",
+  "description": "Ramazon kechasi: toʻq koʻk tun, hilol va yulduzlar, Playfair, oltin, sekin fade.",
+  "tone": "dark",
+  "fonts": {
+    "display": {
+      "family": "Playfair Display",
+      "weight": 700,
+      "lightWeight": 400,
+      "uppercase": false,
+      "letterSpacing": 0,
+      "charEm": 0.58
+    },
+    "body": {
+      "family": "Montserrat",
+      "weight": 500,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.64
+    }
+  },
+  "colors": {
+    "bg": "#0A1030",
+    "surface": "#141B45",
+    "text": "#F5F1E6",
+    "muted": "#A9A6C4",
+    "primary": "#E8C872",
+    "accent": "#F2D48A",
+    "highlight": "#E8C872",
+    "onHighlight": "#0A1030"
+  },
+  "captionPreset": "lineByLine",
+  "captionStyle": {
+    "font": "body",
+    "uppercase": false,
+    "stroke": 0,
+    "scale": 0.9
+  },
+  "defaultTextAnim": "CharCascade",
+  "secondaryTextAnim": "Highlighter",
+  "ctaTextAnim": "BlurFocus",
+  "defaultTransition": "fade",
+  "transitionFrames": 20,
+  "fx": [
+    "particles",
+    "vignette"
+  ],
+  "fxIntensity": {
+    "vignette": 0.5
+  },
+  "background": {
+    "kind": "pattern",
+    "colors": [
+      "#0A1030",
+      "#1E2A6B"
+    ],
+    "pattern": "stars",
+    "patternColor": "#F2D48A",
+    "patternOpacity": 0.35,
+    "angle": 180
+  },
+  "headline": {
+    "size": 100,
+    "hookSize": 116,
+    "align": "center",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 8px 30px rgba(0,0,0,0.55)",
+    "scrim": 0.45
+  },
+  "card": {
+    "glass": true,
+    "radius": 24
+  },
+  "kenBurns": "out",
+  "tempo": 1.3,
+  "particlesColor": "#F2D48A",
+  "meta": {
+    "family": "uzbek",
+    "mood": [
+      "serene",
+      "spiritual",
+      "warm"
+    ],
+    "niches": [
+      "charity",
+      "iftar-restaurant",
+      "holiday-greeting",
+      "retail"
+    ],
+    "aida": [
+      "interest",
+      "desire"
+    ],
+    "description_uz": "Ramazon kechasi: toʻq koʻk osmon, hilol va yulduzlar, oltin harflar, sokin sekin oʻtishlar. Iftorlik, xayriya, bayram tabriklari va savdo uchun.",
+    "since": "2026-09"
+  }
+}

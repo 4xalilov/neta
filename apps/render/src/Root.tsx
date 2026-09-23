@@ -9,6 +9,7 @@ import {
   catalogDefaultProps,
   styleCatalogSchema,
 } from "./compositions/StyleCatalog";
+import { CatalogSheet, calculateSheetMetadata, catalogSheetDefaultProps, catalogSheetSchema } from "./compositions/CatalogSheet";
 import { defaultProps, reelsPropsSchema } from "./props";
 import { calculateReelsMetadata } from "./lib/metadata";
 import { FPS, HEIGHT, WIDTH, totalFrames } from "./lib/timing";
@@ -39,6 +40,18 @@ export const RemotionRoot: React.FC = () => {
         schema={styleCatalogSchema}
         defaultProps={catalogDefaultProps}
         calculateMetadata={calculateCatalogMetadata}
+      />
+      {/* Review-only: contact sheet of all themes (render:catalog → out/catalog/_sheet.png). */}
+      <Composition
+        id="CatalogSheet"
+        component={CatalogSheet}
+        width={1080}
+        height={1920}
+        fps={FPS}
+        durationInFrames={1}
+        schema={catalogSheetSchema}
+        defaultProps={catalogSheetDefaultProps}
+        calculateMetadata={calculateSheetMetadata}
       />
     </>
   );

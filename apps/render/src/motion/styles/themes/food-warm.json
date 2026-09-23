@@ -1,0 +1,98 @@
+{
+  "name": "food-warm",
+  "label": "Food Warm",
+  "description": "Ovqat: Pacifico qoʻlyozma sarlavha, iliq toʻq sariq, sakrab kirish, zoom-punch, light leak.",
+  "tone": "dark",
+  "fonts": {
+    "display": {
+      "family": "Pacifico",
+      "weight": 400,
+      "uppercase": false,
+      "letterSpacing": 0,
+      "charEm": 0.56
+    },
+    "body": {
+      "family": "Rubik",
+      "weight": 700,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.6
+    }
+  },
+  "colors": {
+    "bg": "#1A0D05",
+    "surface": "#2A160A",
+    "text": "#FFF3E6",
+    "muted": "#C9A58A",
+    "primary": "#FF7A1A",
+    "accent": "#FFB23F",
+    "highlight": "#FF7A1A",
+    "onHighlight": "#1A0D05"
+  },
+  "captionPreset": "boxHighlight",
+  "captionStyle": {
+    "font": "body",
+    "uppercase": false,
+    "stroke": 5,
+    "scale": 1
+  },
+  "defaultTextAnim": "BounceIn",
+  "secondaryTextAnim": "Counter",
+  "ctaTextAnim": "Highlighter",
+  "defaultTransition": "zoomPunch",
+  "transitionFrames": 10,
+  "fx": [
+    "lightLeak",
+    "grain",
+    "vignette"
+  ],
+  "fxIntensity": {
+    "grain": 0.05,
+    "vignette": 0.35,
+    "lightLeak": 0.6
+  },
+  "background": {
+    "kind": "gradient",
+    "colors": [
+      "#1A0D05",
+      "#3A1A08"
+    ],
+    "patternOpacity": 0.16,
+    "angle": 180
+  },
+  "headline": {
+    "size": 104,
+    "hookSize": 120,
+    "align": "center",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 8px 30px rgba(0,0,0,0.6)",
+    "scrim": 0.45
+  },
+  "card": {
+    "glass": false,
+    "radius": 32
+  },
+  "kenBurns": "in",
+  "tempo": 1,
+  "meta": {
+    "family": "warm",
+    "mood": [
+      "appetizing",
+      "warm",
+      "friendly"
+    ],
+    "niches": [
+      "restaurant",
+      "fast-food",
+      "bakery",
+      "delivery"
+    ],
+    "aida": [
+      "desire",
+      "action"
+    ],
+    "description_uz": "Ishtaha ochuvchi: iliq toʻq sariq ranglar, qoʻlyozma sarlavha, narx sanalib chiqadi. Restoran, fast-fud, nonvoyxona va yetkazib berish uchun.",
+    "since": "2026-09"
+  }
+}

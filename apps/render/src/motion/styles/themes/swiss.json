@@ -1,0 +1,92 @@
+{
+  "name": "swiss",
+  "label": "Swiss",
+  "description": "Shveytsariya tipografiyasi: oq fon, qora Inter, qizil aksent, toʻr, chapga tekis, wipe.",
+  "tone": "light",
+  "fonts": {
+    "display": {
+      "family": "Inter",
+      "weight": 800,
+      "lightWeight": 300,
+      "uppercase": false,
+      "letterSpacing": -0.04,
+      "charEm": 0.62
+    },
+    "body": {
+      "family": "Inter",
+      "weight": 500,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.58
+    }
+  },
+  "colors": {
+    "bg": "#F4F4EF",
+    "surface": "#FFFFFF",
+    "text": "#111111",
+    "muted": "#5E5E5E",
+    "primary": "#E30613",
+    "accent": "#C8000F",
+    "highlight": "#E30613",
+    "onHighlight": "#FFFFFF"
+  },
+  "captionPreset": "lineByLine",
+  "captionStyle": {
+    "font": "body",
+    "uppercase": false,
+    "stroke": 0,
+    "scale": 1
+  },
+  "defaultTextAnim": "SlideMask",
+  "secondaryTextAnim": "Highlighter",
+  "ctaTextAnim": "MaskWipe",
+  "defaultTransition": "wipe",
+  "transitionFrames": 12,
+  "fx": [],
+  "fxIntensity": {},
+  "background": {
+    "kind": "pattern",
+    "colors": [
+      "#F4F4EF"
+    ],
+    "pattern": "grid",
+    "patternColor": "#111111",
+    "patternOpacity": 0.07,
+    "angle": 160
+  },
+  "headline": {
+    "size": 112,
+    "hookSize": 132,
+    "align": "left",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 0 0 transparent",
+    "scrim": 0.72
+  },
+  "card": {
+    "glass": false,
+    "radius": 0
+  },
+  "kenBurns": "none",
+  "tempo": 1,
+  "meta": {
+    "family": "minimal",
+    "mood": [
+      "rational",
+      "clean",
+      "bold"
+    ],
+    "niches": [
+      "design-studio",
+      "architecture",
+      "agency",
+      "b2b"
+    ],
+    "aida": [
+      "interest",
+      "desire"
+    ],
+    "description_uz": "Shveytsariya maktabi: oq fon, qora grotesk, bitta qizil aksent va modul toʻr. Dizayn studiya, arxitektura va agentliklar uchun.",
+    "since": "2026-09"
+  }
+}

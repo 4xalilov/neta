@@ -1,0 +1,96 @@
+{
+  "name": "beauty-soft",
+  "label": "Beauty Soft",
+  "description": "Goʻzallik: pushti-pudra fon, Cormorant Garamond, olxoʻri matn, sekin fokus, fade.",
+  "tone": "light",
+  "fonts": {
+    "display": {
+      "family": "Cormorant Garamond",
+      "weight": 600,
+      "lightWeight": 300,
+      "uppercase": false,
+      "letterSpacing": 0,
+      "charEm": 0.5
+    },
+    "body": {
+      "family": "Montserrat",
+      "weight": 500,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.64
+    }
+  },
+  "colors": {
+    "bg": "#FBF0EE",
+    "surface": "#FFFFFF",
+    "text": "#4A2330",
+    "muted": "#8A6670",
+    "primary": "#E8A0A8",
+    "accent": "#A8325E",
+    "highlight": "#E8A0A8",
+    "onHighlight": "#4A2330"
+  },
+  "captionPreset": "lineByLine",
+  "captionStyle": {
+    "font": "body",
+    "uppercase": false,
+    "stroke": 0,
+    "scale": 0.9
+  },
+  "defaultTextAnim": "BlurFocus",
+  "secondaryTextAnim": "Highlighter",
+  "ctaTextAnim": "MaskWipe",
+  "defaultTransition": "fade",
+  "transitionFrames": 16,
+  "fx": [
+    "lightLeak",
+    "particles"
+  ],
+  "fxIntensity": {
+    "lightLeak": 0.3
+  },
+  "background": {
+    "kind": "mesh",
+    "colors": [
+      "#F4C7CC88",
+      "#FFE8D688"
+    ],
+    "patternOpacity": 0.16,
+    "angle": 160
+  },
+  "headline": {
+    "size": 128,
+    "hookSize": 148,
+    "align": "center",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 4px 26px #FBF0EEd9",
+    "scrim": 0.72
+  },
+  "card": {
+    "glass": true,
+    "radius": 40
+  },
+  "kenBurns": "out",
+  "tempo": 1.25,
+  "particlesColor": "#E8A0A8",
+  "meta": {
+    "family": "beauty",
+    "mood": [
+      "soft",
+      "feminine",
+      "calm"
+    ],
+    "niches": [
+      "beauty-salon",
+      "cosmetics",
+      "spa",
+      "nails"
+    ],
+    "aida": [
+      "desire"
+    ],
+    "description_uz": "Yumshoq goʻzallik: pudra-pushti fon, nafis serif, olxoʻri rang matn va sekin fokus. Goʻzallik saloni, kosmetika, SPA va manikyur uchun.",
+    "since": "2026-09"
+  }
+}

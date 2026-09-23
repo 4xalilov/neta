@@ -1,5 +1,5 @@
-// Minimal WOFF2 → cmap reader (test helper): enough to answer "does this font
-// file contain code point X?". Uses Node's built-in brotli.
+// Minimal WOFF2 → cmap reader: enough to answer "does this font file contain
+// code point X?" (fonts test, theme:validate). Node-only — uses node:zlib brotli.
 import { brotliDecompressSync } from "node:zlib";
 
 const KNOWN_TAGS = [

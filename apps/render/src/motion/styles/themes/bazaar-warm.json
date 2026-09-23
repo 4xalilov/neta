@@ -1,0 +1,101 @@
+{
+  "name": "bazaar-warm",
+  "label": "Bazaar Warm",
+  "description": "Bozor: ziravor ranglari, adras toʻlqinli naqsh, keng Unbounded, Kinetic, whip-pan.",
+  "tone": "dark",
+  "fonts": {
+    "display": {
+      "family": "Unbounded",
+      "weight": 700,
+      "lightWeight": 300,
+      "uppercase": false,
+      "letterSpacing": -0.02,
+      "charEm": 0.8
+    },
+    "body": {
+      "family": "Rubik",
+      "weight": 600,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.6
+    }
+  },
+  "colors": {
+    "bg": "#2A1004",
+    "surface": "#3D1A08",
+    "text": "#FFF4E0",
+    "muted": "#D6B08A",
+    "primary": "#E4572E",
+    "accent": "#FFB627",
+    "highlight": "#FFB627",
+    "onHighlight": "#2A1004"
+  },
+  "captionPreset": "boxHighlight",
+  "captionStyle": {
+    "font": "body",
+    "uppercase": false,
+    "stroke": 5,
+    "scale": 1
+  },
+  "defaultTextAnim": "Kinetic",
+  "secondaryTextAnim": "Counter",
+  "ctaTextAnim": "Highlighter",
+  "defaultTransition": "whipPan",
+  "transitionFrames": 12,
+  "fx": [
+    "lightLeak",
+    "grain",
+    "shake"
+  ],
+  "fxIntensity": {
+    "grain": 0.08,
+    "shake": 6,
+    "lightLeak": 0.5
+  },
+  "background": {
+    "kind": "pattern",
+    "colors": [
+      "#2A1004",
+      "#4A1C08"
+    ],
+    "pattern": "adras",
+    "patternColor": "#E4572E",
+    "patternOpacity": 0.3,
+    "angle": 160
+  },
+  "headline": {
+    "size": 92,
+    "hookSize": 108,
+    "align": "center",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 8px 0 rgba(228,87,46,0.55)",
+    "scrim": 0.45
+  },
+  "card": {
+    "glass": false,
+    "radius": 20
+  },
+  "kenBurns": "in",
+  "tempo": 0.9,
+  "meta": {
+    "family": "uzbek",
+    "mood": [
+      "lively",
+      "abundant",
+      "loud"
+    ],
+    "niches": [
+      "market",
+      "grocery",
+      "textile",
+      "souvenirs"
+    ],
+    "aida": [
+      "attention",
+      "action"
+    ],
+    "description_uz": "Sharq bozori: zaʼfaron va qalampir ranglari, adras toʻlqinli naqsh, baland ovozli ritmik matn. Bozor, oziq-ovqat, mato va suvenirlar uchun.",
+    "since": "2026-09"
+  }
+}

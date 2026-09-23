@@ -1,0 +1,97 @@
+{
+  "name": "instagram-gradient",
+  "label": "Insta Gradient",
+  "description": "Instagram-uslub gradient: binafsha→pushti→toʻq sariq, Syne, sakrab kirish, slide.",
+  "tone": "dark",
+  "fonts": {
+    "display": {
+      "family": "Syne",
+      "weight": 700,
+      "lightWeight": 400,
+      "uppercase": false,
+      "letterSpacing": -0.02,
+      "charEm": 0.7
+    },
+    "body": {
+      "family": "Inter",
+      "weight": 600,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.58
+    }
+  },
+  "colors": {
+    "bg": "#1A0B2E",
+    "surface": "#2A1245",
+    "text": "#FFFFFF",
+    "muted": "#D4B8F0",
+    "primary": "#DD2A7B",
+    "accent": "#FEDA75",
+    "highlight": "#F58529",
+    "onHighlight": "#1A0B2E"
+  },
+  "captionPreset": "karaoke",
+  "captionStyle": {
+    "font": "body",
+    "uppercase": false,
+    "stroke": 6,
+    "scale": 1
+  },
+  "defaultTextAnim": "BounceIn",
+  "secondaryTextAnim": "Highlighter",
+  "ctaTextAnim": "Outline2Fill",
+  "defaultTransition": "slide",
+  "transitionFrames": 12,
+  "fx": [
+    "lightLeak"
+  ],
+  "fxIntensity": {
+    "lightLeak": 0.35
+  },
+  "background": {
+    "kind": "gradient",
+    "colors": [
+      "#515BD4",
+      "#8134AF",
+      "#DD2A7B",
+      "#F58529"
+    ],
+    "patternOpacity": 0.16,
+    "angle": 150
+  },
+  "headline": {
+    "size": 100,
+    "hookSize": 118,
+    "align": "center",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 8px 30px rgba(0,0,0,0.55)",
+    "scrim": 0.45
+  },
+  "card": {
+    "glass": true,
+    "radius": 36
+  },
+  "kenBurns": "in",
+  "tempo": 1,
+  "meta": {
+    "family": "social",
+    "mood": [
+      "trendy",
+      "vibrant",
+      "social"
+    ],
+    "niches": [
+      "smm",
+      "influencer",
+      "online-shop",
+      "beauty"
+    ],
+    "aida": [
+      "attention",
+      "action"
+    ],
+    "description_uz": "Instagram ruhidagi gradient: binafsha-pushti-toʻq sariq fon, zamonaviy grotesk, sakrovchi soʻzlar. SMM, blogerlar, onlayn doʻkon va goʻzallik uchun.",
+    "since": "2026-09"
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "name": "fitness-energy",
+  "label": "Fitness Energy",
+  "description": "Fitnes: Bebas Neue, qora-olov toʻq sariq, laym quti subtitr, Kinetic, whip-pan, silkinish.",
+  "tone": "dark",
+  "fonts": {
+    "display": {
+      "family": "Bebas Neue",
+      "weight": 400,
+      "uppercase": true,
+      "letterSpacing": 0.02,
+      "charEm": 0.42
+    },
+    "body": {
+      "family": "Montserrat",
+      "weight": 800,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.66
+    }
+  },
+  "colors": {
+    "bg": "#0B0B0B",
+    "surface": "#1A1A1A",
+    "text": "#FFFFFF",
+    "muted": "#A6A6A6",
+    "primary": "#FF3D00",
+    "accent": "#FF6B1A",
+    "highlight": "#C6FF00",
+    "onHighlight": "#0B0B0B"
+  },
+  "captionPreset": "boxHighlight",
+  "captionStyle": {
+    "font": "body",
+    "uppercase": true,
+    "stroke": 5,
+    "scale": 0.92
+  },
+  "defaultTextAnim": "Kinetic",
+  "secondaryTextAnim": "Counter",
+  "ctaTextAnim": "WordPop",
+  "defaultTransition": "whipPan",
+  "transitionFrames": 10,
+  "fx": [
+    "shake",
+    "grain",
+    "progressBar"
+  ],
+  "fxIntensity": {
+    "grain": 0.07,
+    "shake": 12
+  },
+  "background": {
+    "kind": "gradient",
+    "colors": [
+      "#0B0B0B",
+      "#2A0E00"
+    ],
+    "patternOpacity": 0.16,
+    "angle": 170
+  },
+  "headline": {
+    "size": 160,
+    "hookSize": 184,
+    "align": "center",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 8px 0 rgba(255,61,0,0.5)",
+    "scrim": 0.45
+  },
+  "card": {
+    "glass": false,
+    "radius": 8
+  },
+  "kenBurns": "in",
+  "tempo": 0.85,
+  "meta": {
+    "family": "fitness",
+    "mood": [
+      "intense",
+      "motivating",
+      "powerful"
+    ],
+    "niches": [
+      "gym",
+      "personal-trainer",
+      "nutrition",
+      "crossfit"
+    ],
+    "aida": [
+      "attention",
+      "action"
+    ],
+    "description_uz": "Fitnes energiyasi: qora fon, olovli toʻq sariq, laym quti subtitr, ritmik zarbali matn. Sport zal, shaxsiy murabbiy va sport ovqatlanishi uchun.",
+    "since": "2026-09"
+  }
+}

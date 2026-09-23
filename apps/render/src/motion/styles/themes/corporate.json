@@ -1,0 +1,92 @@
+{
+  "name": "corporate",
+  "label": "Corporate",
+  "description": "Ishonchli B2B: Manrope, indigo, SlideMask qatorlar, toza shisha kartalar, slide.",
+  "tone": "dark",
+  "fonts": {
+    "display": {
+      "family": "Manrope",
+      "weight": 800,
+      "lightWeight": 400,
+      "uppercase": false,
+      "letterSpacing": -0.02,
+      "charEm": 0.6
+    },
+    "body": {
+      "family": "Manrope",
+      "weight": 500,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.56
+    }
+  },
+  "colors": {
+    "bg": "#0B0F19",
+    "surface": "#131A2A",
+    "text": "#E6EAF2",
+    "muted": "#8B95AD",
+    "primary": "#6366F1",
+    "accent": "#818CF8",
+    "highlight": "#4F46E5",
+    "onHighlight": "#FFFFFF"
+  },
+  "captionPreset": "pillGlass",
+  "captionStyle": {
+    "font": "display",
+    "uppercase": false,
+    "stroke": 0,
+    "scale": 1
+  },
+  "defaultTextAnim": "SlideMask",
+  "secondaryTextAnim": "Counter",
+  "ctaTextAnim": "MaskWipe",
+  "defaultTransition": "slide",
+  "transitionFrames": 14,
+  "fx": [
+    "progressBar"
+  ],
+  "fxIntensity": {},
+  "background": {
+    "kind": "brand",
+    "colors": [
+      "#6366F1",
+      "#22D3EE"
+    ],
+    "patternOpacity": 0.16,
+    "angle": 160
+  },
+  "headline": {
+    "size": 96,
+    "hookSize": 112,
+    "align": "center",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 8px 30px rgba(0,0,0,0.55)",
+    "scrim": 0.45
+  },
+  "card": {
+    "glass": true,
+    "radius": 32
+  },
+  "kenBurns": "out",
+  "tempo": 1,
+  "meta": {
+    "family": "minimal",
+    "mood": [
+      "trustworthy",
+      "professional"
+    ],
+    "niches": [
+      "b2b",
+      "finance",
+      "education",
+      "clinic"
+    ],
+    "aida": [
+      "interest",
+      "desire"
+    ],
+    "description_uz": "Ishonchli B2B koʻrinish: indigo rang, toza shisha kartalar, raqamlar sanaladi. Moliya, taʼlim, klinika va B2B xizmatlar uchun.",
+    "since": "2026-08"
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "name": "newspaper",
+  "label": "Newspaper",
+  "description": "Gazeta: PT Serif, qogʻoz fon, qora marker, TypeWriter, sahifa aylanishi (flip).",
+  "tone": "light",
+  "fonts": {
+    "display": {
+      "family": "PT Serif",
+      "weight": 700,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.6
+    },
+    "body": {
+      "family": "PT Serif",
+      "weight": 400,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.56
+    }
+  },
+  "colors": {
+    "bg": "#F4F1EA",
+    "surface": "#FBF9F4",
+    "text": "#141414",
+    "muted": "#555048",
+    "primary": "#141414",
+    "accent": "#B3121B",
+    "highlight": "#141414",
+    "onHighlight": "#F4F1EA"
+  },
+  "captionPreset": "lineByLine",
+  "captionStyle": {
+    "font": "body",
+    "uppercase": false,
+    "stroke": 0,
+    "scale": 1
+  },
+  "defaultTextAnim": "TypeWriter",
+  "secondaryTextAnim": "Highlighter",
+  "ctaTextAnim": "SlideMask",
+  "defaultTransition": "flip",
+  "transitionFrames": 16,
+  "fx": [
+    "grain"
+  ],
+  "fxIntensity": {
+    "grain": 0.1
+  },
+  "background": {
+    "kind": "pattern",
+    "colors": [
+      "#F4F1EA",
+      "#E6DFCF"
+    ],
+    "pattern": "paper",
+    "patternColor": "#6B5E45",
+    "patternOpacity": 0.35,
+    "angle": 160
+  },
+  "headline": {
+    "size": 100,
+    "hookSize": 118,
+    "align": "left",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 0 0 transparent",
+    "scrim": 0.75
+  },
+  "card": {
+    "glass": false,
+    "radius": 0
+  },
+  "kenBurns": "left",
+  "tempo": 1.1,
+  "meta": {
+    "family": "editorial",
+    "mood": [
+      "serious",
+      "informative",
+      "classic"
+    ],
+    "niches": [
+      "news",
+      "media",
+      "blog",
+      "expert"
+    ],
+    "aida": [
+      "interest"
+    ],
+    "description_uz": "Gazeta sahifasi: klassik serif, qogʻoz tekstura, qora marker va yozuv mashinkasi effekti. Yangiliklar, media, ekspert va blog kontenti uchun.",
+    "since": "2026-09"
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "name": "tiktok-dark",
+  "label": "TikTok Dark",
+  "description": "TikTok-uslub: qora fon, cyan/qizil, Montserrat 900, katta konturli subtitr, zoom-punch.",
+  "tone": "dark",
+  "fonts": {
+    "display": {
+      "family": "Montserrat",
+      "weight": 900,
+      "lightWeight": 400,
+      "uppercase": true,
+      "letterSpacing": -0.01,
+      "charEm": 0.76
+    },
+    "body": {
+      "family": "Montserrat",
+      "weight": 800,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.66
+    }
+  },
+  "colors": {
+    "bg": "#000000",
+    "surface": "#121212",
+    "text": "#FFFFFF",
+    "muted": "#A0A0A0",
+    "primary": "#FE2C55",
+    "accent": "#25F4EE",
+    "highlight": "#FE2C55",
+    "onHighlight": "#000000"
+  },
+  "captionPreset": "karaoke",
+  "captionStyle": {
+    "font": "body",
+    "uppercase": true,
+    "stroke": 8,
+    "scale": 0.95
+  },
+  "defaultTextAnim": "WordPop",
+  "secondaryTextAnim": "Glitch",
+  "ctaTextAnim": "BounceIn",
+  "defaultTransition": "zoomPunch",
+  "transitionFrames": 8,
+  "fx": [
+    "chromatic",
+    "shake",
+    "progressBar"
+  ],
+  "fxIntensity": {
+    "shake": 6,
+    "chromatic": 8
+  },
+  "background": {
+    "kind": "solid",
+    "colors": [
+      "#000000"
+    ],
+    "patternOpacity": 0.16,
+    "angle": 160
+  },
+  "headline": {
+    "size": 96,
+    "hookSize": 112,
+    "align": "center",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "3px 3px 0 #FE2C55, -3px -3px 0 #25F4EE",
+    "scrim": 0.45
+  },
+  "card": {
+    "glass": false,
+    "radius": 16
+  },
+  "kenBurns": "in",
+  "tempo": 0.85,
+  "meta": {
+    "family": "social",
+    "mood": [
+      "fast",
+      "viral",
+      "bold"
+    ],
+    "niches": [
+      "ugc",
+      "entertainment",
+      "youth",
+      "e-commerce"
+    ],
+    "aida": [
+      "attention"
+    ],
+    "description_uz": "TikTok ruhida: qora fon, cyan-qizil ikki qavatli soya, qalin konturli subtitr, tez kesimlar. UGC, koʻngilochar va yoshlar uchun.",
+    "since": "2026-09"
+  }
+}

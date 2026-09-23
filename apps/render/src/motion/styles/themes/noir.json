@@ -1,0 +1,95 @@
+{
+  "name": "noir",
+  "label": "Noir",
+  "description": "Kino-nuar: Bebas Neue, qora-oq, qon-qizil aksent, kuchli vinyetka, eski kino iris kesimi.",
+  "tone": "dark",
+  "fonts": {
+    "display": {
+      "family": "Bebas Neue",
+      "weight": 400,
+      "uppercase": true,
+      "letterSpacing": 0.06,
+      "charEm": 0.44
+    },
+    "body": {
+      "family": "Inter",
+      "weight": 400,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.58
+    }
+  },
+  "colors": {
+    "bg": "#050505",
+    "surface": "#121212",
+    "text": "#EDEDED",
+    "muted": "#8C8C8C",
+    "primary": "#EDEDED",
+    "accent": "#FF3B4E",
+    "highlight": "#EDEDED",
+    "onHighlight": "#050505"
+  },
+  "captionPreset": "lineByLine",
+  "captionStyle": {
+    "font": "body",
+    "uppercase": true,
+    "stroke": 0,
+    "scale": 0.9
+  },
+  "defaultTextAnim": "SlideMask",
+  "secondaryTextAnim": "TypeWriter",
+  "ctaTextAnim": "BlurFocus",
+  "defaultTransition": "iris",
+  "transitionFrames": 18,
+  "fx": [
+    "grain",
+    "vignette"
+  ],
+  "fxIntensity": {
+    "grain": 0.14,
+    "vignette": 0.8
+  },
+  "background": {
+    "kind": "solid",
+    "colors": [
+      "#050505"
+    ],
+    "patternOpacity": 0.16,
+    "angle": 160
+  },
+  "headline": {
+    "size": 150,
+    "hookSize": 176,
+    "align": "center",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 10px 40px rgba(0,0,0,0.8)",
+    "scrim": 0.45
+  },
+  "card": {
+    "glass": false,
+    "radius": 0
+  },
+  "kenBurns": "left",
+  "tempo": 1.3,
+  "meta": {
+    "family": "luxury",
+    "mood": [
+      "mysterious",
+      "cinematic",
+      "moody"
+    ],
+    "niches": [
+      "film",
+      "photography",
+      "barbershop",
+      "perfume"
+    ],
+    "aida": [
+      "attention",
+      "desire"
+    ],
+    "description_uz": "Kino-nuar: qora-oq kadr, tor baland harflar, qizil aksent, kuchli vinyetka va eski kino iris kesimi. Foto/video studiya, barbershop va parfyum uchun.",
+    "since": "2026-09"
+  }
+}

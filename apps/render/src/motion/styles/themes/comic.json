@@ -1,0 +1,96 @@
+{
+  "name": "comic",
+  "label": "Comic",
+  "description": "Komiks: Bangers katta harflar, sariq halftone fon, qizil aksent, 3D yiqilish, zoom-punch.",
+  "tone": "light",
+  "fonts": {
+    "display": {
+      "family": "Bangers",
+      "weight": 400,
+      "uppercase": true,
+      "letterSpacing": 0.03,
+      "charEm": 0.46
+    },
+    "body": {
+      "family": "Nunito",
+      "weight": 900,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.6
+    }
+  },
+  "colors": {
+    "bg": "#FFF1B8",
+    "surface": "#FFFFFF",
+    "text": "#111111",
+    "muted": "#5C4A12",
+    "primary": "#E11D2E",
+    "accent": "#C8101F",
+    "highlight": "#FFD60A",
+    "onHighlight": "#111111"
+  },
+  "captionPreset": "bigWord",
+  "captionStyle": {
+    "font": "display",
+    "uppercase": true,
+    "stroke": 7,
+    "strokeColor": "#FFFFFF",
+    "scale": 1
+  },
+  "defaultTextAnim": "Split3D",
+  "secondaryTextAnim": "Highlighter",
+  "ctaTextAnim": "BounceIn",
+  "defaultTransition": "zoomPunch",
+  "transitionFrames": 8,
+  "fx": [
+    "shake"
+  ],
+  "fxIntensity": {
+    "shake": 8
+  },
+  "background": {
+    "kind": "pattern",
+    "colors": [
+      "#FFE066",
+      "#FFF1B8"
+    ],
+    "pattern": "halftone",
+    "patternColor": "#E11D2E",
+    "patternOpacity": 0.18,
+    "angle": 160
+  },
+  "headline": {
+    "size": 140,
+    "hookSize": 160,
+    "align": "center",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "6px 6px 0 #FFD60A",
+    "scrim": 0.7
+  },
+  "card": {
+    "glass": false,
+    "radius": 18
+  },
+  "kenBurns": "in",
+  "tempo": 0.9,
+  "meta": {
+    "family": "bold",
+    "mood": [
+      "funny",
+      "loud",
+      "bright"
+    ],
+    "niches": [
+      "kids",
+      "games",
+      "snacks",
+      "education-fun"
+    ],
+    "aida": [
+      "attention"
+    ],
+    "description_uz": "Komiks sahifasi: qalin komiks shrifti, sariq halftone fon, qizil aksent va “pop” effektlar. Oʻyinlar, gazaklar, bolalar va qiziqarli taʼlim uchun.",
+    "since": "2026-09"
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "name": "cafe-cream",
+  "label": "Cafe Cream",
+  "description": "Qahvaxona: krem fon, Fraunces, jigarrang matn, nuqta naqsh, harf-kaskad, fade.",
+  "tone": "light",
+  "fonts": {
+    "display": {
+      "family": "Fraunces",
+      "weight": 600,
+      "lightWeight": 300,
+      "uppercase": false,
+      "letterSpacing": -0.02,
+      "charEm": 0.62
+    },
+    "body": {
+      "family": "Lora",
+      "weight": 500,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.58
+    }
+  },
+  "colors": {
+    "bg": "#F6EEE3",
+    "surface": "#FFFAF3",
+    "text": "#3B2416",
+    "muted": "#7A5C48",
+    "primary": "#8B5E3C",
+    "accent": "#9C4A1A",
+    "highlight": "#E9C9A3",
+    "onHighlight": "#3B2416"
+  },
+  "captionPreset": "lineByLine",
+  "captionStyle": {
+    "font": "body",
+    "uppercase": false,
+    "stroke": 0,
+    "scale": 1
+  },
+  "defaultTextAnim": "CharCascade",
+  "secondaryTextAnim": "TypeWriter",
+  "ctaTextAnim": "SlideMask",
+  "defaultTransition": "fade",
+  "transitionFrames": 14,
+  "fx": [
+    "grain",
+    "lightLeak"
+  ],
+  "fxIntensity": {
+    "grain": 0.08,
+    "lightLeak": 0.35
+  },
+  "background": {
+    "kind": "pattern",
+    "colors": [
+      "#F6EEE3",
+      "#EFE2D0"
+    ],
+    "pattern": "dots",
+    "patternColor": "#8B5E3C",
+    "patternOpacity": 0.12,
+    "angle": 160
+  },
+  "headline": {
+    "size": 104,
+    "hookSize": 120,
+    "align": "left",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 4px 26px #F6EEE3d9",
+    "scrim": 0.72
+  },
+  "card": {
+    "glass": false,
+    "radius": 24
+  },
+  "kenBurns": "left",
+  "tempo": 1.15,
+  "meta": {
+    "family": "warm",
+    "mood": [
+      "cozy",
+      "soft",
+      "homely"
+    ],
+    "niches": [
+      "coffee-shop",
+      "bakery",
+      "bookstore",
+      "handmade"
+    ],
+    "aida": [
+      "interest",
+      "desire"
+    ],
+    "description_uz": "Shinam qahvaxona: krem rang fon, jigarrang matn, yumshoq serif va plyonka donasi. Qahvaxona, qandolat, kitob doʻkoni va qoʻl mehnati uchun.",
+    "since": "2026-09"
+  }
+}

@@ -9,8 +9,8 @@ import { insideSafe, regions, safeRect, SAFE } from "../motion/layout/safeArea";
 import { evenWords } from "../lib/captions";
 
 describe("theme registry", () => {
-  it("has the 7 required themes and each validates against the StyleTheme schema", () => {
-    expect([...THEME_NAMES].sort()).toEqual(["bold", "corporate", "editorial", "hype", "luxury", "minimal", "neon"]);
+  it("keeps the 7 original themes and each theme validates against the StyleTheme schema", () => {
+    expect(THEME_NAMES).toEqual(expect.arrayContaining(["bold", "corporate", "editorial", "hype", "luxury", "minimal", "neon"]));
     for (const name of THEME_NAMES) {
       const t = THEMES[name]!;
       expect(styleThemeSchema.safeParse(t).success, name).toBe(true);

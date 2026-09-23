@@ -1,0 +1,99 @@
+{
+  "name": "suzani-red",
+  "label": "Suzani Red",
+  "description": "Soʻzana: toʻq qizil fon, gul-medalyon naqsh, DM Serif Display, oltin, kontur→toʻla, slice.",
+  "tone": "dark",
+  "fonts": {
+    "display": {
+      "family": "DM Serif Display",
+      "weight": 400,
+      "uppercase": false,
+      "letterSpacing": 0,
+      "charEm": 0.56
+    },
+    "body": {
+      "family": "Manrope",
+      "weight": 600,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.56
+    }
+  },
+  "colors": {
+    "bg": "#3A0A0E",
+    "surface": "#54121A",
+    "text": "#FFF3EA",
+    "muted": "#E3B3A8",
+    "primary": "#C8102E",
+    "accent": "#FFC857",
+    "highlight": "#FFC857",
+    "onHighlight": "#3A0A0E"
+  },
+  "captionPreset": "karaoke",
+  "captionStyle": {
+    "font": "body",
+    "uppercase": false,
+    "stroke": 5,
+    "strokeColor": "#1E0406",
+    "scale": 1
+  },
+  "defaultTextAnim": "Outline2Fill",
+  "secondaryTextAnim": "Highlighter",
+  "ctaTextAnim": "BounceIn",
+  "defaultTransition": "slice",
+  "transitionFrames": 14,
+  "fx": [
+    "grain",
+    "vignette"
+  ],
+  "fxIntensity": {
+    "grain": 0.07,
+    "vignette": 0.45
+  },
+  "background": {
+    "kind": "pattern",
+    "colors": [
+      "#3A0A0E",
+      "#54121A"
+    ],
+    "pattern": "suzani",
+    "patternColor": "#FFC857",
+    "patternOpacity": 0.16,
+    "angle": 160
+  },
+  "headline": {
+    "size": 120,
+    "hookSize": 140,
+    "align": "center",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 8px 30px rgba(0,0,0,0.55)",
+    "scrim": 0.45
+  },
+  "card": {
+    "glass": false,
+    "radius": 16
+  },
+  "kenBurns": "right",
+  "tempo": 1.1,
+  "meta": {
+    "family": "uzbek",
+    "mood": [
+      "rich",
+      "traditional",
+      "warm"
+    ],
+    "niches": [
+      "textile",
+      "handmade",
+      "wedding",
+      "souvenirs"
+    ],
+    "aida": [
+      "interest",
+      "desire"
+    ],
+    "description_uz": "Soʻzana kashtasi: toʻq qizil fon, oltin gul-medalyonlar, klassik serif. Toʻy xizmatlari, milliy mato, hunarmandchilik va suvenirlar uchun.",
+    "since": "2026-09"
+  }
+}

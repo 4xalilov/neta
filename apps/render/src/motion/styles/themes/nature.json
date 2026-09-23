@@ -1,0 +1,100 @@
+{
+  "name": "nature",
+  "label": "Nature",
+  "description": "Tabiat: Fraunces yumshoq serif, toʻq yashil, laym aksent, toʻlqin naqsh, light leak.",
+  "tone": "dark",
+  "fonts": {
+    "display": {
+      "family": "Fraunces",
+      "weight": 800,
+      "lightWeight": 400,
+      "uppercase": false,
+      "letterSpacing": -0.02,
+      "charEm": 0.64
+    },
+    "body": {
+      "family": "Nunito",
+      "weight": 700,
+      "uppercase": false,
+      "letterSpacing": -0.01,
+      "charEm": 0.58
+    }
+  },
+  "colors": {
+    "bg": "#0F1A12",
+    "surface": "#1A2B1E",
+    "text": "#F1F7EC",
+    "muted": "#9DB39A",
+    "primary": "#4CAF50",
+    "accent": "#A3E635",
+    "highlight": "#A3E635",
+    "onHighlight": "#0F1A12"
+  },
+  "captionPreset": "karaoke",
+  "captionStyle": {
+    "font": "body",
+    "uppercase": false,
+    "stroke": 5,
+    "strokeColor": "#0F1A12",
+    "scale": 1
+  },
+  "defaultTextAnim": "SlideMask",
+  "secondaryTextAnim": "Highlighter",
+  "ctaTextAnim": "BounceIn",
+  "defaultTransition": "wipe",
+  "transitionFrames": 14,
+  "fx": [
+    "lightLeak",
+    "grain"
+  ],
+  "fxIntensity": {
+    "grain": 0.06,
+    "lightLeak": 0.5
+  },
+  "background": {
+    "kind": "pattern",
+    "colors": [
+      "#0F1A12",
+      "#1A2B1E"
+    ],
+    "pattern": "waves",
+    "patternColor": "#A3E635",
+    "patternOpacity": 0.12,
+    "angle": 160
+  },
+  "headline": {
+    "size": 108,
+    "hookSize": 126,
+    "align": "center",
+    "maxLines": 4,
+    "stroke": 0,
+    "shadow": "0 8px 30px rgba(0,0,0,0.55)",
+    "scrim": 0.45
+  },
+  "card": {
+    "glass": true,
+    "radius": 36
+  },
+  "kenBurns": "right",
+  "tempo": 1.1,
+  "meta": {
+    "family": "warm",
+    "mood": [
+      "fresh",
+      "natural",
+      "organic"
+    ],
+    "niches": [
+      "eco",
+      "organic-food",
+      "farm",
+      "garden"
+    ],
+    "aida": [
+      "interest",
+      "desire"
+    ],
+    "description_uz": "Tabiiy va yangi: toʻq yashil fon, laym aksent, yumshoq serif va quyosh nuri sizishi. Eko-mahsulot, organik oziq-ovqat, ferma va bogʻ uchun.",
+    "since": "2026-09"
+  }
+}
