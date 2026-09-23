@@ -13,6 +13,7 @@ from datetime import datetime
 
 from sqlalchemy import (
     JSON,
+    BigInteger,
     CheckConstraint,
     Date,
     DateTime,
@@ -142,7 +143,7 @@ class Staff(UUIDPkMixin, TimestampMixin, Base):
         ForeignKey("workspace.id", ondelete="CASCADE"), index=True
     )
     name: Mapped[str] = mapped_column(String(200))
-    tg_id: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    tg_id: Mapped[int | None] = mapped_column(BigInteger, nullable=True)
     phone: Mapped[str | None] = mapped_column(String(50), nullable=True)
     role: Mapped[str | None] = mapped_column(String(50), nullable=True)
     habits: Mapped[dict | None] = mapped_column("json", JSON_VARIANT, nullable=True)

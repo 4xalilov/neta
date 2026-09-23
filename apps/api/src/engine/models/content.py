@@ -14,6 +14,7 @@ from datetime import datetime
 from pgvector.sqlalchemy import Vector
 from sqlalchemy import (
     JSON,
+    BigInteger,
     CheckConstraint,
     Date,
     DateTime,
@@ -64,7 +65,7 @@ class Workspace(UUIDPkMixin, TimestampMixin, Base):
     __tablename__ = "workspace"
 
     name: Mapped[str] = mapped_column(String(200))
-    owner_tg_id: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    owner_tg_id: Mapped[int | None] = mapped_column(BigInteger, nullable=True)
     ig_business_id: Mapped[str | None] = mapped_column(String(100), nullable=True)
     timezone: Mapped[str] = mapped_column(String(64), default="Asia/Tashkent")
 

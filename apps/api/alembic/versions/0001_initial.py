@@ -51,7 +51,7 @@ def upgrade() -> None:
         "workspace",
         *_pk_and_timestamps(),
         sa.Column("name", sa.String(200), nullable=False),
-        sa.Column("owner_tg_id", sa.Integer(), nullable=True),
+        sa.Column("owner_tg_id", sa.BigInteger(), nullable=True),
         sa.Column("ig_business_id", sa.String(100), nullable=True),
         sa.Column("timezone", sa.String(64), nullable=False, server_default="Asia/Tashkent"),
     )
@@ -285,7 +285,7 @@ def upgrade() -> None:
             nullable=False,
         ),
         sa.Column("name", sa.String(200), nullable=False),
-        sa.Column("tg_id", sa.Integer(), nullable=True),
+        sa.Column("tg_id", sa.BigInteger(), nullable=True),
         sa.Column("phone", sa.String(50), nullable=True),
         sa.Column("role", sa.String(50), nullable=True),
         sa.Column("json", JSONB(), nullable=True),
