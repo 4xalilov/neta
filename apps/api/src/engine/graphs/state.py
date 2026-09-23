@@ -20,6 +20,12 @@ class Scene(TypedDict, total=False):
     img_prompt: str
     duration_s: float
     subtitle: str
+    # --- motion-dizayn (docs/11, apps/render/src/props.ts sceneSchema)
+    title: str | None
+    text_anim: str | None
+    transition: str | None
+    fx: list[str]
+    ken_burns: str | None
 
 
 class Script(TypedDict):
@@ -29,6 +35,10 @@ class Script(TypedDict):
     tts_text: str
     display_text: str
     scenes: list[Scene]
+    # --- motion-dizayn (docs/11, apps/render/src/props.ts reelsPropsSchema)
+    style: str | None
+    hook_text: str | None
+    caption_preset: str | None
 
 
 class CriticReview(TypedDict, total=False):

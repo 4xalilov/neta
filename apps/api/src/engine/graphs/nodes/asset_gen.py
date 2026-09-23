@@ -2,12 +2,19 @@
 
 Props shakli ``apps/render/src/props.ts`` (``reelsPropsSchema``) ga mos::
 
-    {"audioUrl", "cta", "scenes": [{"imageUrl", "depthUrl"?, "durationS", "words", "subtitle"}],
+    {"audioUrl", "cta", "style", "hookText", "captionPreset",
+     "scenes": [{"imageUrl", "depthUrl"?, "durationS", "words", "subtitle",
+                 "title", "textAnim", "transition", "fx", "kenBurns"}],
      "brand": {"font", "color", "accent", "bg", "surface", "logoUrl"}}
 
 ``words`` vaqtlari KOMPOZITSIYA boshiga nisbatan (sahnaga emas). Sahna davomiyliklari
 ovoz davomiyligiga proporsional moslanadi (``fit_scene_durations``), so'zlar esa shu
 chegaralar bo'yicha sahnalarga bo'linadi (``split_words_by_scenes``).
+
+Motion-dizayn maydonlari (``style``/``hookText``/``captionPreset`` va sahna
+``title``/``textAnim``/``transition``/``fx``/``kenBurns``) Writer'dan keladi; ``writer.
+apply_default_motion`` LLM bo'sh qoldirgan qiymatlarni deterministik standartlar bilan
+to'ldiradi, shu sababli props har doim to'liq bo'ladi (docs/11-motion-library.md).
 """
 from __future__ import annotations
 
@@ -22,6 +29,7 @@ from engine.settings import settings
 
 from ..state import DayState
 from . import _common as c
+from .writer import apply_default_motion
 
 logger = logging.getLogger(__name__)
 
@@ -115,7 +123,9 @@ async def _persist(state: DayState, audio_uri: str, audio_meta: dict,
 
 
 async def asset_gen(state: DayState) -> dict[str, Any]:
-    script = state.get("best_script") or state["script"]
+    raw_script = state.get("best_script") or state["script"]
+    script = apply_default_motion(raw_script, state.get("brand_profile"),
+                                  state.get("best_hook_idx", 0))
     scenes = script["scenes"]
     plan_item = state.get("plan_item") or {}
     parallax = bool(plan_item.get("parallax"))
@@ -152,6 +162,11 @@ async def asset_gen(state: DayState) -> dict[str, Any]:
             "durationS": durations[i],
             "words": words_by_scene[i],
             "subtitle": sc.get("subtitle") or None,
+            "title": sc.get("title") or None,
+            "textAnim": sc.get("text_anim") or None,
+            "transition": sc.get("transition") or None,
+            "fx": sc.get("fx") or None,
+            "kenBurns": sc.get("ken_burns") or None,
         }
         if parallax and i < len(depth_uris) and depth_uris[i]:
             item["depthUrl"] = storage.public_url(depth_uris[i])
@@ -163,6 +178,9 @@ async def asset_gen(state: DayState) -> dict[str, Any]:
         "cta": script.get("cta"),
         "scenes": props_scenes,
         "brand": brand_props(state.get("brand_profile") or {}),
+        "style": script.get("style"),
+        "hookText": script.get("hook_text"),
+        "captionPreset": script.get("caption_preset"),
     }
     image_uris = [r.uri for r in image_results]
     await _persist(state, audio_uri,

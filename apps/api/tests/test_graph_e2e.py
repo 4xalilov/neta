@@ -38,15 +38,26 @@ async def test_brief_until_interrupt_has_remotion_props(graph_env):
 
     values = snap.values
     props = values["props"]
-    assert set(props) == {"audioUrl", "cta", "scenes", "brand"}
+    assert set(props) == {"audioUrl", "cta", "scenes", "brand", "style", "hookText",
+                          "captionPreset"}
     assert props["audioUrl"].startswith("http://localhost:9000/assets/ws/")
     assert props["audioUrl"].endswith(".mp3")
     assert props["cta"] == "Obuna bo'ling!"
     assert props["brand"] == {"font": "Plus Jakarta Sans", "accent": "#FACC15", "bg": "#0B0F19"}
+    # motion-dizayn: writer bo'sh qoldirgan maydonlar apply_default_motion bilan to'ldirildi
+    # (brand_profile'da "style" yo'q -> "bold"; hookText = hooks[best_hook_idx] birinchi 6 so'zi,
+    # eng uzun so'zi yulduzchada; hook_critic fake har doim best_hook_idx=1 qaytaradi -> "3 ta xato")
+    assert props["style"] == "bold"
+    assert props["hookText"] == "3 ta *xato*"
+    assert props["captionPreset"] is None
     assert len(props["scenes"]) == 3
+    assert [sc["textAnim"] for sc in props["scenes"]] == ["WordPop", "Counter", "BounceIn"]
+    assert [sc["transition"] for sc in props["scenes"]] == ["fade", "zoomPunch", "fade"]
+    assert [sc["kenBurns"] for sc in props["scenes"]] == ["in", "out", "left"]
     total_words = 0
     for sc in props["scenes"]:
-        assert set(sc) >= {"imageUrl", "durationS", "words", "subtitle"}
+        assert set(sc) >= {"imageUrl", "durationS", "words", "subtitle", "title", "textAnim",
+                           "transition", "fx", "kenBurns"}
         assert "depthUrl" not in sc
         assert sc["imageUrl"].startswith("http://localhost:9000/assets/")
         assert 0 < sc["durationS"]

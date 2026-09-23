@@ -10,10 +10,11 @@
 from __future__ import annotations
 
 import logging
+import re
 from datetime import UTC, datetime
 from typing import Any
 
-from pydantic import BaseModel, Field, ValidationError
+from pydantic import BaseModel, Field, ValidationError, field_validator
 
 from engine import llm
 from engine.agents import prompt_loader
@@ -27,11 +28,65 @@ logger = logging.getLogger(__name__)
 
 CRITIC_LABELS = {"uz": "UzCritic", "brand": "BrandCritic", "hook": "HookCritic"}
 
+# Motion-dizayn enum'lari — apps/render/src/motion/**/names.ts va docs/11 bilan sinxron.
+ALLOWED_STYLES = {"bold", "minimal", "neon", "editorial", "corporate", "hype", "luxury"}
+ALLOWED_TEXT_ANIMS = {
+    "WordPop", "CharCascade", "MaskWipe", "TypeWriter", "SlideMask", "Glitch", "Counter",
+    "Highlighter", "Split3D", "Scramble", "Kinetic", "Outline2Fill", "BounceIn", "BlurFocus",
+}
+ALLOWED_TRANSITIONS = {
+    "fade", "slide", "wipe", "flip", "iris", "clockWipe", "zoomPunch", "whipPan",
+    "glitchCut", "maskCircle", "slice", "none",
+}
+ALLOWED_CAPTION_PRESETS = {"karaoke", "boxHighlight", "pillGlass", "bigWord", "lineByLine"}
+ALLOWED_KEN_BURNS = {"in", "out", "left", "right", "none"}
+
+DEFAULT_STYLE = "bold"
+_KEN_BURNS_CYCLE = ("in", "out", "left", "right")
+
+
+def _lenient_enum(value: Any, allowed: set[str], field: str) -> str | None:
+    """Noma'lum/bo'sh qiymatni ``None``ga o'tkazadi (render tarafidagi ``lenientEnum`` bilan
+    bir xil tolerantlik) — sxema yiqilmaydi, faqat ogohlantirish yoziladi."""
+    if value is None or value == "":
+        return None
+    if isinstance(value, str) and value in allowed:
+        return value
+    logger.warning("writer: noma'lum %s qiymati %r — None ga o'rnatildi", field, value)
+    return None
+
 
 class SceneModel(BaseModel):
     img_prompt: str = Field(min_length=1)
     duration_s: float = Field(ge=3, le=8)
     subtitle: str = ""
+    title: str | None = None
+    text_anim: str | None = None
+    transition: str | None = None
+    fx: list[str] = Field(default_factory=list)
+    ken_burns: str | None = None
+
+    @field_validator("text_anim", mode="before")
+    @classmethod
+    def _check_text_anim(cls, v: Any) -> str | None:
+        return _lenient_enum(v, ALLOWED_TEXT_ANIMS, "text_anim")
+
+    @field_validator("transition", mode="before")
+    @classmethod
+    def _check_transition(cls, v: Any) -> str | None:
+        return _lenient_enum(v, ALLOWED_TRANSITIONS, "transition")
+
+    @field_validator("ken_burns", mode="before")
+    @classmethod
+    def _check_ken_burns(cls, v: Any) -> str | None:
+        return _lenient_enum(v, ALLOWED_KEN_BURNS, "ken_burns")
+
+    @field_validator("fx", mode="before")
+    @classmethod
+    def _check_fx(cls, v: Any) -> list[str]:
+        if not isinstance(v, list):
+            return []
+        return [x for x in v if isinstance(x, str) and x]
 
 
 class ScriptModel(BaseModel):
@@ -41,6 +96,19 @@ class ScriptModel(BaseModel):
     tts_text: str = Field(min_length=1)
     display_text: str = Field(min_length=1)
     scenes: list[SceneModel] = Field(min_length=3, max_length=6)
+    style: str | None = None
+    hook_text: str | None = None
+    caption_preset: str | None = None
+
+    @field_validator("style", mode="before")
+    @classmethod
+    def _check_style(cls, v: Any) -> str | None:
+        return _lenient_enum(v, ALLOWED_STYLES, "style")
+
+    @field_validator("caption_preset", mode="before")
+    @classmethod
+    def _check_caption_preset(cls, v: Any) -> str | None:
+        return _lenient_enum(v, ALLOWED_CAPTION_PRESETS, "caption_preset")
 
 
 def address_form(brand: dict) -> str:
@@ -83,8 +151,76 @@ def validate_script(data: dict[str, Any]) -> Script:
     out["tts_text"] = c.tts_text(out["tts_text"])
     out["display_text"] = c.display_text(out["display_text"])
     out["hooks"] = [c.display_text(h) for h in out["hooks"]]
+    if out.get("hook_text"):
+        out["hook_text"] = c.display_text(out["hook_text"])
     for scene in out["scenes"]:
         scene["subtitle"] = c.display_text(scene.get("subtitle") or "")
+        if scene.get("title"):
+            scene["title"] = c.display_text(scene["title"])
+    return out  # type: ignore[return-value]
+
+
+_WORD_STRIP_RE = " .,!?:;\"'()«»"
+
+
+def _star_longest_word(words: list[str]) -> str:
+    """Berilgan so'zlar orasidan eng uzunini ``*...*`` bilan belgilaydi (birinchisi teng bo'lsa)."""
+    if not words:
+        return ""
+    idx = max(range(len(words)), key=lambda i: len(words[i].strip(_WORD_STRIP_RE)))
+    out = list(words)
+    out[idx] = f"*{out[idx]}*"
+    return " ".join(out)
+
+
+def _default_hook_text(hook: str) -> str | None:
+    words = hook.split()[:6]
+    if not words:
+        return None
+    return _star_longest_word(words)
+
+
+_DIGIT_RE = re.compile(r"\d")
+
+
+def _default_text_anim(scene: dict[str, Any], index: int, total: int) -> str:
+    if index == 0:
+        return "WordPop"
+    if index == total - 1:
+        return "BounceIn"
+    text = f"{scene.get('title') or ''} {scene.get('subtitle') or ''}"
+    if _DIGIT_RE.search(text):
+        return "Counter"
+    return "BlurFocus"
+
+
+def apply_default_motion(script: Script, brand_profile: dict | None,
+                         best_hook_idx: int = 0) -> Script:
+    """LLM motion-maydonlarini bo'sh qoldirgan bo'lsa, deterministik standartlarni
+    to'ldiradi (docs/11 "Writer qanday tanlaydi"). Render props har doim to'liq bo'lishi
+    uchun ``asset_gen`` bu funksiyani props qurishdan oldin chaqiradi."""
+    brand = brand_profile or {}
+    out: dict[str, Any] = dict(script)
+
+    if not out.get("style"):
+        style = brand.get("style")
+        out["style"] = style if style in ALLOWED_STYLES else DEFAULT_STYLE
+
+    if not out.get("hook_text"):
+        hooks = out.get("hooks") or []
+        idx = best_hook_idx if hooks and 0 <= best_hook_idx < len(hooks) else 0
+        out["hook_text"] = _default_hook_text(hooks[idx]) if hooks else None
+
+    scenes = [dict(sc) for sc in out.get("scenes") or []]
+    n = len(scenes)
+    for i, sc in enumerate(scenes):
+        if not sc.get("text_anim"):
+            sc["text_anim"] = _default_text_anim(sc, i, n)
+        if not sc.get("transition"):
+            sc["transition"] = "zoomPunch" if i == 1 else "fade"
+        if not sc.get("ken_burns"):
+            sc["ken_burns"] = _KEN_BURNS_CYCLE[i % len(_KEN_BURNS_CYCLE)]
+    out["scenes"] = scenes
     return out  # type: ignore[return-value]
 
 

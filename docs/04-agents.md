@@ -8,7 +8,7 @@ Har agent prompti `apps/api/src/engine/agents/prompts/<name>.md` da. Bu yerda ro
 |---|---|---|---|
 | Auditor | Sonnet | IG postlar+insights | `ig_audit.json` (kuchli/zaif, ritm, hook turlari, ranglar) |
 | Strategist | Sonnet | audit, brand_profile, taste top-10, metrics | 7 kunlik AIDA reja JSON |
-| Writer | Flash/Haiku (1-iter), Sonnet (2–3-iter) | kun rejasi, brand, taste, referens shablon | `{hooks:[3], body, cta, tts_text, scenes:[{img_prompt, dur, subtitle}]}` |
+| Writer | Flash/Haiku (1-iter), Sonnet (2–3-iter) | kun rejasi, brand, taste, referens shablon | `{hooks:[3], body, cta, tts_text, style, hook_text, caption_preset, scenes:[{img_prompt, dur, subtitle, title, text_anim, transition, fx, ken_burns}]}` (motion-dizayn maydonlari — docs/11; bo'sh qoldirilsa `apply_default_motion` deterministik standart tanlaydi) |
 | UzCritic | Sonnet | script | `{score, reasons[], fixes[]}` |
 | BrandCritic | Sonnet | script + brand_profile + taste | `{score, reasons[], fixes[]}` |
 | HookCritic | Sonnet | hooks + referens kutubxona | `{score, best_hook_idx, reasons[]}` |

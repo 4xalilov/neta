@@ -4,8 +4,15 @@
 
 ## 1. Apostrof normalizatsiyasi
 Kirish matnda `oʻ gʻ o' g' o‘ g‘ o` g`` uchraydi. Ichki standart: **U+02BB (ʻ)** — `oʻ`, `gʻ`.
-Subtitr shrifti ʻ belgisini qo'llashini tekshir (Inter, Manrope — ha).
 Tutuq belgisi (`ma'no`, `she'r`) — **U+02BC (ʼ)** ga normalizatsiya.
+Subtitr shrifti ʻ/ʼ belgilarini qo'llashini tekshir: **Plus Jakarta Sans va Manrope'da bu
+belgilar (U+02BB/U+02BC) yo'q** (Google `latin` unicode-range ko'rsatsa ham — cmap jadvali
+bilan tekshirilgan, `apps/render/src/motion/fonts.test.ts`). Shu sababli render worker
+ekranga chiqarishda ular ko'rinishi bir xil ‘ ’ (U+2018/U+2019) belgilariga almashtiradi
+(`uzbekSafe`, faqat shu ikki shrift uchun) — bu faqat KO'RSATISH uchun, ichki manba matn
+(`tts_text`/`display_text`, DB) o'zgarmasdan U+02BB/U+02BC holida qoladi. Playfair Display
+va Anton'da ʻ/ʼ bor — bu shriftlarda almashtirish kerak emas (docs/11-motion-library.md
+"Shriftlar va o'zbek ʻ ʼ").
 
 ## 2. TTS uchun matn (`tts_text`)
 - Raqamlar so'z bilan: `2026` → "ikki ming yigirma olti", `15%` → "o'n besh foiz", `1 500 000 so'm` → "bir million besh yuz ming so'm".

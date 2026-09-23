@@ -7,7 +7,11 @@ from sqlalchemy import select
 
 from engine.graphs.day_subgraph import compile_graph, route_after_critics
 from engine.graphs.nodes.asset_gen import fit_scene_durations, split_words_by_scenes
-from engine.graphs.nodes.writer import format_previous_reviews, validate_script
+from engine.graphs.nodes.writer import (
+    apply_default_motion,
+    format_previous_reviews,
+    validate_script,
+)
 from engine.graphs.state import merge_reviews
 from engine.models import CriticReview, Script
 
@@ -114,6 +118,97 @@ def test_validate_script_normalizes_and_rejects_bad(fakes):
         pass
     else:
         raise AssertionError("2 hook o'tib ketdi")
+
+
+def test_validate_script_accepts_motion_fields(fakes):
+    script_json = fakes.script_json
+    data = script_json(1)
+    data["style"] = "hype"
+    data["hook_text"] = "Bugun *50%* chegirma"
+    data["caption_preset"] = "boxHighlight"
+    data["scenes"][0]["title"] = "Nega *achchiq*?"
+    data["scenes"][0]["text_anim"] = "WordPop"
+    data["scenes"][0]["transition"] = "zoomPunch"
+    data["scenes"][0]["fx"] = ["shake"]
+    data["scenes"][0]["ken_burns"] = "in"
+
+    s = validate_script(data)
+    assert s["style"] == "hype"
+    assert s["hook_text"] == "Bugun *50%* chegirma"
+    assert s["caption_preset"] == "boxHighlight"
+    sc0 = s["scenes"][0]
+    assert sc0["title"] == "Nega *achchiq*?"
+    assert sc0["text_anim"] == "WordPop"
+    assert sc0["transition"] == "zoomPunch"
+    assert sc0["fx"] == ["shake"]
+    assert sc0["ken_burns"] == "in"
+
+
+def test_validate_script_unknown_motion_enum_becomes_none(fakes):
+    script_json = fakes.script_json
+    data = script_json(1)
+    data["style"] = "cyberpunk"  # noma'lum
+    data["caption_preset"] = "neonGlow"  # noma'lum
+    data["scenes"][0]["text_anim"] = "SuperZoom"  # noma'lum
+    data["scenes"][0]["transition"] = "teleport"  # noma'lum
+    data["scenes"][0]["ken_burns"] = "diagonal"  # noma'lum
+
+    s = validate_script(data)
+    assert s["style"] is None
+    assert s["caption_preset"] is None
+    sc0 = s["scenes"][0]
+    assert sc0["text_anim"] is None
+    assert sc0["transition"] is None
+    assert sc0["ken_burns"] is None
+
+
+def test_validate_script_missing_motion_fields_default_to_none(fakes):
+    """Eski (docs/11'dan oldingi) ssenariylar hali ham yaroqli bo'lishi kerak."""
+    s = validate_script(fakes.script_json(1))
+    assert s["style"] is None
+    assert s["hook_text"] is None
+    assert s["caption_preset"] is None
+    for sc in s["scenes"]:
+        assert sc["title"] is None
+        assert sc["text_anim"] is None
+        assert sc["transition"] is None
+        assert sc["fx"] == []
+        assert sc["ken_burns"] is None
+
+
+def test_apply_default_motion_fills_all_fields(fakes):
+    script = validate_script(fakes.script_json(1))
+    out = apply_default_motion(script, {}, best_hook_idx=1)
+
+    assert out["style"] == "bold"
+    # hooks[1] == "3 ta xato" -> birinchi 6 so'zi, eng uzuni "xato" yulduzchada
+    assert out["hook_text"] == "3 ta *xato*"
+    n = len(out["scenes"])
+    assert out["scenes"][0]["text_anim"] == "WordPop"
+    assert out["scenes"][-1]["text_anim"] == "BounceIn"
+    # scene 1 (index 1) raqam saqlaydi ("15% chegirma") -> Counter
+    assert out["scenes"][1]["text_anim"] == "Counter"
+    assert [sc["transition"] for sc in out["scenes"]] == \
+        ["zoomPunch" if i == 1 else "fade" for i in range(n)]
+    assert [sc["ken_burns"] for sc in out["scenes"]] == ["in", "out", "left"][:n]
+
+
+def test_apply_default_motion_uses_brand_style_and_keeps_llm_values():
+    script = {
+        "hooks": ["a", "b", "c"],
+        "scenes": [
+            {"subtitle": "x", "text_anim": "Glitch", "transition": None, "ken_burns": None},
+            {"subtitle": "y"},
+            {"subtitle": "z"},
+        ],
+        "style": None,
+        "hook_text": "Allaqachon *tayyor*",
+        "caption_preset": None,
+    }
+    out = apply_default_motion(script, {"style": "luxury"}, best_hook_idx=0)
+    assert out["style"] == "luxury"
+    assert out["hook_text"] == "Allaqachon *tayyor*"  # LLM qiymati saqlandi, qayta hisoblanmadi
+    assert out["scenes"][0]["text_anim"] == "Glitch"  # LLM qiymati ustuvor
 
 
 def test_previous_reviews_text():
