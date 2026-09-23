@@ -2,7 +2,38 @@
   "name": "render",
   "private": true,
   "type": "module",
-  "scripts": { "studio": "remotion studio", "test": "vitest" },
-  "dependencies": { "@remotion/cli": "^4.0.0", "@remotion/renderer": "^4.0.0", "remotion": "^4.0.0", "react": "^18", "react-dom": "^18", "bullmq": "^5", "@aws-sdk/client-s3": "^3" },
-  "devDependencies": { "vitest": "^2", "typescript": "^5" }
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "render:demo": "node --import tsx src/renderLocal.ts",
+    "worker": "node --import tsx src/worker.ts",
+    "enqueue": "node --import tsx src/enqueue.ts"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1138.0",
+    "@remotion/bundler": "4.0.527",
+    "@remotion/cli": "4.0.527",
+    "@remotion/google-fonts": "4.0.527",
+    "@remotion/renderer": "4.0.527",
+    "@remotion/transitions": "4.0.527",
+    "@remotion/zod-types": "4.0.527",
+    "bullmq": "^6.3.8",
+    "ioredis": "^6.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "4.0.527",
+    "tsx": "^4.23.15",
+    "zod": "4.5.4"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.4",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "typescript": "^5.9.3",
+    "vitest": "^5.0.1"
+  }
 }
