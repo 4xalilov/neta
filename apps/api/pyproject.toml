@@ -9,9 +9,10 @@ dependencies = [
   "anthropic", "google-genai",
   "arq", "redis", "boto3", "httpx",
   "azure-cognitiveservices-speech", "fal-client", "edge-tts",
+  "bullmq>=2,<3", "psycopg[binary]", "pyyaml",
 ]
 [project.optional-dependencies]
-dev = ["pytest", "pytest-asyncio", "ruff", "mypy", "aiosqlite", "moto[s3]"]
+dev = ["pytest", "pytest-asyncio", "ruff", "mypy", "aiosqlite", "moto[s3]", "fakeredis"]
 [tool.ruff]
 line-length = 100
 [tool.pytest.ini_options]

@@ -33,6 +33,21 @@ class Settings(BaseSettings):
     public_s3_url: str = "http://localhost:9000"
     flux_draft_tier: str = "schnell"
     flux_final_tier: str = "dev"
+    langgraph_checkpointer: str = "memory"  # memory | postgres
+    render_queue: str = "render"
+    render_poll_interval_s: float = 5.0
+    render_timeout_s: float = 900.0
+    taste_top_k: int = 5
+    crm_provider: str = "memory"
+    twenty_url: str = "http://twenty:3000"
+    twenty_api_key: str = ""
+    chatwoot_url: str = "http://chatwoot:3000"
+    chatwoot_api_token: str = ""
+    chatwoot_account_id: int = 1
+    chatwoot_webhook_secret: str = ""
+    vault_dir: str = "/app/vault"
+    vault_reindex_minutes: int = 10
+    embedding_provider: str = "hash"
 
 
 settings = Settings()
