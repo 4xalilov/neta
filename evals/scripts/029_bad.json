@@ -1,0 +1,28 @@
+{
+  "hooks": [
+    "4 haftalik kurs: ijtimoiy tarmoqda reklama qanday yaxshilanadi?",
+    "Reklamaga pul sarflab natija olmaslik — buni hal qilish mumkinmi?",
+    "Ko'pchilik reklamaga pul sarflab natija olmaslikdan aziyat chekadi, lekin biz byudjetni to'g'ri sarflash strategiyasini taklif qilamiz."
+  ],
+  "body": "Agar sizda ham reklamaga pul sarflab natija olmaslik bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa ijtimoiy tarmoqda reklama bo'yicha 4 haftalik kurs byudjetni to'g'ri sarflash strategiyasini ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Bizning jamoa ijtimoiy tarmoqda reklama bo'yicha ko'p yillik tajribaga ega bo'lib, har bir mijozga alohida yondashadi va byudjetni to'g'ri sarflash strategiyasini ta'minlash uchun zamonaviy uskunalar hamda malakali mutaxassislar bilan doimiy ishlaydi.",
+  "cta": "Kursga yoziling — jamoamiz sizga yordam berishga tayyor.",
+  "tts_text": "Agar sizda ham reklamaga pul sarflab natija olmaslik bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa ijtimoiy tarmoqda reklama bo'yicha to'rt haftalik kurs byudjetni to'g'ri sarflash strategiyasini ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Kursga yoziling. Bizning jamoa ijtimoiy tarmoqda reklama bo'yicha ko'p yillik tajribaga ega bo'lib, har bir mijozga alohida yondashadi va byudjetni to'g'ri sarflash strategiyasini ta'minlash uchun zamonaviy uskunalar hamda malakali mutaxassislar bilan doimiy ishlaydi.",
+  "display_text": "Agar sizda ham reklamaga pul sarflab natija olmaslik bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa ijtimoiy tarmoqda reklama bo'yicha to'rt haftalik kurs byudjetni to'g'ri sarflash strategiyasini ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Kursga yoziling. Bizning jamoa ijtimoiy tarmoqda reklama bo'yicha ko'p yillik tajribaga ega bo'lib, har bir mijozga alohida yondashadi va byudjetni to'g'ri sarflash strategiyasini ta'minlash uchun zamonaviy uskunalar hamda malakali mutaxassislar bilan doimiy ishlaydi.",
+  "scenes": [
+    {
+      "img_prompt": "marketing course online class screen",
+      "duration_s": 4,
+      "subtitle": "Reklamaga pul sarflab natija olmaslik?"
+    },
+    {
+      "img_prompt": "analytics dashboard on laptop",
+      "duration_s": 5,
+      "subtitle": "4 haftalik kurs — byudjetni to'g'ri"
+    },
+    {
+      "img_prompt": "student taking notes during webinar",
+      "duration_s": 4,
+      "subtitle": "Kursga yoziling"
+    }
+  ]
+}

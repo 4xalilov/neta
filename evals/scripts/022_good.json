@@ -1,0 +1,28 @@
+{
+  "hooks": [
+    "6 oyda natija: bolalar rivojlanish darslari qanday yaxshilanadi?",
+    "Bola diqqatini jamlay olmasligi — buni hal qilish mumkinmi?",
+    "Ko'pchilik bola diqqatini jamlay olmasligidan aziyat chekadi, lekin biz o'yin orqali o'rgatish metodikasini taklif qilamiz."
+  ],
+  "body": "Agar sizda ham bola diqqatini jamlay olmasligi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa bolalar rivojlanish darslari bo'yicha 6 oyda natija o'yin orqali o'rgatish metodikasini ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz.",
+  "cta": "Sinov darsiga yoziling — jamoamiz sizga yordam berishga tayyor.",
+  "tts_text": "Agar sizda ham bola diqqatini jamlay olmasligi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa bolalar rivojlanish darslari bo'yicha olti oyda natija o'yin orqali o'rgatish metodikasini ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Sinov darsiga yoziling.",
+  "display_text": "Agar sizda ham bola diqqatini jamlay olmasligi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa bolalar rivojlanish darslari bo'yicha 6 oyda natija o'yin orqali o'rgatish metodikasini ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Sinov darsiga yoziling.",
+  "scenes": [
+    {
+      "img_prompt": "kids doing creative activity in classroom",
+      "duration_s": 4,
+      "subtitle": "Bola diqqatini jamlay olmasligi?"
+    },
+    {
+      "img_prompt": "teacher playing educational game with children",
+      "duration_s": 5,
+      "subtitle": "6 oyda natija — o'yin orqali o'rgatish"
+    },
+    {
+      "img_prompt": "colorful learning center interior",
+      "duration_s": 4,
+      "subtitle": "Sinov darsiga yoziling"
+    }
+  ]
+}

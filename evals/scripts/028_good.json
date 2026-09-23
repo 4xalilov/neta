@@ -1,0 +1,28 @@
+{
+  "hooks": [
+    "21 kunda: kvartira remonti qanday yaxshilanadi?",
+    "Remont muddati cho'zilib ketishi — buni hal qilish mumkinmi?",
+    "Ko'pchilik remont muddati cho'zilib ketishidan aziyat chekadi, lekin biz belgilangan muddatda topshirishni taklif qilamiz."
+  ],
+  "body": "Agar sizda ham remont muddati cho'zilib ketishi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa kvartira remonti bo'yicha 21 kunda belgilangan muddatda topshirishni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz.",
+  "cta": "Smeta so'rang — jamoamiz sizga yordam berishga tayyor.",
+  "tts_text": "Agar sizda ham remont muddati cho'zilib ketishi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa kvartira remonti bo'yicha yigirma bir kunda belgilangan muddatda topshirishni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Smeta so'rang.",
+  "display_text": "Agar sizda ham remont muddati cho'zilib ketishi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa kvartira remonti bo'yicha 21 kunda belgilangan muddatda topshirishni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Smeta so'rang.",
+  "scenes": [
+    {
+      "img_prompt": "construction workers renovating apartment",
+      "duration_s": 4,
+      "subtitle": "Remont muddati cho'zilib ketishi?"
+    },
+    {
+      "img_prompt": "before after renovated living room",
+      "duration_s": 5,
+      "subtitle": "21 kunda — belgilangan muddatda"
+    },
+    {
+      "img_prompt": "team reviewing blueprint on site",
+      "duration_s": 4,
+      "subtitle": "Smeta so'rang"
+    }
+  ]
+}

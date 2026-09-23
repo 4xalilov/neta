@@ -1,0 +1,28 @@
+{
+  "hooks": [
+    "2 soatda: gul buketi qanday yaxshilanadi?",
+    "Bayramga gul yetkazishga ulgurmaslik — buni hal qilish mumkinmi?",
+    "Ko'pchilik bayramga gul yetkazishga ulgurmaslikdan aziyat chekadi, lekin biz tez va chiroyli yetkazib berishni taklif qilamiz."
+  ],
+  "body": "Agar sizda ham bayramga gul yetkazishga ulgurmaslik bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa gul buketi bo'yicha 2 soatda tez va chiroyli yetkazib berishni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz.",
+  "cta": "Hoziroq buyurtma bering — jamoamiz sizga yordam berishga tayyor.",
+  "tts_text": "Agar sizda ham bayramga gul yetkazishga ulgurmaslik bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa gul buketi bo'yicha ikki soatda tez va chiroyli yetkazib berishni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Hoziroq buyurtma bering.",
+  "display_text": "Agar sizda ham bayramga gul yetkazishga ulgurmaslik bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa gul buketi bo'yicha 2 soatda tez va chiroyli yetkazib berishni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Hoziroq buyurtma bering.",
+  "scenes": [
+    {
+      "img_prompt": "florist arranging fresh flowers",
+      "duration_s": 4,
+      "subtitle": "Bayramga gul yetkazishga ulgurmaslik?"
+    },
+    {
+      "img_prompt": "delivery courier with bouquet",
+      "duration_s": 5,
+      "subtitle": "2 soatda — tez va chiroyli yetkazib"
+    },
+    {
+      "img_prompt": "colorful flower shop interior",
+      "duration_s": 4,
+      "subtitle": "Hoziroq buyurtma bering"
+    }
+  ]
+}

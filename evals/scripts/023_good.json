@@ -1,0 +1,28 @@
+{
+  "hooks": [
+    "60 daqiqalik seans: orqa massaji qanday yaxshilanadi?",
+    "Ish stressidan mushaklar tortishishi — buni hal qilish mumkinmi?",
+    "Ko'pchilik ish stressidan mushaklar tortishishidan aziyat chekadi, lekin biz malakali massajist tomonidan davolovchi massajni taklif qilamiz."
+  ],
+  "body": "Agar sizda ham ish stressidan mushaklar tortishishi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa orqa massaji bo'yicha 60 daqiqalik seans malakali massajist tomonidan davolovchi massajni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz.",
+  "cta": "Seansga yoziling — jamoamiz sizga yordam berishga tayyor.",
+  "tts_text": "Agar sizda ham ish stressidan mushaklar tortishishi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa orqa massaji bo'yicha oltmish daqiqalik seans malakali massajist tomonidan davolovchi massajni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Seansga yoziling.",
+  "display_text": "Agar sizda ham ish stressidan mushaklar tortishishi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa orqa massaji bo'yicha 60 daqiqalik seans malakali massajist tomonidan davolovchi massajni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Seansga yoziling.",
+  "scenes": [
+    {
+      "img_prompt": "massage therapy room with candles",
+      "duration_s": 4,
+      "subtitle": "Ish stressidan mushaklar tortishishi?"
+    },
+    {
+      "img_prompt": "therapist giving back massage",
+      "duration_s": 5,
+      "subtitle": "60 daqiqalik seans — malakali massajist"
+    },
+    {
+      "img_prompt": "relaxed client after massage",
+      "duration_s": 4,
+      "subtitle": "Seansga yoziling"
+    }
+  ]
+}

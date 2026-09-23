@@ -1,0 +1,28 @@
+{
+  "hooks": [
+    "24 soat ochiq: uy hayvoni salomatligi qanday yaxshilanadi?",
+    "Hayvon kasal bo'lib qolishi — buni hal qilish mumkinmi?",
+    "Ko'pchilik hayvon kasal bo'lib qolishidan aziyat chekadi, lekin biz tezkor ko'rik va davolashni taklif qilamiz."
+  ],
+  "body": "Agar sizda ham hayvon kasal bo'lib qolishi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa uy hayvoni salomatligi bo'yicha 24 soat ochiq tezkor ko'rik va davolashni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz.",
+  "cta": "Qabulga yoziling — jamoamiz sizga yordam berishga tayyor.",
+  "tts_text": "Agar sizda ham hayvon kasal bo'lib qolishi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa uy hayvoni salomatligi bo'yicha yigirma to'rt soat ochiq tezkor ko'rik va davolashni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Qabulga yoziling.",
+  "display_text": "Agar sizda ham hayvon kasal bo'lib qolishi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa uy hayvoni salomatligi bo'yicha 24 soat ochiq tezkor ko'rik va davolashni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Qabulga yoziling.",
+  "scenes": [
+    {
+      "img_prompt": "vet examining a dog",
+      "duration_s": 4,
+      "subtitle": "Hayvon kasal bo'lib qolishi?"
+    },
+    {
+      "img_prompt": "clinic reception with pet owner",
+      "duration_s": 5,
+      "subtitle": "24 soat ochiq — tezkor ko'rik va"
+    },
+    {
+      "img_prompt": "cat resting after checkup",
+      "duration_s": 4,
+      "subtitle": "Qabulga yoziling"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "hooks": [
+    "30 kunda: ingliz tili qanday yaxshilanadi?",
+    "Ingliz tilini bilmaslik — buni hal qilish mumkinmi?",
+    "Ko'pchilik ingliz tilini bilmaslikdan aziyat chekadi, lekin biz erkin gaplasha olishni taklif qilamiz."
+  ],
+  "body": "Agar sizda ham ingliz tilini bilmaslik bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa ingliz tili bo'yicha 30 kunda erkin gaplasha olishni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Xizmat ko'rsatishni amalga oshirishni boshlaymiz va natijalarni qo'lga kiritishga harakat qilamiz.",
+  "cta": "Bugun ro'yxatdan o'ting — jamoamiz sizga yordam berishga tayyor.",
+  "tts_text": "Agar sizda ham ingliz tilini bilmaslik bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa ingliz tili bo'yicha o'ttiz kunda erkin gaplasha olishni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Bugun ro'yxatdan o'ting. Xizmat ko'rsatishni amalga oshirishni boshlaymiz.",
+  "display_text": "Agar sizda ham ingliz tilini bilmaslik bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa ingliz tili bo'yicha o'ttiz kunda erkin gaplasha olishni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Bugun ro'yxatdan o'ting. Xizmat ko'rsatishni amalga oshirishni boshlaymiz.",
+  "scenes": [
+    {
+      "img_prompt": "students in english classroom",
+      "duration_s": 4,
+      "subtitle": "Ingliz tilini bilmaslik?"
+    },
+    {
+      "img_prompt": "teacher pointing at whiteboard",
+      "duration_s": 5,
+      "subtitle": "30 kunda — erkin gaplasha olish"
+    },
+    {
+      "img_prompt": "happy student speaking on video call",
+      "duration_s": 4,
+      "subtitle": "Bugun ro'yxatdan o'ting"
+    }
+  ]
+}

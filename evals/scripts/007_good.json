@@ -1,0 +1,28 @@
+{
+  "hooks": [
+    "7 xil taom: tushlik menyusi qanday yaxshilanadi?",
+    "Ishxona yaqinida mazali tushlik topilmasligi — buni hal qilish mumkinmi?",
+    "Ko'pchilik ishxona yaqinida mazali tushlik topilmasligidan aziyat chekadi, lekin biz har kuni yangi taomni taklif qilamiz."
+  ],
+  "body": "Agar sizda ham ishxona yaqinida mazali tushlik topilmasligi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa tushlik menyusi bo'yicha 7 xil taom har kuni yangi taomni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz.",
+  "cta": "Bugun tashrif buyuring — jamoamiz sizga yordam berishga tayyor.",
+  "tts_text": "Agar sizda ham ishxona yaqinida mazali tushlik topilmasligi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa tushlik menyusi bo'yicha yetti xil taom har kuni yangi taomni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Bugun tashrif buyuring.",
+  "display_text": "Agar sizda ham ishxona yaqinida mazali tushlik topilmasligi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa tushlik menyusi bo'yicha 7 xil taom har kuni yangi taomni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Bugun tashrif buyuring.",
+  "scenes": [
+    {
+      "img_prompt": "cozy cafe interior with plants",
+      "duration_s": 4,
+      "subtitle": "Ishxona yaqinida mazali tushlik"
+    },
+    {
+      "img_prompt": "chef plating fresh lunch dish",
+      "duration_s": 5,
+      "subtitle": "7 xil taom — har kuni yangi taom"
+    },
+    {
+      "img_prompt": "friends enjoying coffee together",
+      "duration_s": 4,
+      "subtitle": "Bugun tashrif buyuring"
+    }
+  ]
+}

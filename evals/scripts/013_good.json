@@ -1,0 +1,28 @@
+{
+  "hooks": [
+    "15 daqiqada: ko'zoynak tanlash qanday yaxshilanadi?",
+    "Noto'g'ri diopteriya — buni hal qilish mumkinmi?",
+    "Ko'pchilik noto'g'ri diopteriyadan aziyat chekadi, lekin biz aniq ko'z tekshiruvini taklif qilamiz."
+  ],
+  "body": "Agar sizda ham noto'g'ri diopteriya bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa ko'zoynak tanlash bo'yicha 15 daqiqada aniq ko'z tekshiruvini ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz.",
+  "cta": "Ko'z tekshiruviga yoziling — jamoamiz sizga yordam berishga tayyor.",
+  "tts_text": "Agar sizda ham noto'g'ri diopteriya bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa ko'zoynak tanlash bo'yicha o'n besh daqiqada aniq ko'z tekshiruvini ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Ko'z tekshiruviga yoziling.",
+  "display_text": "Agar sizda ham noto'g'ri diopteriya bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa ko'zoynak tanlash bo'yicha 15 daqiqada aniq ko'z tekshiruvini ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Ko'z tekshiruviga yoziling.",
+  "scenes": [
+    {
+      "img_prompt": "optometrist testing eyesight",
+      "duration_s": 4,
+      "subtitle": "Noto'g'ri diopteriya?"
+    },
+    {
+      "img_prompt": "wall of eyeglasses frames",
+      "duration_s": 5,
+      "subtitle": "15 daqiqada — aniq ko'z tekshiruvi"
+    },
+    {
+      "img_prompt": "customer trying on glasses in mirror",
+      "duration_s": 4,
+      "subtitle": "Ko'z tekshiruviga yoziling"
+    }
+  ]
+}

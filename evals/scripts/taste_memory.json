@@ -1,0 +1,22 @@
+[
+  {
+    "reason": "CTA juda bosim o'tkazuvchi/majburlovchi ohangda edi",
+    "trigger_phrase": "Hoziroq qo'ng'iroq qiling, aks holda joy qolmaydi"
+  },
+  {
+    "reason": "Bir xil shior video ichida ortiqcha takrorlangan",
+    "trigger_phrase": "Bugun band qiling! Bugun band qiling!"
+  },
+  {
+    "reason": "Reklama ohangi haddan tashqari kuchli, tabiiy emas edi",
+    "trigger_phrase": "Bu hayotingizdagi ENG ZO'R tanlov"
+  },
+  {
+    "reason": "Raqobatchilar haqida salbiy gapirilgan edi",
+    "trigger_phrase": "boshqalardan farqli o'laroq, ular sifatsiz ishlaydi"
+  },
+  {
+    "reason": "Narx haqida asossiz va'da berilgan edi",
+    "trigger_phrase": "narxlar hech qachon oshmaydi"
+  }
+]

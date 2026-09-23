@@ -1,0 +1,28 @@
+{
+  "hooks": [
+    "48 soat ichida javob: shartnoma tekshiruvi qanday yaxshilanadi?",
+    "Noqulay shartnoma bandlari — buni hal qilish mumkinmi?",
+    "Ko'pchilik noqulay shartnoma bandlaridan aziyat chekadi, lekin biz risklarni oldindan aniqlashni taklif qilamiz."
+  ],
+  "body": "Agar sizda ham noqulay shartnoma bandlari bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa shartnoma tekshiruvi bo'yicha 48 soat ichida javob risklarni oldindan aniqlashni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Narxlarimiz eng arzon, natija 100% kafolat.",
+  "cta": "Konsultatsiyaga yoziling — jamoamiz sizga yordam berishga tayyor. Bu — eng arzon va 100% kafolat bilan taklif!",
+  "tts_text": "Agar sizda ham noqulay shartnoma bandlari bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa shartnoma tekshiruvi bo'yicha qirq sakkiz soat ichida javob risklarni oldindan aniqlashni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Konsultatsiyaga yoziling. Narxlarimiz eng arzon, natija yuz foiz kafolat.",
+  "display_text": "Agar sizda ham noqulay shartnoma bandlari bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa shartnoma tekshiruvi bo'yicha 48 soat ichida javob risklarni oldindan aniqlashni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Konsultatsiyaga yoziling. Narxlarimiz eng arzon, natija 100% kafolat.",
+  "scenes": [
+    {
+      "img_prompt": "lawyer reviewing contract documents",
+      "duration_s": 4,
+      "subtitle": "Noqulay shartnoma bandlari?"
+    },
+    {
+      "img_prompt": "consultation meeting in office",
+      "duration_s": 5,
+      "subtitle": "48 soat ichida javob — risklarni"
+    },
+    {
+      "img_prompt": "client signing document",
+      "duration_s": 4,
+      "subtitle": "Konsultatsiyaga yoziling"
+    }
+  ]
+}

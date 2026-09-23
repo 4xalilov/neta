@@ -1,0 +1,28 @@
+{
+  "hooks": [
+    "4 oyda: dasturlashni o'rganish qanday yaxshilanadi?",
+    "Ish topa olmaslik — buni hal qilish mumkinmi?",
+    "Ko'pchilik ish topa olmaslikdan aziyat chekadi, lekin biz birinchi loyihangizni yozishni taklif qilamiz."
+  ],
+  "body": "Agar sizda ham ish topa olmaslik bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa dasturlashni o'rganish bo'yicha 4 oyda birinchi loyihangizni yozishni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Sen albatta bu natijadan xursand bo'lasan!",
+  "cta": "Sinov darsiga yoziling — jamoamiz sizga yordam berishga tayyor.",
+  "tts_text": "Agar sizda ham ish topa olmaslik bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa dasturlashni o'rganish bo'yicha to'rt oyda birinchi loyihangizni yozishni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Sinov darsiga yoziling. Sen albatta bu natijadan xursand bo'lasan!",
+  "display_text": "Agar sizda ham ish topa olmaslik bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa dasturlashni o'rganish bo'yicha to'rt oyda birinchi loyihangizni yozishni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Sinov darsiga yoziling. Sen albatta bu natijadan xursand bo'lasan!",
+  "scenes": [
+    {
+      "img_prompt": "students coding on laptops",
+      "duration_s": 4,
+      "subtitle": "Ish topa olmaslik?"
+    },
+    {
+      "img_prompt": "mentor reviewing code on screen",
+      "duration_s": 5,
+      "subtitle": "4 oyda — birinchi loyihangizni yozish"
+    },
+    {
+      "img_prompt": "graduation certificate handover",
+      "duration_s": 4,
+      "subtitle": "Sinov darsiga yoziling"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "hooks": [
+    "Bizning hayvon ovqati tanlash xizmatimiz haqida.",
+    "Uy hayvonlari oziq-ovqati do'koni bilan tanishing.",
+    "Biz doim mijozlarga yordam beramiz."
+  ],
+  "body": "Agar sizda ham hayvonga mos ovqat topa olmaslik bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa hayvon ovqati tanlash bo'yicha 9 xil brend veterinar tavsiya etgan ratsionni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz.",
+  "cta": "Onlayn buyurtma bering — jamoamiz sizga yordam berishga tayyor.",
+  "tts_text": "Agar sizda ham hayvonga mos ovqat topa olmaslik bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa hayvon ovqati tanlash bo'yicha to'qqiz xil brend veterinar tavsiya etgan ratsionni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Onlayn buyurtma bering.",
+  "display_text": "Agar sizda ham hayvonga mos ovqat topa olmaslik bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa hayvon ovqati tanlash bo'yicha 9 xil brend veterinar tavsiya etgan ratsionni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Onlayn buyurtma bering.",
+  "scenes": [
+    {
+      "img_prompt": "pet food shelves in store",
+      "duration_s": 4,
+      "subtitle": "Hayvonga mos ovqat topa olmaslik?"
+    },
+    {
+      "img_prompt": "dog eating from bowl happily",
+      "duration_s": 5,
+      "subtitle": "9 xil brend — veterinar tavsiya etgan"
+    },
+    {
+      "img_prompt": "shop assistant helping customer choose food",
+      "duration_s": 4,
+      "subtitle": "Onlayn buyurtma bering"
+    }
+  ]
+}

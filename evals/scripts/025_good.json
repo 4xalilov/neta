@@ -1,0 +1,28 @@
+{
+  "hooks": [
+    "5 yulduzli mehmonxonalar: dam olish turi qanday yaxshilanadi?",
+    "Sayohatni o'zi tashkil qilish qiyinligi — buni hal qilish mumkinmi?",
+    "Ko'pchilik sayohatni o'zi tashkil qilish qiyinligidan aziyat chekadi, lekin biz hammasi tayyor paket turni taklif qilamiz."
+  ],
+  "body": "Agar sizda ham sayohatni o'zi tashkil qilish qiyinligi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa dam olish turi bo'yicha 5 yulduzli mehmonxonalar hammasi tayyor paket turni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz.",
+  "cta": "Bepul konsultatsiyaga yoziling — jamoamiz sizga yordam berishga tayyor.",
+  "tts_text": "Agar sizda ham sayohatni o'zi tashkil qilish qiyinligi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa dam olish turi bo'yicha besh yulduzli mehmonxonalar hammasi tayyor paket turni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Bepul konsultatsiyaga yoziling.",
+  "display_text": "Agar sizda ham sayohatni o'zi tashkil qilish qiyinligi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa dam olish turi bo'yicha 5 yulduzli mehmonxonalar hammasi tayyor paket turni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Bepul konsultatsiyaga yoziling.",
+  "scenes": [
+    {
+      "img_prompt": "beach resort aerial view",
+      "duration_s": 4,
+      "subtitle": "Sayohatni o'zi tashkil qilish qiyinligi?"
+    },
+    {
+      "img_prompt": "travel agent showing brochure to clients",
+      "duration_s": 5,
+      "subtitle": "5 yulduzli mehmonxonalar — hammasi"
+    },
+    {
+      "img_prompt": "airplane window with clouds",
+      "duration_s": 4,
+      "subtitle": "Bepul konsultatsiyaga yoziling"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "hooks": [
+    "5 yillik tajriba: soch turmagi qanday yaxshilanadi?",
+    "Sochning sifatsiz bo'yalishi — buni hal qilish mumkinmi?",
+    "Ko'pchilik sochning sifatsiz bo'yalishidan aziyat chekadi, lekin biz professional parvarishni taklif qilamiz."
+  ],
+  "body": "Agar sizda ham sochning sifatsiz bo'yalishi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa soch turmagi bo'yicha 5 yillik tajriba professional parvarishni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz.",
+  "cta": "Joy band qiling — jamoamiz sizga yordam berishga tayyor.",
+  "tts_text": "Agar sizda ham sochning sifatsiz bo'yalishi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa soch turmagi bo'yicha besh yillik tajriba professional parvarishni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Joy band qiling.",
+  "display_text": "Agar sizda ham sochning sifatsiz bo'yalishi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa soch turmagi bo'yicha 5 yillik tajriba professional parvarishni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Joy band qiling.",
+  "scenes": [
+    {
+      "img_prompt": "hairdresser styling client hair",
+      "duration_s": 4,
+      "subtitle": "Sochning sifatsiz bo'yalishi?"
+    },
+    {
+      "img_prompt": "salon interior with mirrors",
+      "duration_s": 5,
+      "subtitle": "5 yillik tajriba — professional"
+    },
+    {
+      "img_prompt": "before after hair coloring result",
+      "duration_s": 4,
+      "subtitle": "Joy band qiling"
+    }
+  ]
+}

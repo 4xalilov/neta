@@ -1,0 +1,28 @@
+{
+  "hooks": [
+    "14 kunda: mebel buyurtmasi qanday yaxshilanadi?",
+    "Standart mebel uyga mos kelmasligi — buni hal qilish mumkinmi?",
+    "Ko'pchilik standart mebel uyga mos kelmasligidan aziyat chekadi, lekin biz o'lchamga moslashtirilgan mebelni taklif qilamiz."
+  ],
+  "body": "Agar sizda ham standart mebel uyga mos kelmasligi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa mebel buyurtmasi bo'yicha 14 kunda o'lchamga moslashtirilgan mebelni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Xizmat ko'rsatishni amalga oshirishni boshlaymiz va natijalarni qo'lga kiritishga harakat qilamiz.",
+  "cta": "Bepul o'lchov chaqiring — jamoamiz sizga yordam berishga tayyor.",
+  "tts_text": "Agar sizda ham standart mebel uyga mos kelmasligi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa mebel buyurtmasi bo'yicha o'n to'rt kunda o'lchamga moslashtirilgan mebelni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Bepul o'lchov chaqiring. Xizmat ko'rsatishni amalga oshirishni boshlaymiz.",
+  "display_text": "Agar sizda ham standart mebel uyga mos kelmasligi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa mebel buyurtmasi bo'yicha o'n to'rt kunda o'lchamga moslashtirilgan mebelni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Bepul o'lchov chaqiring. Xizmat ko'rsatishni amalga oshirishni boshlaymiz.",
+  "scenes": [
+    {
+      "img_prompt": "carpenter sanding wooden furniture",
+      "duration_s": 4,
+      "subtitle": "Standart mebel uyga mos kelmasligi?"
+    },
+    {
+      "img_prompt": "modern living room with custom sofa",
+      "duration_s": 5,
+      "subtitle": "14 kunda — o'lchamga moslashtirilgan"
+    },
+    {
+      "img_prompt": "close-up of wood texture and tools",
+      "duration_s": 4,
+      "subtitle": "Bepul o'lchov chaqiring"
+    }
+  ]
+}

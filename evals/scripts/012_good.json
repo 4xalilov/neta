@@ -1,0 +1,28 @@
+{
+  "hooks": [
+    "6 xil ta'm: tug'ilgan kun torti qanday yaxshilanadi?",
+    "Tayyor tortlarning bir xilligi — buni hal qilish mumkinmi?",
+    "Ko'pchilik tayyor tortlarning bir xilligidan aziyat chekadi, lekin biz individual dizayndagi tortni taklif qilamiz."
+  ],
+  "body": "Agar sizda ham tayyor tortlarning bir xilligi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa tug'ilgan kun torti bo'yicha 6 xil ta'm individual dizayndagi tortni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz.",
+  "cta": "Buyurtma bering — jamoamiz sizga yordam berishga tayyor.",
+  "tts_text": "Agar sizda ham tayyor tortlarning bir xilligi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa tug'ilgan kun torti bo'yicha olti xil ta'm individual dizayndagi tortni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Buyurtma bering.",
+  "display_text": "Agar sizda ham tayyor tortlarning bir xilligi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa tug'ilgan kun torti bo'yicha 6 xil ta'm individual dizayndagi tortni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Buyurtma bering.",
+  "scenes": [
+    {
+      "img_prompt": "decorated birthday cake close-up",
+      "duration_s": 4,
+      "subtitle": "Tayyor tortlarning bir xilligi?"
+    },
+    {
+      "img_prompt": "baker piping cream on cake",
+      "duration_s": 5,
+      "subtitle": "6 xil ta'm — individual dizayndagi tort"
+    },
+    {
+      "img_prompt": "family celebrating with cake",
+      "duration_s": 4,
+      "subtitle": "Buyurtma bering"
+    }
+  ]
+}

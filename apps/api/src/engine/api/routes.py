@@ -16,7 +16,10 @@ from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from engine import jobs
+from engine.api.jarvis_routes import get_deps as get_jarvis_deps
 from engine.db import get_session
+from engine.jarvis import supervisor
+from engine.jarvis.deps import JarvisDeps
 from engine.models import (
     Asset,
     BrandProfile,
@@ -24,7 +27,6 @@ from engine.models import (
     CostLog,
     Deal,
     JarvisAction,
-    JarvisActionLevel,
     Lead,
     Script,
     Task,
@@ -71,6 +73,7 @@ async def get_arq_pool(request: Request) -> ArqRedis:
 
 SessionDep = Annotated[AsyncSession, Depends(get_session)]
 ArqDep = Annotated[ArqRedis, Depends(get_arq_pool)]
+JarvisDepsDep = Annotated[JarvisDeps, Depends(get_jarvis_deps)]
 
 
 def _uuid(value: str, what: str = "id") -> uuid.UUID:
@@ -329,37 +332,62 @@ async def daily_report(workspace_id: str,
     )
 
 
-DECISION_STATUS = {"yes": "approved", "no": "rejected", "edit": "edit_requested"}
+async def _remind_overdue_staff(deps: JarvisDeps, workspace_id: uuid.UUID) -> list[JarvisAction]:
+    """"👤 Xodimga eslat" (``report:<ws>:remind``): muddati o'tgan har ochiq vazifa uchun
+    ``task.overdue`` eventini yuboradi — ``supervisor``/``task_manager`` ``remind_staff``
+    harakatini yaratadi va avtonom bajaradi (docs/04 "Eskalatsiya qoidalari")."""
+    now = deps.now()
+    async with deps.session_factory() as session:
+        result = await session.scalars(
+            select(Task).where(Task.workspace_id == workspace_id, Task.status == "open",
+                               Task.due_at.is_not(None))
+        )
+        tasks = list(result)
+
+    actions: list[JarvisAction] = []
+    for t in tasks:
+        due = t.due_at if t.due_at.tzinfo is not None else t.due_at.replace(tzinfo=UTC)
+        if due >= now:
+            continue
+        action = await supervisor.handle_event(
+            {"type": "task.overdue", "task_id": str(t.id), "escalate": False}, deps,
+        )
+        if action is not None:
+            actions.append(action)
+    return actions
 
 
 @router.post("/jarvis-actions/{action_id}/decision", response_model=OkOut)
 async def jarvis_decision(action_id: str, body: JarvisDecision,
-                          s: SessionDep) -> OkOut:
-    """Stub: qarorni ``jarvis_action`` ga yozadi (bajarish — Jarvis agenti, 5.5/5.6).
+                          deps: JarvisDepsDep) -> OkOut:
+    """Bot tugmalari -> ``engine.jarvis.supervisor`` (5.5/5.6 bosqich, docs/06 "Policy gate").
 
-    ``action_id`` — ``jarvis_action.id`` (uuid) yoki bot hisobot tugmalari
-    ``report:<workspace_id>:<all|remind>`` (yangi ``report_followup`` harakati yoziladi).
+    ``action_id`` — ``jarvis_action.id`` (uuid) -> ``supervisor.decide`` (``yes``/``no``/
+    ``edit`` bot qarorlari supervisor semantikasi bilan bir xil; ``edit`` da ``comment``
+    bo'lsa ``edit_text`` sifatida saqlanadi). Bot hisobot tugmalari
+    ``report:<workspace_id>:<all|remind>``:
+    - ``all`` -> barcha kutilayotgan (``pending``) harakatlarni tasdiqlaydi
+      (``supervisor.batch_approve``).
+    - ``remind`` -> muddati o'tgan ochiq vazifalar uchun ``remind_staff`` harakatini
+      yaratadi/bajaradi (``task_manager`` orqali).
     """
-    status = DECISION_STATUS[body.decision]
-    try:
-        row = await s.get(JarvisAction, uuid.UUID(action_id))
-    except ValueError:
-        row = None
-    if row is not None:
-        row.status = status
-        row.approved_by = "owner"
-        row.payload = {**(row.payload or {}), "decision": body.decision,
-                       "comment": body.comment}
-        await s.commit()
-        return OkOut(detail=status)
     parts = action_id.split(":")
     if len(parts) == 3 and parts[0] == "report":
-        ws = await _get_ws(s, parts[1])
-        s.add(JarvisAction(workspace_id=ws.id, type=f"report_{parts[2]}",
-                           level=JarvisActionLevel.AUTONOMOUS, status=status,
-                           approved_by="owner",
-                           payload={"source": "daily_report", "action": parts[2],
-                                    "decision": body.decision, "comment": body.comment}))
-        await s.commit()
-        return OkOut(detail=status)
-    raise HTTPException(404, "jarvis action topilmadi")
+        async with deps.session_factory() as s:
+            ws = await _get_ws(s, parts[1])
+        kind = parts[2]
+        if kind not in ("all", "remind"):
+            raise HTTPException(404, "jarvis action topilmadi")
+        if body.decision != "yes":  # bot faqat "yes" yuboradi (apps/bot/README.md)
+            return OkOut(detail=body.decision)
+        if kind == "all":
+            await supervisor.batch_approve(deps, ws.id)
+        else:
+            await _remind_overdue_staff(deps, ws.id)
+        return OkOut(detail="approved")
+
+    try:
+        action = await supervisor.decide(deps, action_id, body.decision, body.comment)
+    except ValueError:
+        raise HTTPException(404, "jarvis action topilmadi") from None
+    return OkOut(detail=action.status)

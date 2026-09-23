@@ -1,0 +1,28 @@
+{
+  "hooks": [
+    "2 soatda: chuqur tozalash qanday yaxshilanadi?",
+    "Uy tozalashga vaqt yo'qligi — buni hal qilish mumkinmi?",
+    "Ko'pchilik uy tozalashga vaqt yo'qligidan aziyat chekadi, lekin biz professional jihozlar bilan tozalashni taklif qilamiz."
+  ],
+  "body": "Agar sizda ham uy tozalashga vaqt yo'qligi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa chuqur tozalash bo'yicha 2 soatda professional jihozlar bilan tozalashni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Voobshe, bu tema bo'yicha biz eng ko'p tajribaga egamiz.",
+  "cta": "Xizmatga buyurtma bering — jamoamiz sizga yordam berishga tayyor.",
+  "tts_text": "Agar sizda ham uy tozalashga vaqt yo'qligi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa chuqur tozalash bo'yicha ikki soatda professional jihozlar bilan tozalashni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Xizmatga buyurtma bering. Voobshe, bu tema bo'yicha biz eng ko'p tajribaga egamiz.",
+  "display_text": "Agar sizda ham uy tozalashga vaqt yo'qligi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa chuqur tozalash bo'yicha ikki soatda professional jihozlar bilan tozalashni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Xizmatga buyurtma bering. Voobshe, bu tema bo'yicha biz eng ko'p tajribaga egamiz.",
+  "scenes": [
+    {
+      "img_prompt": "cleaning team working in apartment",
+      "duration_s": 4,
+      "subtitle": "Uy tozalashga vaqt yo'qligi?"
+    },
+    {
+      "img_prompt": "sparkling clean kitchen surface",
+      "duration_s": 5,
+      "subtitle": "2 soatda — professional jihozlar bilan"
+    },
+    {
+      "img_prompt": "cleaning supplies and equipment",
+      "duration_s": 4,
+      "subtitle": "Xizmatga buyurtma bering"
+    }
+  ]
+}

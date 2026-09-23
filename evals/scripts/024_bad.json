@@ -1,0 +1,28 @@
+{
+  "hooks": [
+    "45 daqiqada: uyga taom yetkazish qanday yaxshilanadi?",
+    "Ishdan keyin ovqat pishirishga vaqt yo'qligi — buni hal qilish mumkinmi?",
+    "Ko'pchilik ishdan keyin ovqat pishirishga vaqt yo'qligidan aziyat chekadi, lekin biz issiq holda tezkor yetkazib berishni taklif qilamiz."
+  ],
+  "body": "Bizning kompaniya haqida gapirsak, biz uyga taom yetkazish sohasida ishlaymiz. Jamoamiz mijozlarga g'amxo'rlik bilan yondashadi. Xizmatlarimiz sifatli.",
+  "cta": "Ilovadan buyurtma bering — jamoamiz sizga yordam berishga tayyor.",
+  "tts_text": "Bizning kompaniya haqida gapirsak, biz uyga taom yetkazish sohasida ishlaymiz. Jamoamiz mijozlarga g'amxo'rlik bilan yondashadi. Xizmatlarimiz sifatli.",
+  "display_text": "Bizning kompaniya haqida gapirsak, biz uyga taom yetkazish sohasida ishlaymiz. Jamoamiz mijozlarga g'amxo'rlik bilan yondashadi. Xizmatlarimiz sifatli.",
+  "scenes": [
+    {
+      "img_prompt": "traditional uzbek food on plate",
+      "duration_s": 4,
+      "subtitle": "Ishdan keyin ovqat pishirishga vaqt"
+    },
+    {
+      "img_prompt": "delivery bag on scooter",
+      "duration_s": 5,
+      "subtitle": "45 daqiqada — issiq holda tezkor"
+    },
+    {
+      "img_prompt": "family eating dinner together",
+      "duration_s": 4,
+      "subtitle": "Ilovadan buyurtma bering"
+    }
+  ]
+}

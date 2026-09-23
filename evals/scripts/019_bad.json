@@ -1,0 +1,28 @@
+{
+  "hooks": [
+    "20 daqiqada: soch va soqol olish qanday yaxshilanadi?",
+    "Navbatda uzoq kutish — buni hal qilish mumkinmi?",
+    "Ko'pchilik navbatda uzoq kutishdan aziyat chekadi, lekin biz oldindan band qilish tizimini taklif qilamiz."
+  ],
+  "body": "Agar sizda ham navbatda uzoq kutish bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa soch va soqol olish bo'yicha 20 daqiqada oldindan band qilish tizimini ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz.",
+  "cta": "Bugun band qiling! Bugun band qiling!! Vaqtingizni band qiling — jamoamiz sizga yordam berishga tayyor.",
+  "tts_text": "Agar sizda ham navbatda uzoq kutish bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa soch va soqol olish bo'yicha yigirma daqiqada oldindan band qilish tizimini ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Vaqtingizni band qiling. Bugun band qiling! Bugun band qiling!!",
+  "display_text": "Agar sizda ham navbatda uzoq kutish bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa soch va soqol olish bo'yicha 20 daqiqada oldindan band qilish tizimini ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Vaqtingizni band qiling. Bugun band qiling! Bugun band qiling!!",
+  "scenes": [
+    {
+      "img_prompt": "barber cutting hair",
+      "duration_s": 4,
+      "subtitle": "Navbatda uzoq kutish?"
+    },
+    {
+      "img_prompt": "barbershop interior chairs",
+      "duration_s": 5,
+      "subtitle": "20 daqiqada — oldindan band qilish"
+    },
+    {
+      "img_prompt": "close-up beard trimming detail",
+      "duration_s": 4,
+      "subtitle": "Vaqtingizni band qiling"
+    }
+  ]
+}

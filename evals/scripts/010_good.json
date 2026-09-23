@@ -1,0 +1,28 @@
+{
+  "hooks": [
+    "8 hafta: mashg'ulot dasturi qanday yaxshilanadi?",
+    "Mashg'ulotdan natija chiqmasligi — buni hal qilish mumkinmi?",
+    "Ko'pchilik mashg'ulotdan natija chiqmasligidan aziyat chekadi, lekin biz shaxsiy dastur va nazoratni taklif qilamiz."
+  ],
+  "body": "Agar sizda ham mashg'ulotdan natija chiqmasligi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa mashg'ulot dasturi bo'yicha 8 hafta shaxsiy dastur va nazoratni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz.",
+  "cta": "Bepul mashg'ulotga yoziling — jamoamiz sizga yordam berishga tayyor.",
+  "tts_text": "Agar sizda ham mashg'ulotdan natija chiqmasligi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa mashg'ulot dasturi bo'yicha sakkiz hafta shaxsiy dastur va nazoratni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Bepul mashg'ulotga yoziling.",
+  "display_text": "Agar sizda ham mashg'ulotdan natija chiqmasligi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa mashg'ulot dasturi bo'yicha 8 hafta shaxsiy dastur va nazoratni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Bepul mashg'ulotga yoziling.",
+  "scenes": [
+    {
+      "img_prompt": "gym interior with equipment",
+      "duration_s": 4,
+      "subtitle": "Mashg'ulotdan natija chiqmasligi?"
+    },
+    {
+      "img_prompt": "trainer guiding client exercise",
+      "duration_s": 5,
+      "subtitle": "8 hafta — shaxsiy dastur va nazorat"
+    },
+    {
+      "img_prompt": "before after fitness transformation",
+      "duration_s": 4,
+      "subtitle": "Bepul mashg'ulotga yoziling"
+    }
+  ]
+}

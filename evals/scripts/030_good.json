@@ -1,0 +1,28 @@
+{
+  "hooks": [
+    "90 soniyada: olib ketiladigan qahva qanday yaxshilanadi?",
+    "Ishga shoshilib qahva ichmaslik — buni hal qilish mumkinmi?",
+    "Ko'pchilik ishga shoshilib qahva ichmaslikdan aziyat chekadi, lekin biz tez va sifatli qahvani taklif qilamiz."
+  ],
+  "body": "Agar sizda ham ishga shoshilib qahva ichmaslik bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa olib ketiladigan qahva bo'yicha 90 soniyada tez va sifatli qahvani ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz.",
+  "cta": "Furgonimizga keling — jamoamiz sizga yordam berishga tayyor.",
+  "tts_text": "Agar sizda ham ishga shoshilib qahva ichmaslik bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa olib ketiladigan qahva bo'yicha to'qson soniyada tez va sifatli qahvani ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Furgonimizga keling.",
+  "display_text": "Agar sizda ham ishga shoshilib qahva ichmaslik bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa olib ketiladigan qahva bo'yicha 90 soniyada tez va sifatli qahvani ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Furgonimizga keling.",
+  "scenes": [
+    {
+      "img_prompt": "coffee van serving customer on street",
+      "duration_s": 4,
+      "subtitle": "Ishga shoshilib qahva ichmaslik?"
+    },
+    {
+      "img_prompt": "barista pouring latte art",
+      "duration_s": 5,
+      "subtitle": "90 soniyada — tez va sifatli qahva"
+    },
+    {
+      "img_prompt": "commuter holding takeaway coffee cup",
+      "duration_s": 4,
+      "subtitle": "Furgonimizga keling"
+    }
+  ]
+}

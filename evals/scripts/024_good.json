@@ -1,0 +1,28 @@
+{
+  "hooks": [
+    "45 daqiqada: uyga taom yetkazish qanday yaxshilanadi?",
+    "Ishdan keyin ovqat pishirishga vaqt yo'qligi — buni hal qilish mumkinmi?",
+    "Ko'pchilik ishdan keyin ovqat pishirishga vaqt yo'qligidan aziyat chekadi, lekin biz issiq holda tezkor yetkazib berishni taklif qilamiz."
+  ],
+  "body": "Agar sizda ham ishdan keyin ovqat pishirishga vaqt yo'qligi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa uyga taom yetkazish bo'yicha 45 daqiqada issiq holda tezkor yetkazib berishni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz.",
+  "cta": "Ilovadan buyurtma bering — jamoamiz sizga yordam berishga tayyor.",
+  "tts_text": "Agar sizda ham ishdan keyin ovqat pishirishga vaqt yo'qligi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa uyga taom yetkazish bo'yicha qirq besh daqiqada issiq holda tezkor yetkazib berishni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Ilovadan buyurtma bering.",
+  "display_text": "Agar sizda ham ishdan keyin ovqat pishirishga vaqt yo'qligi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa uyga taom yetkazish bo'yicha 45 daqiqada issiq holda tezkor yetkazib berishni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Ilovadan buyurtma bering.",
+  "scenes": [
+    {
+      "img_prompt": "traditional uzbek food on plate",
+      "duration_s": 4,
+      "subtitle": "Ishdan keyin ovqat pishirishga vaqt"
+    },
+    {
+      "img_prompt": "delivery bag on scooter",
+      "duration_s": 5,
+      "subtitle": "45 daqiqada — issiq holda tezkor"
+    },
+    {
+      "img_prompt": "family eating dinner together",
+      "duration_s": 4,
+      "subtitle": "Ilovadan buyurtma bering"
+    }
+  ]
+}

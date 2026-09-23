@@ -1,0 +1,634 @@
+{
+  "pairs": [
+    {
+      "id": "001",
+      "topic": "Stomatologiya klinikasi",
+      "good_file": "001_good.json",
+      "bad_file": "001_bad.json",
+      "flaw_category": "kalka_ruscha_konstruksiya",
+      "critic": "uz",
+      "why_bad": "Matnda ruscha qolipdan tarjima qilingan og'ir konstruksiya bor (\"amalga oshirishni boshlaymiz\") — tabiiy o'zbekcha emas.",
+      "expected": {
+        "good": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": ">=8"
+        },
+        "bad": {
+          "uz": "<8",
+          "brand": ">=8",
+          "hook": ">=8"
+        }
+      }
+    },
+    {
+      "id": "002",
+      "topic": "Ingliz tili kursi",
+      "good_file": "002_good.json",
+      "bad_file": "002_bad.json",
+      "flaw_category": "kalka_ruscha_konstruksiya",
+      "critic": "uz",
+      "why_bad": "Matnda ruscha qolipdan tarjima qilingan og'ir konstruksiya bor (\"amalga oshirishni boshlaymiz\") — tabiiy o'zbekcha emas.",
+      "expected": {
+        "good": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": ">=8"
+        },
+        "bad": {
+          "uz": "<8",
+          "brand": ">=8",
+          "hook": ">=8"
+        }
+      }
+    },
+    {
+      "id": "003",
+      "topic": "Mebel ustaxonasi",
+      "good_file": "003_good.json",
+      "bad_file": "003_bad.json",
+      "flaw_category": "kalka_ruscha_konstruksiya",
+      "critic": "uz",
+      "why_bad": "Matnda ruscha qolipdan tarjima qilingan og'ir konstruksiya bor (\"amalga oshirishni boshlaymiz\") — tabiiy o'zbekcha emas.",
+      "expected": {
+        "good": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": ">=8"
+        },
+        "bad": {
+          "uz": "<8",
+          "brand": ">=8",
+          "hook": ">=8"
+        }
+      }
+    },
+    {
+      "id": "004",
+      "topic": "Go'zallik saloni",
+      "good_file": "004_good.json",
+      "bad_file": "004_bad.json",
+      "flaw_category": "siz_sen_aralash",
+      "critic": "uz",
+      "why_bad": "Matn davomida murojaat shakli aralashgan: brend \"siz\" ishlatishi kerak, lekin bir jumla \"sen\" bilan yozilgan.",
+      "expected": {
+        "good": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": ">=8"
+        },
+        "bad": {
+          "uz": "<8",
+          "brand": ">=8",
+          "hook": ">=8"
+        }
+      }
+    },
+    {
+      "id": "005",
+      "topic": "IT dasturlash kursi",
+      "good_file": "005_good.json",
+      "bad_file": "005_bad.json",
+      "flaw_category": "siz_sen_aralash",
+      "critic": "uz",
+      "why_bad": "Matn davomida murojaat shakli aralashgan: brend \"siz\" ishlatishi kerak, lekin bir jumla \"sen\" bilan yozilgan.",
+      "expected": {
+        "good": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": ">=8"
+        },
+        "bad": {
+          "uz": "<8",
+          "brand": ">=8",
+          "hook": ">=8"
+        }
+      }
+    },
+    {
+      "id": "006",
+      "topic": "Avto servis",
+      "good_file": "006_good.json",
+      "bad_file": "006_bad.json",
+      "flaw_category": "siz_sen_aralash",
+      "critic": "uz",
+      "why_bad": "Matn davomida murojaat shakli aralashgan: brend \"siz\" ishlatishi kerak, lekin bir jumla \"sen\" bilan yozilgan.",
+      "expected": {
+        "good": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": ">=8"
+        },
+        "bad": {
+          "uz": "<8",
+          "brand": ">=8",
+          "hook": ">=8"
+        }
+      }
+    },
+    {
+      "id": "007",
+      "topic": "Kafe",
+      "good_file": "007_good.json",
+      "bad_file": "007_bad.json",
+      "flaw_category": "raqam_tts_notogri",
+      "critic": "uz",
+      "why_bad": "tts_text ichida raqam so'zga aylantirilmagan (masalan \"15%\" TTS uchun \"o'n besh foiz\" bo'lishi kerak edi).",
+      "expected": {
+        "good": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": ">=8"
+        },
+        "bad": {
+          "uz": "<8",
+          "brand": ">=8",
+          "hook": ">=8"
+        }
+      }
+    },
+    {
+      "id": "008",
+      "topic": "Ayollar kiyimi do'koni",
+      "good_file": "008_good.json",
+      "bad_file": "008_bad.json",
+      "flaw_category": "raqam_tts_notogri",
+      "critic": "uz",
+      "why_bad": "tts_text ichida raqam so'zga aylantirilmagan (masalan \"15%\" TTS uchun \"o'n besh foiz\" bo'lishi kerak edi).",
+      "expected": {
+        "good": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": ">=8"
+        },
+        "bad": {
+          "uz": "<8",
+          "brand": ">=8",
+          "hook": ">=8"
+        }
+      }
+    },
+    {
+      "id": "009",
+      "topic": "Ko'chmas mulk agentligi",
+      "good_file": "009_good.json",
+      "bad_file": "009_bad.json",
+      "flaw_category": "raqam_tts_notogri",
+      "critic": "uz",
+      "why_bad": "tts_text ichida raqam so'zga aylantirilmagan (masalan \"15%\" TTS uchun \"o'n besh foiz\" bo'lishi kerak edi).",
+      "expected": {
+        "good": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": ">=8"
+        },
+        "bad": {
+          "uz": "<8",
+          "brand": ">=8",
+          "hook": ">=8"
+        }
+      }
+    },
+    {
+      "id": "010",
+      "topic": "Fitnes zali",
+      "good_file": "010_good.json",
+      "bad_file": "010_bad.json",
+      "flaw_category": "qisqartma",
+      "critic": "uz",
+      "why_bad": "tts_text ichida qisqartma ochilmagan (masalan \"va h.k.\") — TTS buni harflab o'qiydi.",
+      "expected": {
+        "good": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": ">=8"
+        },
+        "bad": {
+          "uz": "<8",
+          "brand": ">=8",
+          "hook": ">=8"
+        }
+      }
+    },
+    {
+      "id": "011",
+      "topic": "Gulchilik salon",
+      "good_file": "011_good.json",
+      "bad_file": "011_bad.json",
+      "flaw_category": "qisqartma",
+      "critic": "uz",
+      "why_bad": "tts_text ichida qisqartma ochilmagan (masalan \"va h.k.\") — TTS buni harflab o'qiydi.",
+      "expected": {
+        "good": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": ">=8"
+        },
+        "bad": {
+          "uz": "<8",
+          "brand": ">=8",
+          "hook": ">=8"
+        }
+      }
+    },
+    {
+      "id": "012",
+      "topic": "Tort ustaxonasi",
+      "good_file": "012_good.json",
+      "bad_file": "012_bad.json",
+      "flaw_category": "subtitr_uzun",
+      "critic": "uz",
+      "why_bad": "Bitta sahna subtitri 42 belgidan uzun — ekranda ikki qatorga sig'maydi.",
+      "expected": {
+        "good": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": ">=8"
+        },
+        "bad": {
+          "uz": "<8",
+          "brand": ">=8",
+          "hook": ">=8"
+        }
+      }
+    },
+    {
+      "id": "013",
+      "topic": "Optika salon",
+      "good_file": "013_good.json",
+      "bad_file": "013_bad.json",
+      "flaw_category": "subtitr_uzun",
+      "critic": "uz",
+      "why_bad": "Bitta sahna subtitri 42 belgidan uzun — ekranda ikki qatorga sig'maydi.",
+      "expected": {
+        "good": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": ">=8"
+        },
+        "bad": {
+          "uz": "<8",
+          "brand": ">=8",
+          "hook": ">=8"
+        }
+      }
+    },
+    {
+      "id": "014",
+      "topic": "Veterinariya klinikasi",
+      "good_file": "014_good.json",
+      "bad_file": "014_bad.json",
+      "flaw_category": "subtitr_uzun",
+      "critic": "uz",
+      "why_bad": "Bitta sahna subtitri 42 belgidan uzun — ekranda ikki qatorga sig'maydi.",
+      "expected": {
+        "good": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": ">=8"
+        },
+        "bad": {
+          "uz": "<8",
+          "brand": ">=8",
+          "hook": ">=8"
+        }
+      }
+    },
+    {
+      "id": "015",
+      "topic": "Bolalar o'yinchoqlari do'koni",
+      "good_file": "015_good.json",
+      "bad_file": "015_bad.json",
+      "flaw_category": "taqiqlangan_soz",
+      "critic": "brand",
+      "why_bad": "Matnda brend taqiqlagan so'z/ibora ishlatilgan (\"eng arzon\" yoki \"100% kafolat\" kabi).",
+      "expected": {
+        "good": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": ">=8"
+        },
+        "bad": {
+          "uz": ">=8",
+          "brand": "<8",
+          "hook": ">=8"
+        }
+      }
+    },
+    {
+      "id": "016",
+      "topic": "Fotostudiya",
+      "good_file": "016_good.json",
+      "bad_file": "016_bad.json",
+      "flaw_category": "taqiqlangan_soz",
+      "critic": "brand",
+      "why_bad": "Matnda brend taqiqlagan so'z/ibora ishlatilgan (\"eng arzon\" yoki \"100% kafolat\" kabi).",
+      "expected": {
+        "good": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": ">=8"
+        },
+        "bad": {
+          "uz": ">=8",
+          "brand": "<8",
+          "hook": ">=8"
+        }
+      }
+    },
+    {
+      "id": "017",
+      "topic": "Yuridik maslahat xizmati",
+      "good_file": "017_good.json",
+      "bad_file": "017_bad.json",
+      "flaw_category": "taqiqlangan_soz",
+      "critic": "brand",
+      "why_bad": "Matnda brend taqiqlagan so'z/ibora ishlatilgan (\"eng arzon\" yoki \"100% kafolat\" kabi).",
+      "expected": {
+        "good": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": ">=8"
+        },
+        "bad": {
+          "uz": ">=8",
+          "brand": "<8",
+          "hook": ">=8"
+        }
+      }
+    },
+    {
+      "id": "018",
+      "topic": "Moliyaviy maslahat xizmati",
+      "good_file": "018_good.json",
+      "bad_file": "018_bad.json",
+      "flaw_category": "taste_memory_takror",
+      "critic": "brand",
+      "why_bad": "Ega avval rad etgan sabab (taste_memory) shu ssenariyda yana takrorlangan.",
+      "expected": {
+        "good": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": ">=8"
+        },
+        "bad": {
+          "uz": ">=8",
+          "brand": "<8",
+          "hook": ">=8"
+        }
+      }
+    },
+    {
+      "id": "019",
+      "topic": "Erkaklar sartaroshxonasi",
+      "good_file": "019_good.json",
+      "bad_file": "019_bad.json",
+      "flaw_category": "taste_memory_takror",
+      "critic": "brand",
+      "why_bad": "Ega avval rad etgan sabab (taste_memory) shu ssenariyda yana takrorlangan.",
+      "expected": {
+        "good": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": ">=8"
+        },
+        "bad": {
+          "uz": ">=8",
+          "brand": "<8",
+          "hook": ">=8"
+        }
+      }
+    },
+    {
+      "id": "020",
+      "topic": "Uy hayvonlari oziq-ovqati do'koni",
+      "good_file": "020_good.json",
+      "bad_file": "020_bad.json",
+      "flaw_category": "hook_vada_yoq",
+      "critic": "hook",
+      "why_bad": "3 ta hook ham 0-3 soniyada aniq qiziqish/muammo/va'da bermaydi — juda umumiy.",
+      "expected": {
+        "good": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": ">=8"
+        },
+        "bad": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": "<8"
+        }
+      }
+    },
+    {
+      "id": "021",
+      "topic": "Elektronika ta'mirlash servisi",
+      "good_file": "021_good.json",
+      "bad_file": "021_bad.json",
+      "flaw_category": "hook_vada_yoq",
+      "critic": "hook",
+      "why_bad": "3 ta hook ham 0-3 soniyada aniq qiziqish/muammo/va'da bermaydi — juda umumiy.",
+      "expected": {
+        "good": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": ">=8"
+        },
+        "bad": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": "<8"
+        }
+      }
+    },
+    {
+      "id": "022",
+      "topic": "Bolalar rivojlantirish markazi",
+      "good_file": "022_good.json",
+      "bad_file": "022_bad.json",
+      "flaw_category": "hook_vada_yoq",
+      "critic": "hook",
+      "why_bad": "3 ta hook ham 0-3 soniyada aniq qiziqish/muammo/va'da bermaydi — juda umumiy.",
+      "expected": {
+        "good": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": ">=8"
+        },
+        "bad": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": "<8"
+        }
+      }
+    },
+    {
+      "id": "023",
+      "topic": "Massaj saloni",
+      "good_file": "023_good.json",
+      "bad_file": "023_bad.json",
+      "flaw_category": "hook_body_uzilgan",
+      "critic": "hook",
+      "why_bad": "Hook bergan va'da (raqam/muammo) body'da davom etmaydi — uzilish bor.",
+      "expected": {
+        "good": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": ">=8"
+        },
+        "bad": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": "<8"
+        }
+      }
+    },
+    {
+      "id": "024",
+      "topic": "Milliy taom yetkazib berish xizmati",
+      "good_file": "024_good.json",
+      "bad_file": "024_bad.json",
+      "flaw_category": "hook_body_uzilgan",
+      "critic": "hook",
+      "why_bad": "Hook bergan va'da (raqam/muammo) body'da davom etmaydi — uzilish bor.",
+      "expected": {
+        "good": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": ">=8"
+        },
+        "bad": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": "<8"
+        }
+      }
+    },
+    {
+      "id": "025",
+      "topic": "Sayohat agentligi",
+      "good_file": "025_good.json",
+      "bad_file": "025_bad.json",
+      "flaw_category": "hook_body_uzilgan",
+      "critic": "hook",
+      "why_bad": "Hook bergan va'da (raqam/muammo) body'da davom etmaydi — uzilish bor.",
+      "expected": {
+        "good": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": ">=8"
+        },
+        "bad": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": "<8"
+        }
+      }
+    },
+    {
+      "id": "026",
+      "topic": "Shaxsiy fitnes murabbiyi",
+      "good_file": "026_good.json",
+      "bad_file": "026_bad.json",
+      "flaw_category": "jargon",
+      "critic": "uz",
+      "why_bad": "Brend ruxsat bermagan ruscha jargon so'z ishlatilgan.",
+      "expected": {
+        "good": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": ">=8"
+        },
+        "bad": {
+          "uz": "<8",
+          "brand": ">=8",
+          "hook": ">=8"
+        }
+      }
+    },
+    {
+      "id": "027",
+      "topic": "Uy tozalash xizmati",
+      "good_file": "027_good.json",
+      "bad_file": "027_bad.json",
+      "flaw_category": "jargon",
+      "critic": "uz",
+      "why_bad": "Brend ruxsat bermagan ruscha jargon so'z ishlatilgan.",
+      "expected": {
+        "good": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": ">=8"
+        },
+        "bad": {
+          "uz": "<8",
+          "brand": ">=8",
+          "hook": ">=8"
+        }
+      }
+    },
+    {
+      "id": "028",
+      "topic": "Ta'mirlash-qurilish xizmati",
+      "good_file": "028_good.json",
+      "bad_file": "028_bad.json",
+      "flaw_category": "uzun_jumla",
+      "critic": "uz",
+      "why_bad": "Bitta jumla 18 so'zdan uzun — TTS intonatsiyasi uchun noqulay.",
+      "expected": {
+        "good": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": ">=8"
+        },
+        "bad": {
+          "uz": "<8",
+          "brand": ">=8",
+          "hook": ">=8"
+        }
+      }
+    },
+    {
+      "id": "029",
+      "topic": "Onlayn marketing kursi",
+      "good_file": "029_good.json",
+      "bad_file": "029_bad.json",
+      "flaw_category": "uzun_jumla",
+      "critic": "uz",
+      "why_bad": "Bitta jumla 18 so'zdan uzun — TTS intonatsiyasi uchun noqulay.",
+      "expected": {
+        "good": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": ">=8"
+        },
+        "bad": {
+          "uz": "<8",
+          "brand": ">=8",
+          "hook": ">=8"
+        }
+      }
+    },
+    {
+      "id": "030",
+      "topic": "Kofe furgoni (coffee to go)",
+      "good_file": "030_good.json",
+      "bad_file": "030_bad.json",
+      "flaw_category": "uzun_jumla",
+      "critic": "uz",
+      "why_bad": "Bitta jumla 18 so'zdan uzun — TTS intonatsiyasi uchun noqulay.",
+      "expected": {
+        "good": {
+          "uz": ">=8",
+          "brand": ">=8",
+          "hook": ">=8"
+        },
+        "bad": {
+          "uz": "<8",
+          "brand": ">=8",
+          "hook": ">=8"
+        }
+      }
+    }
+  ]
+}

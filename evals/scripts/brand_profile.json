@@ -1,0 +1,15 @@
+{
+  "name": "Namuna Biznes",
+  "address_form": "siz",
+  "pronoun": "siz",
+  "register": "neutral",
+  "voice": "madina",
+  "allowed_loanwords": [],
+  "forbidden_words": [
+    "eng arzon",
+    "100% kafolat",
+    "eng zo'r narx",
+    "faqat bugun cheksiz chegirma"
+  ],
+  "cta_style": "aniq va bosimsiz: nima qilish kerakligini ayting, muddat bilan, lekin majburlamang (masalan \"Hoziroq yozing\", \"Bugun band qiling\")"
+}

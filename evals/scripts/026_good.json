@@ -1,0 +1,28 @@
+{
+  "hooks": [
+    "12 hafta: individual mashg'ulot qanday yaxshilanadi?",
+    "Mashqlarni noto'g'ri bajarish — buni hal qilish mumkinmi?",
+    "Ko'pchilik mashqlarni noto'g'ri bajarishdan aziyat chekadi, lekin biz har harakatni nazorat qiluvchi murabbiyni taklif qilamiz."
+  ],
+  "body": "Agar sizda ham mashqlarni noto'g'ri bajarish bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa individual mashg'ulot bo'yicha 12 hafta har harakatni nazorat qiluvchi murabbiyni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz.",
+  "cta": "Bepul suhbatga yoziling — jamoamiz sizga yordam berishga tayyor.",
+  "tts_text": "Agar sizda ham mashqlarni noto'g'ri bajarish bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa individual mashg'ulot bo'yicha o'n ikki hafta har harakatni nazorat qiluvchi murabbiyni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Bepul suhbatga yoziling.",
+  "display_text": "Agar sizda ham mashqlarni noto'g'ri bajarish bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa individual mashg'ulot bo'yicha 12 hafta har harakatni nazorat qiluvchi murabbiyni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Bepul suhbatga yoziling.",
+  "scenes": [
+    {
+      "img_prompt": "personal trainer correcting client form",
+      "duration_s": 4,
+      "subtitle": "Mashqlarni noto'g'ri bajarish?"
+    },
+    {
+      "img_prompt": "outdoor workout session at park",
+      "duration_s": 5,
+      "subtitle": "12 hafta — har harakatni nazorat"
+    },
+    {
+      "img_prompt": "progress photos on phone screen",
+      "duration_s": 4,
+      "subtitle": "Bepul suhbatga yoziling"
+    }
+  ]
+}

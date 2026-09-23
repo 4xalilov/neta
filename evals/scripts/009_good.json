@@ -1,0 +1,28 @@
+{
+  "hooks": [
+    "10 ta tekshirilgan uy: uy sotib olish qanday yaxshilanadi?",
+    "Ishonchli uy topa olmaslik — buni hal qilish mumkinmi?",
+    "Ko'pchilik ishonchli uy topa olmaslikdan aziyat chekadi, lekin biz hujjatlari toza uylarni taklif qilamiz."
+  ],
+  "body": "Agar sizda ham ishonchli uy topa olmaslik bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa uy sotib olish bo'yicha 10 ta tekshirilgan uy hujjatlari toza uylarni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz.",
+  "cta": "Bepul ko'rikka yoziling — jamoamiz sizga yordam berishga tayyor.",
+  "tts_text": "Agar sizda ham ishonchli uy topa olmaslik bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa uy sotib olish bo'yicha o'n ta tekshirilgan uy hujjatlari toza uylarni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Bepul ko'rikka yoziling.",
+  "display_text": "Agar sizda ham ishonchli uy topa olmaslik bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa uy sotib olish bo'yicha 10 ta tekshirilgan uy hujjatlari toza uylarni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Bepul ko'rikka yoziling.",
+  "scenes": [
+    {
+      "img_prompt": "modern apartment living room",
+      "duration_s": 4,
+      "subtitle": "Ishonchli uy topa olmaslik?"
+    },
+    {
+      "img_prompt": "agent showing keys to family",
+      "duration_s": 5,
+      "subtitle": "10 ta tekshirilgan uy — hujjatlari toza"
+    },
+    {
+      "img_prompt": "city skyline with residential buildings",
+      "duration_s": 4,
+      "subtitle": "Bepul ko'rikka yoziling"
+    }
+  ]
+}

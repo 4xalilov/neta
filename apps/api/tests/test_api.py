@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import uuid
+from datetime import UTC, datetime, timedelta
+from typing import Any
 from unittest.mock import AsyncMock
 
 import arq
@@ -11,9 +13,13 @@ import pytest
 from sqlalchemy import select
 
 from engine import jobs
+from engine.api.jarvis_routes import get_deps as get_jarvis_deps
 from engine.db import get_session
+from engine.integrations.crm_adapter import InMemoryCRM
+from engine.jarvis import supervisor
+from engine.jarvis.deps import JarvisDeps
 from engine.main import app
-from engine.models import ContentPlan, JarvisAction, Script, TasteMemory
+from engine.models import ContentPlan, JarvisAction, Script, Staff, Task, TasteMemory
 
 pytest_plugins = ["graph_fakes"]  # sqlite_db, graph_env, fake_llm, ... fixture'lari
 
@@ -25,6 +31,17 @@ async def client(sqlite_db, monkeypatch):
             yield s
 
     app.dependency_overrides[get_session] = _session
+
+    notified: list[dict] = []
+
+    async def _notify(*, chat_id, kind, payload):
+        notified.append({"chat_id": chat_id, "kind": kind, "payload": payload})
+
+    # ``JarvisDeps.session_factory`` — bir xil sqlite DB (``sqlite_db``), shunda
+    # ``jarvis_decision`` endpointi va test o'zi bir xil jadvallarni ko'radi.
+    jarvis_deps = JarvisDeps(crm=InMemoryCRM(), session_factory=sqlite_db, notify=_notify)
+    app.dependency_overrides[get_jarvis_deps] = lambda: jarvis_deps
+
     pool = AsyncMock()
     create_pool = AsyncMock(return_value=pool)
     monkeypatch.setattr(arq, "create_pool", create_pool)
@@ -35,6 +52,8 @@ async def client(sqlite_db, monkeypatch):
         c.pool = pool  # type: ignore[attr-defined]
         c.create_pool = create_pool  # type: ignore[attr-defined]
         c.db = sqlite_db  # type: ignore[attr-defined]
+        c.jarvis_deps = jarvis_deps  # type: ignore[attr-defined]
+        c.notified = notified  # type: ignore[attr-defined]
         yield c
     app.dependency_overrides.clear()
     app.state.arq = None
@@ -181,7 +200,7 @@ async def test_script_reject_paths(client):
         assert (await s.get(Script, uuid.UUID(script_id))).status == "rejected"
 
 
-async def test_daily_report_and_jarvis_decision(client):
+async def test_daily_report(client):
     ws = await _workspace(client)
     r = await client.get(f"/v1/workspaces/{ws['id']}/daily-report")
     assert r.status_code == 200
@@ -189,20 +208,146 @@ async def test_daily_report_and_jarvis_decision(client):
     assert rep["leads"] == 0 and rep["hot"] == 0 and rep["overdue"] == 0
     assert rep["cost_usd"] == 0.0
 
-    r = await client.post(f"/v1/jarvis-actions/report:{ws['id']}:all/decision",
-                          json={"decision": "yes"})
-    assert r.status_code == 200 and r.json()["detail"] == "approved"
-    async with client.db() as s:
-        action = (await s.execute(select(JarvisAction))).scalar_one()
-        assert action.type == "report_all" and action.status == "approved"
-        action_id = str(action.id)
 
-    r = await client.post(f"/v1/jarvis-actions/{action_id}/decision", json={"decision": "no"})
-    assert r.json()["detail"] == "rejected"
+async def _noop(session) -> None:
+    return None
+
+
+async def test_jarvis_decision_yes_no_wired_to_supervisor(client):
+    """``POST .../decision`` -> ``engine.jarvis.supervisor.decide`` (Task B): harakat
+    qatori ``pending`` -> ``executed``/``cancelled`` ga o'tadi, notify chaqirilgan bo'ladi."""
+    ws = await _workspace(client)
+    ws_id = uuid.UUID(ws["id"])
+
+    a1 = await supervisor.propose_action(
+        client.jarvis_deps, workspace_id=ws_id, action_type="message_lead",
+        payload={"lead_id": "l1"}, execute=_noop,
+    )
+    assert a1.status == "pending"
+    assert client.notified[-1]["kind"] == "approval"  # propose_action o'zi ega/notify qiladi
+
+    r = await client.post(f"/v1/jarvis-actions/{a1.id}/decision", json={"decision": "yes"})
+    assert r.status_code == 200
+    body = r.json()
+    assert body["ok"] is True and body["detail"] == "executed"
+    async with client.db() as s:
+        row = await s.get(JarvisAction, a1.id)
+        assert row.status == "executed" and row.executed_at is not None
+
+    a2 = await supervisor.propose_action(
+        client.jarvis_deps, workspace_id=ws_id, action_type="message_lead",
+        payload={"lead_id": "l2"}, execute=_noop,
+    )
+    r = await client.post(f"/v1/jarvis-actions/{a2.id}/decision", json={"decision": "no"})
+    assert r.status_code == 200 and r.json()["detail"] == "cancelled"
+    async with client.db() as s:
+        row = await s.get(JarvisAction, a2.id)
+        assert row.status == "cancelled"
+
+    r = await client.post(f"/v1/jarvis-actions/{uuid.uuid4()}/decision", json={"decision": "yes"})
+    assert r.status_code == 404
     r = await client.post("/v1/jarvis-actions/garbage/decision", json={"decision": "yes"})
     assert r.status_code == 404
-    r = await client.post(f"/v1/jarvis-actions/{action_id}/decision", json={"decision": "maybe"})
+    r = await client.post(f"/v1/jarvis-actions/{a2.id}/decision", json={"decision": "maybe"})
     assert r.status_code == 422
+
+
+async def test_jarvis_decision_edit_stores_edit_text_and_executes(client, monkeypatch):
+    """``decision="edit"`` + ``comment`` -> ``supervisor.decide(..., edit_text=comment)``:
+    ``message_lead`` bajaruvchisi shu matnni Chatwoot'ga yuboradi."""
+    import engine.integrations.chatwoot as chatwoot_module
+
+    sent: list[tuple[Any, str]] = []
+
+    async def fake_reply(conversation_id, text):
+        sent.append((conversation_id, text))
+
+    monkeypatch.setattr(chatwoot_module, "reply", fake_reply)
+
+    ws = await _workspace(client)
+    action = await supervisor.propose_action(
+        client.jarvis_deps, workspace_id=uuid.UUID(ws["id"]), action_type="message_lead",
+        payload={"lead_id": "l3", "conversation_id": 42, "text": "eski matn"}, execute=_noop,
+    )
+
+    r = await client.post(f"/v1/jarvis-actions/{action.id}/decision",
+                          json={"decision": "edit", "comment": "Yangi tahrirlangan matn"})
+    assert r.status_code == 200 and r.json()["detail"] == "executed"
+    assert sent == [(42, "Yangi tahrirlangan matn")]
+    async with client.db() as s:
+        row = await s.get(JarvisAction, action.id)
+        assert row.status == "executed"
+        assert row.payload["reply_text"] == "Yangi tahrirlangan matn"
+
+
+async def test_jarvis_decision_report_all_batch_approves_pending(client):
+    """"✉️ Hammasiga yoz" (``report:<ws>:all``, decision=yes) -> ``supervisor.batch_approve``:
+    workspace'dagi barcha ``pending`` harakatlar ``executed`` ga o'tadi."""
+    ws = await _workspace(client)
+    ws_id = uuid.UUID(ws["id"])
+    a1 = await supervisor.propose_action(
+        client.jarvis_deps, workspace_id=ws_id, action_type="message_lead",
+        payload={"lead_id": "l1"}, execute=_noop,
+    )
+    a2 = await supervisor.propose_action(
+        client.jarvis_deps, workspace_id=ws_id, action_type="message_lead",
+        payload={"lead_id": "l2"}, execute=_noop,
+    )
+
+    r = await client.post(f"/v1/jarvis-actions/report:{ws['id']}:all/decision",
+                          json={"decision": "yes"})
+    assert r.status_code == 200
+    body = r.json()
+    assert body["ok"] is True and body["detail"] == "approved"
+
+    async with client.db() as s:
+        rows = {row.id: row for row in (await s.execute(select(JarvisAction))).scalars()}
+        assert rows[a1.id].status == "executed"
+        assert rows[a2.id].status == "executed"
+
+    r = await client.post(f"/v1/jarvis-actions/report:{uuid.uuid4()}:all/decision",
+                          json={"decision": "yes"})
+    assert r.status_code == 404
+    r = await client.post(f"/v1/jarvis-actions/report:{ws['id']}:bogus/decision",
+                          json={"decision": "yes"})
+    assert r.status_code == 404
+
+
+async def test_jarvis_decision_report_remind_reminds_overdue_staff(client):
+    """"👤 Xodimga eslat" (``report:<ws>:remind``) -> muddati o'tgan ochiq vazifalar uchun
+    ``remind_staff`` harakati yaratilib avtonom bajariladi, notify chaqiriladi (Task B)."""
+    ws = await _workspace(client)
+    ws_id = uuid.UUID(ws["id"])
+    async with client.db() as s:
+        staff = Staff(workspace_id=ws_id, name="Aziz", tg_id=555)
+        s.add(staff)
+        await s.flush()
+        overdue = Task(workspace_id=ws_id, staff_id=staff.id, title="Qo'ng'iroq qiling",
+                       due_at=datetime.now(UTC) - timedelta(hours=2), status="open")
+        not_overdue = Task(workspace_id=ws_id, staff_id=staff.id, title="Ertaga",
+                           due_at=datetime.now(UTC) + timedelta(hours=2), status="open")
+        s.add_all([overdue, not_overdue])
+        await s.commit()
+        overdue_id, not_overdue_id = overdue.id, not_overdue.id
+
+    r = await client.post(f"/v1/jarvis-actions/report:{ws['id']}:remind/decision",
+                          json={"decision": "yes"})
+    assert r.status_code == 200
+    assert r.json()["detail"] == "approved"
+    assert any(n["kind"] == "reminder" for n in client.notified)
+
+    async with client.db() as s:
+        actions = (await s.execute(
+            select(JarvisAction).where(JarvisAction.type == "remind_staff")
+        )).scalars().all()
+        assert len(actions) == 1 and actions[0].status == "executed"
+        assert (await s.get(Task, overdue_id)).reminders_sent == 1
+        assert (await s.get(Task, not_overdue_id)).reminders_sent == 0
+
+    # "no"/"edit" report qarorlari — hech narsa bajarilmaydi (bot faqat "yes" yuboradi)
+    r = await client.post(f"/v1/jarvis-actions/report:{ws['id']}:remind/decision",
+                          json={"decision": "no"})
+    assert r.status_code == 200 and r.json()["detail"] == "no"
 
 
 async def test_cost_sink_writes_cost_log(sqlite_db):

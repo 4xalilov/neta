@@ -1,0 +1,28 @@
+{
+  "hooks": [
+    "3 bosqichli reja: oilaviy byudjet rejalashtirish qanday yaxshilanadi?",
+    "Oy oxirida pul yetishmasligi — buni hal qilish mumkinmi?",
+    "Ko'pchilik oy oxirida pul yetishmasligidan aziyat chekadi, lekin biz aniq byudjet rejasini taklif qilamiz."
+  ],
+  "body": "Agar sizda ham oy oxirida pul yetishmasligi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa oilaviy byudjet rejalashtirish bo'yicha 3 bosqichli reja aniq byudjet rejasini ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz.",
+  "cta": "Bepul konsultatsiyaga yoziling — jamoamiz sizga yordam berishga tayyor.",
+  "tts_text": "Agar sizda ham oy oxirida pul yetishmasligi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa oilaviy byudjet rejalashtirish bo'yicha uch bosqichli reja aniq byudjet rejasini ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Bepul konsultatsiyaga yoziling.",
+  "display_text": "Agar sizda ham oy oxirida pul yetishmasligi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa oilaviy byudjet rejalashtirish bo'yicha 3 bosqichli reja aniq byudjet rejasini ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Bepul konsultatsiyaga yoziling.",
+  "scenes": [
+    {
+      "img_prompt": "financial advisor with charts",
+      "duration_s": 4,
+      "subtitle": "Oy oxirida pul yetishmasligi?"
+    },
+    {
+      "img_prompt": "family planning budget at table",
+      "duration_s": 5,
+      "subtitle": "3 bosqichli reja — aniq byudjet rejasi"
+    },
+    {
+      "img_prompt": "savings jar with coins",
+      "duration_s": 4,
+      "subtitle": "Bepul konsultatsiyaga yoziling"
+    }
+  ]
+}

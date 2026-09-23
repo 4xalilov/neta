@@ -1,0 +1,28 @@
+{
+  "hooks": [
+    "20 ta yangi model: kundalik kiyim qanday yaxshilanadi?",
+    "O'ziga mos kiyim topa olmaslik — buni hal qilish mumkinmi?",
+    "Ko'pchilik o'ziga mos kiyim topa olmaslikdan aziyat chekadi, lekin biz har tana tuzilishiga mos fasonlarni taklif qilamiz."
+  ],
+  "body": "Agar sizda ham o'ziga mos kiyim topa olmaslik bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa kundalik kiyim bo'yicha 20 ta yangi model har tana tuzilishiga mos fasonlarni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz.",
+  "cta": "Do'konga tashrif buyuring — jamoamiz sizga yordam berishga tayyor.",
+  "tts_text": "Agar sizda ham o'ziga mos kiyim topa olmaslik bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa kundalik kiyim bo'yicha 20 ta yangi model har tana tuzilishiga mos fasonlarni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Do'konga tashrif buyuring.",
+  "display_text": "Agar sizda ham o'ziga mos kiyim topa olmaslik bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa kundalik kiyim bo'yicha 20 ta yangi model har tana tuzilishiga mos fasonlarni ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Do'konga tashrif buyuring.",
+  "scenes": [
+    {
+      "img_prompt": "clothing rack with dresses",
+      "duration_s": 4,
+      "subtitle": "O'ziga mos kiyim topa olmaslik?"
+    },
+    {
+      "img_prompt": "woman trying on outfit in mirror",
+      "duration_s": 5,
+      "subtitle": "20 ta yangi model — har tana tuzilishiga"
+    },
+    {
+      "img_prompt": "store window display with mannequins",
+      "duration_s": 4,
+      "subtitle": "Do'konga tashrif buyuring"
+    }
+  ]
+}

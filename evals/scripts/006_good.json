@@ -1,0 +1,28 @@
+{
+  "hooks": [
+    "1 soatda: mashina ta'miri qanday yaxshilanadi?",
+    "Motor noma'lum tovush chiqarishi — buni hal qilish mumkinmi?",
+    "Ko'pchilik motor noma'lum tovush chiqarishidan aziyat chekadi, lekin biz aniq diagnostikani taklif qilamiz."
+  ],
+  "body": "Agar sizda ham motor noma'lum tovush chiqarishi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa mashina ta'miri bo'yicha 1 soatda aniq diagnostikani ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz.",
+  "cta": "Diagnostikaga yoziling — jamoamiz sizga yordam berishga tayyor.",
+  "tts_text": "Agar sizda ham motor noma'lum tovush chiqarishi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa mashina ta'miri bo'yicha bir soatda aniq diagnostikani ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Diagnostikaga yoziling.",
+  "display_text": "Agar sizda ham motor noma'lum tovush chiqarishi bo'lsa, bu videoni oxirigacha ko'ring. Bizning jamoa mashina ta'miri bo'yicha 1 soatda aniq diagnostikani ta'minlaydi. Har bir mijoz uchun alohida yondashuv qo'llaymiz. Diagnostikaga yoziling.",
+  "scenes": [
+    {
+      "img_prompt": "mechanic inspecting car engine",
+      "duration_s": 4,
+      "subtitle": "Motor noma'lum tovush chiqarishi?"
+    },
+    {
+      "img_prompt": "car lifted on service station",
+      "duration_s": 5,
+      "subtitle": "1 soatda — aniq diagnostika"
+    },
+    {
+      "img_prompt": "clean finished car in garage",
+      "duration_s": 4,
+      "subtitle": "Diagnostikaga yoziling"
+    }
+  ]
+}
