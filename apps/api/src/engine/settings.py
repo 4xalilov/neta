@@ -54,6 +54,10 @@ class Settings(BaseSettings):
     # mumkin (endpoint "workspace'da lid yo'q bo'lsagina" ishlaydi, lekin baribir
     # ishlab chiqarishda ochiq qoldirilmasin).
     crm_demo_seed_enabled: bool = True
+    # Uslub bilimlar bazasi (roadmap 2.8): apps/render'ning konteyner ichidagi yo'li
+    # (JSON sxema, tema fayllari, ``npm run theme:validate`` CLI shu yerda ishlaydi).
+    render_dir: str = "/app/render"
+    style_gate_min_score: int = 8
 
 
 settings = Settings()

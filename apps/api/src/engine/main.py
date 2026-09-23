@@ -49,6 +49,10 @@ from engine.api.crm_routes import router as crm_router
 
 app.include_router(crm_router)
 
+from engine.api.style_routes import router as style_router
+
+app.include_router(style_router)
+
 
 @app.get("/health")
 async def health() -> dict:

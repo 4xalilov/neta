@@ -37,9 +37,12 @@ from engine.models.crm import (
     Staff,
     Task,
 )
+from engine.models.style import STYLE_THEME_SOURCES, STYLE_THEME_STATUSES, StyleTheme
 from engine.models.vault import VaultNote
 
 __all__ = [
+    "STYLE_THEME_SOURCES",
+    "STYLE_THEME_STATUSES",
     "Asset",
     "AssetKind",
     "BrandProfile",
@@ -65,6 +68,7 @@ __all__ = [
     "RenderJobStatus",
     "Script",
     "Staff",
+    "StyleTheme",
     "Task",
     "TasteMemory",
     "TasteMemoryKind",

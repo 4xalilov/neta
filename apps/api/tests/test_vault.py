@@ -34,6 +34,7 @@ EXPECTED_PATHS = {
     "jarvis/sop/first-message.md",
     "jarvis/sop/pricing.md",
     "jarvis/staff/aziz.md",
+    "styles/README.md",
 }
 
 
@@ -152,16 +153,16 @@ async def test_reindex_add_then_unchanged_then_update_then_remove(
         events.append((payload["event"], payload["node"]["path"]))
 
     report1 = await indexer.reindex(sqlite_session_factory, tmp_vault, on_event=on_event)
-    assert report1.added == 8
+    assert report1.added == 9
     assert (report1.updated, report1.removed, report1.unchanged) == (0, 0, 0)
     assert {p for e, p in events if e == "added"} == EXPECTED_PATHS
-    assert len(events) == 8  # har fayl uchun faqat bitta hodisa
+    assert len(events) == 9  # har fayl uchun faqat bitta hodisa
 
     # 2) o'zgarishsiz qayta indekslash — hech qanday hodisa yo'q
     events.clear()
     report2 = await indexer.reindex(sqlite_session_factory, tmp_vault, on_event=on_event)
     assert (report2.added, report2.updated, report2.removed) == (0, 0, 0)
-    assert report2.unchanged == 8
+    assert report2.unchanged == 9
     assert events == []
 
     # 3) bitta faylni tahrirlash — faqat shu fayl uchun "updated"
@@ -170,7 +171,7 @@ async def test_reindex_add_then_unchanged_then_update_then_remove(
     events.clear()
     report3 = await indexer.reindex(sqlite_session_factory, tmp_vault, on_event=on_event)
     assert report3.updated == 1
-    assert report3.unchanged == 7
+    assert report3.unchanged == 8
     assert events == [("updated", "brand/faq.md")]
 
     # 4) faylni o'chirish — faqat shu fayl uchun "removed"
@@ -178,7 +179,7 @@ async def test_reindex_add_then_unchanged_then_update_then_remove(
     events.clear()
     report4 = await indexer.reindex(sqlite_session_factory, tmp_vault, on_event=on_event)
     assert report4.removed == 1
-    assert report4.unchanged == 7
+    assert report4.unchanged == 8
     assert events == [("removed", "jarvis/staff/aziz.md")]
 
     async with sqlite_session_factory() as session:
@@ -187,18 +188,18 @@ async def test_reindex_add_then_unchanged_then_update_then_remove(
         from engine.models.vault import VaultNote
 
         count = (await session.execute(select(func.count(VaultNote.id)))).scalar_one()
-        assert count == 7
+        assert count == 8
 
 
 async def test_reindex_skips_templates_and_root_readme(tmp_vault, sqlite_session_factory):
     report = await indexer.reindex(sqlite_session_factory, tmp_vault)
-    assert report.added == 8  # templates/script.md va README.md kirmaydi
+    assert report.added == 9  # templates/script.md va vault/README.md (ildiz) kirmaydi
 
 
 async def test_reindex_force_reembeds_unchanged_file(tmp_vault, sqlite_session_factory):
     await indexer.reindex(sqlite_session_factory, tmp_vault)
     report = await indexer.reindex(sqlite_session_factory, tmp_vault, force=True)
-    assert report.updated == 8
+    assert report.updated == 9
     assert report.unchanged == 0
 
 
@@ -241,7 +242,7 @@ async def test_graph_snapshot_nodes_and_links(tmp_vault, sqlite_session_factory)
     async with sqlite_session_factory() as session:
         snap = await indexer.graph_snapshot(session)
 
-    assert len(snap["nodes"]) == 8
+    assert len(snap["nodes"]) == 9
     assert {n["path"] for n in snap["nodes"]} == EXPECTED_PATHS
 
     link_pairs = {(link["source"], link["target"]) for link in snap["links"]}
@@ -306,12 +307,12 @@ async def api_client(tmp_vault, sqlite_session_factory, monkeypatch):
 async def test_route_reindex_then_graph_json(api_client):
     r = await api_client.post("/v1/vault/reindex")
     assert r.status_code == 200
-    assert r.json() == {"added": 8, "updated": 0, "removed": 0, "unchanged": 0}
+    assert r.json() == {"added": 9, "updated": 0, "removed": 0, "unchanged": 0}
 
     r2 = await api_client.get("/v1/vault/graph")
     assert r2.status_code == 200
     data = r2.json()
-    assert len(data["nodes"]) == 8
+    assert len(data["nodes"]) == 9
     assert any(
         link["source"] == "brand/faq.md" and link["target"] == "jarvis/sop/pricing.md"
         for link in data["links"]
@@ -377,8 +378,8 @@ def test_websocket_snapshot_then_event_after_reindex(tmp_vault, sqlite_session_f
 
         resp = client.post("/v1/vault/reindex")
         assert resp.status_code == 200
-        assert resp.json()["added"] == 8
+        assert resp.json()["added"] == 9
 
-        received = [ws.receive_json() for _ in range(8)]
+        received = [ws.receive_json() for _ in range(9)]
         assert all(payload["event"] == "added" for payload in received)
         assert {payload["node"]["path"] for payload in received} == EXPECTED_PATHS

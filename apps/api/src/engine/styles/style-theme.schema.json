@@ -1,0 +1,601 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neta.local/schemas/style-theme.schema.json (bundled zaxira nusxa)",
+  "title": "Neta StyleTheme",
+  "description": "ESLATMA: bu apps/api'dagi ZAXIRA (bundled, 2026-09-23 holatida qo'lda sinxronlangan) nusxa. Asosiy manba apps/render/src/motion/styles/schema.ts (zod) -> 'npm run themes:schema' bilan apps/render/schemas/style-theme.schema.json ga chiqariladi (boshqa agent yozadi/yangilaydi). Shu fayl faqat o'sha haqiqiy sxema topilmasa (masalan render_dir ulanmagan test/dev muhitida) ishlatiladi — zod sxemasi o'zgarsa, apps/render/schemas dagi faylni shu yerga qayta nusxalang.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "maxLength": 40,
+      "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"
+    },
+    "label": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40
+    },
+    "description": {
+      "type": "string"
+    },
+    "tone": {
+      "default": "dark",
+      "type": "string",
+      "enum": [
+        "dark",
+        "light"
+      ]
+    },
+    "fonts": {
+      "type": "object",
+      "properties": {
+        "display": {
+          "type": "object",
+          "properties": {
+            "family": {
+              "type": "string",
+              "minLength": 1
+            },
+            "weight": {
+              "type": "integer",
+              "minimum": 100,
+              "maximum": 1000
+            },
+            "lightWeight": {
+              "type": "integer",
+              "minimum": 100,
+              "maximum": 1000
+            },
+            "uppercase": {
+              "default": false,
+              "type": "boolean"
+            },
+            "letterSpacing": {
+              "default": -0.01,
+              "type": "number",
+              "minimum": -0.1,
+              "maximum": 0.5
+            },
+            "charEm": {
+              "default": 0.6,
+              "type": "number",
+              "minimum": 0.3,
+              "maximum": 0.9
+            }
+          },
+          "required": [
+            "family",
+            "weight"
+          ]
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "family": {
+              "type": "string",
+              "minLength": 1
+            },
+            "weight": {
+              "type": "integer",
+              "minimum": 100,
+              "maximum": 1000
+            },
+            "lightWeight": {
+              "type": "integer",
+              "minimum": 100,
+              "maximum": 1000
+            },
+            "uppercase": {
+              "default": false,
+              "type": "boolean"
+            },
+            "letterSpacing": {
+              "default": -0.01,
+              "type": "number",
+              "minimum": -0.1,
+              "maximum": 0.5
+            },
+            "charEm": {
+              "default": 0.6,
+              "type": "number",
+              "minimum": 0.3,
+              "maximum": 0.9
+            }
+          },
+          "required": [
+            "family",
+            "weight"
+          ]
+        }
+      },
+      "required": [
+        "display",
+        "body"
+      ]
+    },
+    "colors": {
+      "type": "object",
+      "properties": {
+        "bg": {
+          "type": "string",
+          "pattern": "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$",
+          "description": "Hex colour #rgb | #rrggbb | #rrggbbaa"
+        },
+        "surface": {
+          "type": "string",
+          "pattern": "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$",
+          "description": "Hex colour #rgb | #rrggbb | #rrggbbaa"
+        },
+        "text": {
+          "type": "string",
+          "pattern": "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$",
+          "description": "Hex colour #rgb | #rrggbb | #rrggbbaa"
+        },
+        "muted": {
+          "type": "string",
+          "pattern": "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$",
+          "description": "Hex colour #rgb | #rrggbb | #rrggbbaa"
+        },
+        "primary": {
+          "type": "string",
+          "pattern": "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$",
+          "description": "Hex colour #rgb | #rrggbb | #rrggbbaa"
+        },
+        "accent": {
+          "type": "string",
+          "pattern": "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$",
+          "description": "Hex colour #rgb | #rrggbb | #rrggbbaa"
+        },
+        "highlight": {
+          "type": "string",
+          "pattern": "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$",
+          "description": "Hex colour #rgb | #rrggbb | #rrggbbaa"
+        },
+        "onHighlight": {
+          "type": "string",
+          "pattern": "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$",
+          "description": "Hex colour #rgb | #rrggbb | #rrggbbaa"
+        }
+      },
+      "required": [
+        "bg",
+        "surface",
+        "text",
+        "muted",
+        "primary",
+        "accent",
+        "highlight",
+        "onHighlight"
+      ]
+    },
+    "captionPreset": {
+      "type": "string",
+      "enum": [
+        "karaoke",
+        "boxHighlight",
+        "pillGlass",
+        "bigWord",
+        "lineByLine"
+      ]
+    },
+    "captionStyle": {
+      "type": "object",
+      "properties": {
+        "font": {
+          "default": "display",
+          "type": "string",
+          "enum": [
+            "display",
+            "body"
+          ]
+        },
+        "uppercase": {
+          "default": false,
+          "type": "boolean"
+        },
+        "stroke": {
+          "default": 6,
+          "type": "number",
+          "minimum": 0,
+          "maximum": 12
+        },
+        "strokeColor": {
+          "type": "string",
+          "pattern": "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$",
+          "description": "Hex colour #rgb | #rrggbb | #rrggbbaa"
+        },
+        "scale": {
+          "default": 1,
+          "type": "number",
+          "minimum": 0.6,
+          "maximum": 1.6
+        }
+      }
+    },
+    "defaultTextAnim": {
+      "type": "string",
+      "enum": [
+        "WordPop",
+        "CharCascade",
+        "MaskWipe",
+        "TypeWriter",
+        "SlideMask",
+        "Glitch",
+        "Counter",
+        "Highlighter",
+        "Split3D",
+        "Scramble",
+        "Kinetic",
+        "Outline2Fill",
+        "BounceIn",
+        "BlurFocus"
+      ]
+    },
+    "secondaryTextAnim": {
+      "type": "string",
+      "enum": [
+        "WordPop",
+        "CharCascade",
+        "MaskWipe",
+        "TypeWriter",
+        "SlideMask",
+        "Glitch",
+        "Counter",
+        "Highlighter",
+        "Split3D",
+        "Scramble",
+        "Kinetic",
+        "Outline2Fill",
+        "BounceIn",
+        "BlurFocus"
+      ]
+    },
+    "ctaTextAnim": {
+      "type": "string",
+      "enum": [
+        "WordPop",
+        "CharCascade",
+        "MaskWipe",
+        "TypeWriter",
+        "SlideMask",
+        "Glitch",
+        "Counter",
+        "Highlighter",
+        "Split3D",
+        "Scramble",
+        "Kinetic",
+        "Outline2Fill",
+        "BounceIn",
+        "BlurFocus"
+      ]
+    },
+    "defaultTransition": {
+      "type": "string",
+      "enum": [
+        "fade",
+        "slide",
+        "wipe",
+        "flip",
+        "iris",
+        "clockWipe",
+        "zoomPunch",
+        "whipPan",
+        "glitchCut",
+        "maskCircle",
+        "slice",
+        "none"
+      ]
+    },
+    "transitionFrames": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 30
+    },
+    "fx": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "grain",
+          "vignette",
+          "lightLeak",
+          "particles",
+          "lensFlare",
+          "progressBar",
+          "shake",
+          "chromatic",
+          "glow"
+        ]
+      }
+    },
+    "fxIntensity": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "grain": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "vignette": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "shake": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 60
+        },
+        "chromatic": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 30
+        },
+        "lightLeak": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "glow": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 80
+        }
+      }
+    },
+    "background": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "brand",
+            "mesh",
+            "solid",
+            "gradient",
+            "pattern"
+          ]
+        },
+        "colors": {
+          "minItems": 1,
+          "maxItems": 6,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$",
+            "description": "Hex colour #rgb | #rrggbb | #rrggbbaa"
+          }
+        },
+        "pattern": {
+          "type": "string",
+          "enum": [
+            "ikat",
+            "adras",
+            "suzani",
+            "girih",
+            "stars",
+            "dots",
+            "grid",
+            "lines",
+            "stripes",
+            "halftone",
+            "confetti",
+            "scanlines",
+            "paper",
+            "retroGrid",
+            "waves"
+          ]
+        },
+        "patternColor": {
+          "type": "string",
+          "pattern": "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$",
+          "description": "Hex colour #rgb | #rrggbb | #rrggbbaa"
+        },
+        "patternOpacity": {
+          "default": 0.16,
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "angle": {
+          "default": 160,
+          "type": "number",
+          "minimum": 0,
+          "maximum": 360
+        }
+      },
+      "required": [
+        "kind",
+        "colors"
+      ]
+    },
+    "headline": {
+      "type": "object",
+      "properties": {
+        "size": {
+          "type": "number",
+          "minimum": 40,
+          "maximum": 220
+        },
+        "hookSize": {
+          "type": "number",
+          "minimum": 40,
+          "maximum": 260
+        },
+        "align": {
+          "type": "string",
+          "enum": [
+            "left",
+            "center",
+            "right"
+          ]
+        },
+        "maxLines": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 6
+        },
+        "stroke": {
+          "default": 0,
+          "type": "number",
+          "minimum": 0,
+          "maximum": 12
+        },
+        "strokeColor": {
+          "type": "string",
+          "pattern": "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$",
+          "description": "Hex colour #rgb | #rrggbb | #rrggbbaa"
+        },
+        "shadow": {
+          "default": "0 8px 30px rgba(0,0,0,0.55)",
+          "type": "string",
+          "maxLength": 200
+        },
+        "scrim": {
+          "default": 0.45,
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "required": [
+        "size",
+        "hookSize",
+        "align",
+        "maxLines"
+      ]
+    },
+    "card": {
+      "type": "object",
+      "properties": {
+        "glass": {
+          "type": "boolean"
+        },
+        "radius": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 80
+        }
+      },
+      "required": [
+        "glass",
+        "radius"
+      ]
+    },
+    "kenBurns": {
+      "type": "string",
+      "enum": [
+        "in",
+        "out",
+        "left",
+        "right",
+        "none"
+      ]
+    },
+    "tempo": {
+      "type": "number",
+      "minimum": 0.5,
+      "maximum": 2
+    },
+    "particlesColor": {
+      "type": "string",
+      "pattern": "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$",
+      "description": "Hex colour #rgb | #rrggbb | #rrggbbaa"
+    },
+    "meta": {
+      "type": "object",
+      "properties": {
+        "family": {
+          "type": "string",
+          "enum": [
+            "bold",
+            "minimal",
+            "editorial",
+            "neon",
+            "luxury",
+            "warm",
+            "playful",
+            "uzbek",
+            "social",
+            "finance",
+            "fitness",
+            "beauty"
+          ]
+        },
+        "mood": {
+          "minItems": 1,
+          "maxItems": 8,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 40
+          }
+        },
+        "niches": {
+          "minItems": 1,
+          "maxItems": 12,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 40
+          }
+        },
+        "aida": {
+          "minItems": 1,
+          "maxItems": 4,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "attention",
+              "interest",
+              "desire",
+              "action"
+            ]
+          }
+        },
+        "description_uz": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 400
+        },
+        "since": {
+          "type": "string",
+          "pattern": "^\\d{4}-(0[1-9]|1[0-2])$"
+        }
+      },
+      "required": [
+        "family",
+        "mood",
+        "niches",
+        "aida",
+        "description_uz",
+        "since"
+      ]
+    }
+  },
+  "required": [
+    "name",
+    "label",
+    "description",
+    "fonts",
+    "colors",
+    "captionPreset",
+    "captionStyle",
+    "defaultTextAnim",
+    "secondaryTextAnim",
+    "ctaTextAnim",
+    "defaultTransition",
+    "transitionFrames",
+    "fx",
+    "background",
+    "headline",
+    "card",
+    "kenBurns",
+    "tempo",
+    "meta"
+  ]
+}

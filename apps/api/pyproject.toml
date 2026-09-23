@@ -9,7 +9,7 @@ dependencies = [
   "anthropic", "google-genai",
   "arq", "redis", "boto3", "httpx",
   "azure-cognitiveservices-speech", "fal-client", "edge-tts",
-  "bullmq>=2,<3", "psycopg[binary]", "pyyaml",
+  "bullmq>=2,<3", "psycopg[binary]", "pyyaml", "jsonschema",
 ]
 [project.optional-dependencies]
 dev = ["pytest", "pytest-asyncio", "ruff", "mypy", "aiosqlite", "moto[s3]", "fakeredis"]
