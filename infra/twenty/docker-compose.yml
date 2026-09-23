@@ -1,0 +1,89 @@
+# Twenty CRM self-host — MINIMAL skelet (bosqich 5.1, docs/07-open-source-foundations.md).
+# Ishga tushirishdan oldin rasmiy compose bilan solishtirib TEKSHIRING:
+# https://twenty.com/developers/section/self-hosting/docker-compose
+#
+# docs/07: Twenty — CRM qatlami, kodning boshqa joyidan faqat
+# apps/api/src/engine/integrations/crm_adapter.py orqali murojaat qilinadi.
+#
+# TWENTY_VERSION .env faylida pin qilinadi (docs/07 "Ma'lumot egaligi": "yangilash faqat
+# adapter testlari o'tgach"); pastdagi qiymat TAXMIN — real relizlar bilan solishtiring:
+# https://github.com/twentyhq/twenty/releases
+#
+# Bu compose "ame_default" tashqi tarmog'iga ulanadi — asosiy docker-compose.yml (API
+# konteyneri) bilan bitta tarmoqda bo'lishi uchun (docs/07 "Deploy talablari": "Ichki
+# tarmoq: hammasi bitta docker network"). Tarmoq oldindan yaratilishi kerak:
+# `docker network create ame_default` (agar asosiy compose hali shu nomni e'lon
+# qilmagan bo'lsa).
+
+services:
+  twenty-db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: twenty
+      POSTGRES_PASSWORD: ${TWENTY_DB_PASSWORD:-twenty}
+      POSTGRES_DB: twenty
+    volumes:
+      - twenty-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U twenty"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks: [ame_default]
+
+  twenty-redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks: [ame_default]
+
+  twenty-server:
+    # rasm nomi/tegi TAXMIN — https://hub.docker.com/r/twentycrm/twenty bilan solishtiring
+    image: twentycrm/twenty:${TWENTY_VERSION:-v1.4.0}
+    depends_on:
+      twenty-db:
+        condition: service_healthy
+      twenty-redis:
+        condition: service_healthy
+    environment:
+      SERVER_URL: ${TWENTY_SERVER_URL:-http://localhost:3000}
+      PG_DATABASE_URL: postgres://twenty:${TWENTY_DB_PASSWORD:-twenty}@twenty-db:5432/twenty
+      REDIS_URL: redis://twenty-redis:6379
+      APP_SECRET: ${TWENTY_APP_SECRET:?TWENTY_APP_SECRET .env da kerak — masalan `openssl rand -hex 32`}
+      STORAGE_TYPE: local
+    volumes:
+      - twenty-server-local-data:/app/packages/twenty-server/.local-storage
+    ports: ["3000:3000"]
+    restart: unless-stopped
+    networks: [ame_default]
+
+  twenty-worker:
+    image: twentycrm/twenty:${TWENTY_VERSION:-v1.4.0}
+    command: ["yarn", "worker:prod"]  # TAXMIN — rasmiy compose'dagi worker komandasi bilan solishtiring
+    depends_on:
+      twenty-db:
+        condition: service_healthy
+      twenty-redis:
+        condition: service_healthy
+    environment:
+      PG_DATABASE_URL: postgres://twenty:${TWENTY_DB_PASSWORD:-twenty}@twenty-db:5432/twenty
+      REDIS_URL: redis://twenty-redis:6379
+      APP_SECRET: ${TWENTY_APP_SECRET:?TWENTY_APP_SECRET .env da kerak}
+      STORAGE_TYPE: local
+    volumes:
+      - twenty-server-local-data:/app/packages/twenty-server/.local-storage
+    restart: unless-stopped
+    networks: [ame_default]
+
+volumes:
+  twenty-db-data:
+  twenty-server-local-data:
+
+networks:
+  ame_default:
+    external: true
