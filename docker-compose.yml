@@ -7,9 +7,23 @@ services:
       POSTGRES_DB: ame
     ports: ["5432:5432"]
     volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ame"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
   redis:
     image: redis:7-alpine
     ports: ["6379:6379"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
   minio:
     image: minio/minio
     command: server /data --console-address ":9001"
@@ -18,28 +32,97 @@ services:
       MINIO_ROOT_PASSWORD: ame12345
     ports: ["9000:9000", "9001:9001"]
     volumes: [miniodata:/data]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  minio-init:
+    image: minio/mc
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc alias set minio http://minio:9000 ame ame12345;
+      /usr/bin/mc mb minio/${S3_BUCKET:-assets} --ignore-existing;
+      /usr/bin/mc anonymous set public minio/${S3_BUCKET:-assets};
+      exit 0
+      "
+    environment:
+      S3_BUCKET: ${S3_BUCKET:-assets}
+    restart: "no"
+
   api:
     build: ./apps/api
     env_file: .env
-    depends_on: [postgres, redis, minio]
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
     ports: ["8000:8000"]
     volumes: ["./apps/api:/app"]
     command: uvicorn engine.main:app --host 0.0.0.0 --port 8000 --reload
+    restart: unless-stopped
+
   worker:
     build: ./apps/api
     env_file: .env
-    depends_on: [postgres, redis, minio]
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
     volumes: ["./apps/api:/app"]
     command: arq engine.worker.WorkerSettings
+    restart: unless-stopped
+
   bot:
     build: ./apps/bot
     env_file: .env
-    depends_on: [api]
+    depends_on:
+      api:
+        condition: service_started
+    restart: unless-stopped
+
   render:
     build: ./apps/render
     env_file: .env
-    depends_on: [redis, minio]
+    depends_on:
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
     volumes: ["./apps/render:/app", "/app/node_modules"]
+    restart: unless-stopped
+
+  tts:
+    build:
+      context: ./infra/tts
+    image: ghcr.io/ame/navoiy-tts:latest
+    ports: ["8010:8010"]
+    environment:
+      NAVOIY_MODEL_DIR: /models
+    volumes:
+      - ttsmodels:/models
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped
+    profiles: ["gpu"]
+
 volumes:
   pgdata:
   miniodata:
+  ttsmodels:
