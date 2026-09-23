@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(docker compose *)",
+      "Bash(pytest *)",
+      "Bash(uv *)",
+      "Bash(npm *)",
+      "Bash(npx remotion *)",
+      "Bash(alembic *)",
+      "Bash(git *)"
+    ],
+    "deny": ["Read(.env)", "Bash(rm -rf *)"]
+  }
+}

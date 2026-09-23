@@ -1,0 +1,18 @@
+[project]
+name = "engine"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi", "uvicorn[standard]", "pydantic-settings",
+  "sqlalchemy[asyncio]>=2.0", "asyncpg", "alembic", "pgvector",
+  "langgraph", "langgraph-checkpoint-postgres", "langchain-core",
+  "anthropic", "google-genai",
+  "arq", "redis", "boto3", "httpx",
+  "azure-cognitiveservices-speech", "fal-client",
+]
+[project.optional-dependencies]
+dev = ["pytest", "pytest-asyncio", "ruff", "mypy"]
+[tool.ruff]
+line-length = 100
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
