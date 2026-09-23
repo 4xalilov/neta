@@ -168,6 +168,7 @@ class Task(UUIDPkMixin, TimestampMixin, Base):
     status: Mapped[str] = mapped_column(String(20), default="open")
     reminders_sent: Mapped[int] = mapped_column(Integer, default=0)
     escalated_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    note: Mapped[str | None] = mapped_column(Text, nullable=True)
 
     __table_args__ = (
         # docs/02 "Muhim indekslar": task(due_at) where status='open'

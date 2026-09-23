@@ -95,3 +95,18 @@ class DailyReportOut(BaseModel):
 class JarvisDecision(BaseModel):
     decision: Literal["yes", "no", "edit"]
     comment: str | None = None
+
+
+class TaskStatusUpdate(BaseModel):
+    status: Literal["done", "delayed"]
+    note: str | None = None
+    staff_tg_id: int | None = None
+
+
+class TaskOut(BaseModel):
+    id: str
+    title: str
+    due_at: str | None = None
+    status: str
+    staff_name: str | None = None
+    lead_id: str | None = None

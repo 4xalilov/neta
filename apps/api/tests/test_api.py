@@ -350,6 +350,130 @@ async def test_jarvis_decision_report_remind_reminds_overdue_staff(client):
     assert r.status_code == 200 and r.json()["detail"] == "no"
 
 
+async def test_task_status_done_marks_task_and_notifies_owner(client):
+    ws = await _workspace(client)
+    async with client.db() as s:
+        staff = Staff(workspace_id=uuid.UUID(ws["id"]), name="Aziz", tg_id=555)
+        s.add(staff)
+        await s.flush()
+        task = Task(workspace_id=uuid.UUID(ws["id"]), staff_id=staff.id,
+                   title="Qo'ng'iroq qiling",
+                   due_at=datetime.now(UTC) + timedelta(hours=2), status="open")
+        s.add(task)
+        await s.commit()
+        task_id = str(task.id)
+
+    r = await client.post(f"/v1/tasks/{task_id}/status", json={"status": "done", "note": "OK"})
+    assert r.status_code == 200 and r.json()["detail"] == "done"
+
+    async with client.db() as s:
+        row = await s.get(Task, uuid.UUID(task_id))
+        assert row.status == "done" and row.note == "OK"
+
+    n = client.notified[-1]
+    assert n["kind"] == "voice_reply" and n["chat_id"] == "owner"
+    assert "Aziz" in n["payload"]["text"] and "bajardi" in n["payload"]["text"]
+
+
+async def test_task_status_delayed_not_overdue_notifies_owner(client):
+    ws = await _workspace(client)
+    async with client.db() as s:
+        staff = Staff(workspace_id=uuid.UUID(ws["id"]), name="Malika", tg_id=556)
+        s.add(staff)
+        await s.flush()
+        task = Task(workspace_id=uuid.UUID(ws["id"]), staff_id=staff.id, title="Xat yozish",
+                   due_at=datetime.now(UTC) + timedelta(hours=3), status="open")
+        s.add(task)
+        await s.commit()
+        task_id = str(task.id)
+
+    r = await client.post(f"/v1/tasks/{task_id}/status",
+                          json={"status": "delayed", "note": "mijoz javob bermayapti"})
+    assert r.status_code == 200 and r.json()["detail"] == "delayed"
+
+    async with client.db() as s:
+        row = await s.get(Task, uuid.UUID(task_id))
+        assert row.status == "delayed" and row.note == "mijoz javob bermayapti"
+
+    n = client.notified[-1]
+    assert n["kind"] == "voice_reply" and n["chat_id"] == "owner"
+    assert "Malika" in n["payload"]["text"] and "mijoz javob bermayapti" in n["payload"]["text"]
+
+
+async def test_task_status_delayed_overdue_triggers_reminder_event(client):
+    """Muddati allaqachon o'tgan bo'lsa — ``task.overdue`` (``escalate=False``) eventi
+    ``remind_staff`` ni avtonom bajaradi (xodimga ``reminder``, owner emas)."""
+    ws = await _workspace(client)
+    async with client.db() as s:
+        staff = Staff(workspace_id=uuid.UUID(ws["id"]), name="Aziz", tg_id=557)
+        s.add(staff)
+        await s.flush()
+        task = Task(workspace_id=uuid.UUID(ws["id"]), staff_id=staff.id, title="Chaqiruv",
+                   due_at=datetime.now(UTC) - timedelta(hours=1), status="open")
+        s.add(task)
+        await s.commit()
+        task_id, staff_id = str(task.id), staff.id
+
+    r = await client.post(f"/v1/tasks/{task_id}/status", json={"status": "delayed"})
+    assert r.status_code == 200 and r.json()["detail"] == "delayed"
+
+    async with client.db() as s:
+        row = await s.get(Task, uuid.UUID(task_id))
+        assert row.status == "delayed" and row.reminders_sent == 1
+
+    n = client.notified[-1]
+    assert n["kind"] == "reminder" and n["chat_id"] == str(staff_id)
+
+
+async def test_task_status_unknown_task_404_and_bad_status_422(client):
+    r = await client.post(f"/v1/tasks/{uuid.uuid4()}/status", json={"status": "done"})
+    assert r.status_code == 404
+
+    ws = await _workspace(client)
+    async with client.db() as s:
+        staff = Staff(workspace_id=uuid.UUID(ws["id"]), name="Aziz", tg_id=558)
+        s.add(staff)
+        await s.flush()
+        task = Task(workspace_id=uuid.UUID(ws["id"]), staff_id=staff.id, title="X",
+                   due_at=None, status="open")
+        s.add(task)
+        await s.commit()
+        task_id = str(task.id)
+
+    r = await client.post(f"/v1/tasks/{task_id}/status", json={"status": "bogus"})
+    assert r.status_code == 422
+
+
+async def test_list_tasks_filters_by_staff_and_status(client):
+    ws = await _workspace(client)
+    async with client.db() as s:
+        s1 = Staff(workspace_id=uuid.UUID(ws["id"]), name="Aziz", tg_id=601)
+        s2 = Staff(workspace_id=uuid.UUID(ws["id"]), name="Malika", tg_id=602)
+        s.add_all([s1, s2])
+        await s.flush()
+        t1 = Task(workspace_id=uuid.UUID(ws["id"]), staff_id=s1.id, title="Birinchi",
+                 due_at=datetime.now(UTC) + timedelta(hours=1), status="open")
+        t2 = Task(workspace_id=uuid.UUID(ws["id"]), staff_id=s1.id, title="Ikkinchi",
+                 due_at=datetime.now(UTC) + timedelta(hours=2), status="done")
+        t3 = Task(workspace_id=uuid.UUID(ws["id"]), staff_id=s2.id, title="Uchinchi",
+                 due_at=None, status="open")
+        s.add_all([t1, t2, t3])
+        await s.commit()
+
+    r = await client.get("/v1/tasks", params={"workspace_id": ws["id"], "staff_tg_id": 601})
+    assert r.status_code == 200
+    rows = r.json()
+    assert {row["title"] for row in rows} == {"Birinchi", "Ikkinchi"}
+    assert all(row["staff_name"] == "Aziz" for row in rows)
+
+    r = await client.get("/v1/tasks", params={"workspace_id": ws["id"], "status": "open"})
+    rows = r.json()
+    assert {row["title"] for row in rows} == {"Birinchi", "Uchinchi"}
+
+    r = await client.get("/v1/tasks", params={"workspace_id": str(uuid.uuid4())})
+    assert r.status_code == 404
+
+
 async def test_cost_sink_writes_cost_log(sqlite_db):
     from engine import cost_sink, cost_tracker
     from engine.models import CostLog, Workspace

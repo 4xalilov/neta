@@ -5,6 +5,7 @@ Og'ir ish (graf) arq worker'da: ``POST /v1/briefs`` → ``run_brief``; tasdiq/ra
 """
 from __future__ import annotations
 
+import logging
 import uuid
 from datetime import UTC, datetime, time
 from typing import Annotated, Any
@@ -18,7 +19,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from engine import jobs
 from engine.api.jarvis_routes import get_deps as get_jarvis_deps
 from engine.db import get_session
-from engine.jarvis import supervisor
+from engine.jarvis import supervisor, task_manager
 from engine.jarvis.deps import JarvisDeps
 from engine.models import (
     Asset,
@@ -29,6 +30,7 @@ from engine.models import (
     JarvisAction,
     Lead,
     Script,
+    Staff,
     Task,
     TasteMemory,
     TasteMemoryKind,
@@ -47,10 +49,14 @@ from .schemas import (
     ScriptApprove,
     ScriptOut,
     ScriptReject,
+    TaskOut,
+    TaskStatusUpdate,
     VideoApprove,
     WorkspaceCreate,
     WorkspaceOut,
 )
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/v1")
 
@@ -108,6 +114,27 @@ async def _get_script(s: AsyncSession, script_id: str) -> Script:
     if row is None:
         raise HTTPException(404, "script topilmadi")
     return row
+
+
+async def _get_task(s: AsyncSession, task_id: str) -> Task:
+    row = await s.get(Task, _uuid(task_id, "task"))
+    if row is None:
+        raise HTTPException(404, "vazifa topilmadi")
+    return row
+
+
+async def _task_staff_name(s: AsyncSession, task: Task, staff_tg_id: int | None) -> str:
+    """``staff_tg_id`` berilsa (bot amalni bajargan xodim) — shu xodim; bo'lmasa vazifaga
+    biriktirilgan xodim (``task.staff_id``)."""
+    staff: Staff | None = None
+    if staff_tg_id is not None:
+        staff = (await s.execute(
+            select(Staff).where(Staff.workspace_id == task.workspace_id,
+                                Staff.tg_id == staff_tg_id)
+        )).scalar_one_or_none()
+    if staff is None:
+        staff = await s.get(Staff, task.staff_id)
+    return staff.name if staff else "Xodim"
 
 
 def _script_out(row: Script, job_id: str | None = None) -> ScriptOut:
@@ -391,3 +418,86 @@ async def jarvis_decision(action_id: str, body: JarvisDecision,
     except ValueError:
         raise HTTPException(404, "jarvis action topilmadi") from None
     return OkOut(detail=action.status)
+
+
+# ---------------------------------------------------------------- tasks (bot "Vazifalarim")
+
+
+@router.get("/tasks", response_model=list[TaskOut])
+async def list_tasks(workspace_id: str, s: SessionDep,
+                     staff_tg_id: int | None = None,
+                     status: str | None = None) -> list[TaskOut]:
+    """Bot "Mening vazifalarim": workspace (va ixtiyoriy xodim/holat) bo'yicha vazifalar."""
+    ws = await _get_ws(s, workspace_id)
+    stmt = (
+        select(Task, Staff.name)
+        .join(Staff, Task.staff_id == Staff.id)
+        .where(Task.workspace_id == ws.id)
+    )
+    if staff_tg_id is not None:
+        stmt = stmt.where(Staff.tg_id == staff_tg_id)
+    if status is not None:
+        stmt = stmt.where(Task.status == status)
+    stmt = stmt.order_by(Task.due_at.is_(None), Task.due_at)
+    rows = (await s.execute(stmt)).all()
+    return [
+        TaskOut(id=str(t.id), title=t.title,
+               due_at=t.due_at.isoformat() if t.due_at else None,
+               status=t.status, staff_name=name,
+               lead_id=str(t.lead_id) if t.lead_id else None)
+        for t, name in rows
+    ]
+
+
+@router.post("/tasks/{task_id}/status", response_model=OkOut)
+async def update_task_status(task_id: str, body: TaskStatusUpdate,
+                             s: SessionDep, deps: JarvisDepsDep) -> OkOut:
+    """Bot "✅ Bajarildi" / "⏳ Kechikadi" tugmalari.
+
+    ``done`` -> ``task_manager.complete_task`` (status="done"), CRM'ga ``complete_task``
+    best-effort yoziladi, ega ``voice_reply`` bilan xabardor qilinadi. ``delayed`` -> status
+    "delayed" + izoh saqlanadi; muddati allaqachon o'tgan bo'lsa ``task.overdue`` eventi
+    (``supervisor.handle_event``) orqali odatdagi eslatma/eskalatsiya yo'li ishga tushadi,
+    aks holda ega to'g'ridan-to'g'ri xabardor qilinadi (docs/04 "Eskalatsiya qoidalari").
+    """
+    task = await _get_task(s, task_id)
+    staff_name = await _task_staff_name(s, task, body.staff_tg_id)
+
+    if body.status == "done":
+        updated = await task_manager.complete_task(s, task.id)
+        assert updated is not None
+        if body.note:
+            updated.note = body.note
+        await s.commit()
+
+        try:
+            await deps.crm.complete_task(str(task.id))
+        except Exception:
+            logger.warning("update_task_status: CRM complete_task xato", exc_info=True)
+
+        await deps.notify(
+            chat_id=supervisor.OWNER_CHAT_KEY, kind="voice_reply",
+            payload={"text": f"✅ {staff_name} vazifani bajardi: {task.title}"},
+        )
+        return OkOut(detail="done")
+
+    # delayed
+    task.status = "delayed"
+    task.note = body.note
+    await s.commit()
+
+    now = deps.now()
+    due = task.due_at
+    if due is not None and due.tzinfo is None:
+        due = due.replace(tzinfo=UTC)
+    if due is not None and due < now:
+        await supervisor.handle_event(
+            {"type": "task.overdue", "task_id": str(task.id), "escalate": False}, deps,
+        )
+    else:
+        note_part = f" — {body.note}" if body.note else ""
+        await deps.notify(
+            chat_id=supervisor.OWNER_CHAT_KEY, kind="voice_reply",
+            payload={"text": f"⏳ {staff_name} kechikadi: {task.title}{note_part}"},
+        )
+    return OkOut(detail="delayed")
