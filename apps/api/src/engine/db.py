@@ -65,7 +65,9 @@ async def init_models(bind: AsyncEngine | None = None) -> None:
     Ishlab chiqarishda jadvallar Alembic migratsiyalari orqali yaratiladi —
     bu funksiya faqat sqlite/in-memory testlar uchun.
     """
-    import engine.models
+    import importlib
+
+    importlib.import_module("engine.models")  # jadvallar metadata'ga ro'yxatdan o'tsin
 
     target = bind or engine
     dialect_name = target.dialect.name
