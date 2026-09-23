@@ -79,6 +79,8 @@ Poydevor: Chatwoot + Twenty CRM (docs/07). Meta App Review'ni 3-bosqichdan boshl
 - [ ] 7.3 Multi-tenant (agentlik rejimi), billing
 - [ ] 7.4 Monitoring: Langfuse/OpenTelemetry, xarajat dashboardi, alertlar
 - [ ] 7.5 Backup, deploy skripti (VDS), README to'liq
+- [ ] 7.6 Montaj agenti (Editor agent): vositalar to'plami `cut`, `trim_silence`, `add_broll`, `punch_zoom`, `add_music(duck)`, `captions`, `transition`, `sfx` → EDL JSON → Remotion; shablonlar kutubxonasi (gapiruvchi bosh + subtitr, mahsulot ko'rsatuv, oldin/keyin, "3 ta xato", mijoz fikri); referens video tahlili (PySceneDetect + Gemini) → kesim ritmi `reference_library` ga
+- [ ] 7.7 Xom videodan Reels: ega telefonda yozgan video → auto-editor (sukunat kesish) → whisperX (so'z-timing subtitr) → agent punch-zoom + B-roll (FLUX) + musiqa (demucs duck) → Remotion → QA halqasi; qo'lda tuzatish uchun OpenCut havolasi (Telegram "✏️ Tahrir")
 
 ---
 **Tartib qoidasi:** Bosqich N tugamay N+1 boshlanmaydi. Istisnolar: 6.1–6.2 (SIP/STT testi) 5-bosqich bilan, Meta App Review (5.2 uchun) 3-bosqich bilan parallel.
