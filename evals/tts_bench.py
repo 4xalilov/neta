@@ -17,10 +17,25 @@ from __future__ import annotations
 
 import argparse
 import asyncio
+import os
 import re
+import sys
 import time
 from pathlib import Path
 from typing import Any
+
+# Mustaqil ishga tushirish uchun: apps/api/src ni yo'lga qo'shamiz va
+# majburiy sozlamalarga (DB, Redis, S3) qo'g'irchoq qiymat beramiz — TTS ularga muhtoj emas.
+_REPO = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(_REPO / "apps" / "api" / "src"))
+for _k, _v in {
+    "DATABASE_URL": "sqlite+aiosqlite:///:memory:",
+    "REDIS_URL": "redis://localhost:6379/0",
+    "S3_ENDPOINT": "http://localhost:9000",
+    "S3_ACCESS_KEY": "x",
+    "S3_SECRET_KEY": "x",
+}.items():
+    os.environ.setdefault(_k, _v)
 
 from engine.integrations import tts
 
