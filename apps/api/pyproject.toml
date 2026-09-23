@@ -8,10 +8,10 @@ dependencies = [
   "langgraph", "langgraph-checkpoint-postgres", "langchain-core",
   "anthropic", "google-genai",
   "arq", "redis", "boto3", "httpx",
-  "azure-cognitiveservices-speech", "fal-client",
+  "azure-cognitiveservices-speech", "fal-client", "edge-tts",
 ]
 [project.optional-dependencies]
-dev = ["pytest", "pytest-asyncio", "ruff", "mypy"]
+dev = ["pytest", "pytest-asyncio", "ruff", "mypy", "aiosqlite", "moto[s3]"]
 [tool.ruff]
 line-length = 100
 [tool.pytest.ini_options]

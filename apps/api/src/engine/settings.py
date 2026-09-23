@@ -18,6 +18,21 @@ class Settings(BaseSettings):
     tts_voice: str = "uz-UZ-MadinaNeural"
     telegram_bot_token: str = ""
     owner_tg_id: int = 0
+    sql_echo: bool = False
+    llm_final_model: str = "claude-opus-5"
+    llm_timeout_s: float = 60
+    llm_max_retries: int = 3
+    tts_fallback: str = "azure"
+    navoiy_url: str = "http://tts:8010"
+    aisha_api_key: str = ""
+    aisha_url: str = "https://api.aisha.group"
+    azure_speech_key: str = ""
+    azure_speech_region: str = ""
+    elevenlabs_api_key: str = ""
+    fal_key: str = ""
+    public_s3_url: str = "http://localhost:9000"
+    flux_draft_tier: str = "schnell"
+    flux_final_tier: str = "dev"
 
 
 settings = Settings()

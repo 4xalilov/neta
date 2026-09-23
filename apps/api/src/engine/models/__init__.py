@@ -1,0 +1,71 @@
+"""SQLAlchemy modellari: Content Engine + CRM/Jarvis (docs/02-data-model.md).
+
+Bu modul ikkala kichik modulni ham import qiladi, shunda ``Base.metadata``
+barcha jadvallarni biladi (``engine.db.init_models`` va Alembic uchun muhim).
+"""
+
+from engine.models.content import (
+    Asset,
+    AssetKind,
+    BrandProfile,
+    ContentPlan,
+    CostLog,
+    CriticReview,
+    IgAudit,
+    Post,
+    PostMetrics,
+    ReferenceVideo,
+    RenderJob,
+    RenderJobStatus,
+    Script,
+    TasteMemory,
+    TasteMemoryKind,
+    Workspace,
+)
+from engine.models.crm import (
+    CallLog,
+    Campaign,
+    ContactEvent,
+    CrmLink,
+    DailyReport,
+    Deal,
+    JarvisAction,
+    JarvisActionLevel,
+    Lead,
+    LeadSource,
+    LeadStage,
+    Staff,
+    Task,
+)
+
+__all__ = [
+    "Asset",
+    "AssetKind",
+    "BrandProfile",
+    "CallLog",
+    "Campaign",
+    "ContactEvent",
+    "ContentPlan",
+    "CostLog",
+    "CriticReview",
+    "CrmLink",
+    "DailyReport",
+    "Deal",
+    "IgAudit",
+    "JarvisAction",
+    "JarvisActionLevel",
+    "Lead",
+    "LeadSource",
+    "LeadStage",
+    "Post",
+    "PostMetrics",
+    "ReferenceVideo",
+    "RenderJob",
+    "RenderJobStatus",
+    "Script",
+    "Staff",
+    "Task",
+    "TasteMemory",
+    "TasteMemoryKind",
+    "Workspace",
+]
