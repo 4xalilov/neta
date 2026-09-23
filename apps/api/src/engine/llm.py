@@ -287,11 +287,16 @@ async def _call_anthropic(model: str, system: str, user: str, *, json_mode: bool
 
 async def _call_gemini(model: str, system: str, user: str, *, json_mode: bool,
                        max_tokens: int, temperature: float | None,
-                       images: list[ImageInput] | None) -> tuple[str, int, int, str]:
+                       images: list[ImageInput] | None,
+                       audio: bytes | None = None,
+                       audio_mime: str | None = None) -> tuple[str, int, int, str]:
     contents: Any = user
-    if images:
+    if images or audio:
         parts: list[Any] = []
-        for img in images:
+        if audio:  # inline audio part (STT, roadmap 5.10) — Gemini audio/ogg|wav|mp3 qabul qiladi
+            parts.append(genai_types.Part.from_bytes(data=audio,
+                                                     mime_type=audio_mime or "audio/ogg"))
+        for img in images or []:
             if isinstance(img, bytes):
                 parts.append(genai_types.Part.from_bytes(data=img, mime_type=_sniff_mime(img)))
             elif img.startswith("data:"):
@@ -327,14 +332,22 @@ async def complete(tier: Tier, system: str, user: str, *, json_mode: bool = Fals
                    node: str = "", workspace_id: str = "",
                    max_tokens: int = DEFAULT_MAX_TOKENS, temperature: float | None = None,
                    images: list[ImageInput] | None = None,
-                   effort: str | None = None) -> LLMResult:
+                   effort: str | None = None,
+                   audio: bytes | None = None,
+                   audio_mime: str | None = None) -> LLMResult:
     """Bitta LLM chaqiriq: tier bo'yicha model, retry, timeout, cost_tracker.
 
     ``images`` — bayt, http(s) URL yoki data: URL ro'yxati (odatda ``tier="vision"``).
+    ``audio`` + ``audio_mime`` (masalan ``"audio/ogg"``) — FAQAT Gemini modellari (STT,
+    ``engine.integrations.stt.GeminiSTT``); Claude modeliga audio berilsa ``LLMError``.
     ``temperature`` — faqat qabul qiladigan modellarga yuboriladi (Gemini, eski Claude).
     ``effort`` — faqat Claude (``low|medium|high|xhigh|max``).
     """
     model = _model_for(tier)
+    if audio is not None and not model.startswith("gemini"):
+        raise LLMError(
+            f"audio kirish faqat Gemini provayderida qo'llab-quvvatlanadi ({tier} tier -> {model})"
+        )
 
     if _fake is not None:
         out = _fake(tier, system, user)
@@ -357,7 +370,7 @@ async def complete(tier: Tier, system: str, user: str, *, json_mode: bool = Fals
         async def call() -> tuple[str, int, int, str]:
             return await _call_gemini(model, system, user, json_mode=json_mode,
                                       max_tokens=max_tokens, temperature=temperature,
-                                      images=images)
+                                      images=images, audio=audio, audio_mime=audio_mime)
 
     text, tokens_in, tokens_out, served_by = await _with_retry(call, f"{provider}:{model}")
     usd = cost_tracker.price(served_by, tokens_in, tokens_out)
@@ -405,12 +418,14 @@ async def complete_json(tier: Tier, system: str, user: str, *, node: str = "",
                         workspace_id: str = "", max_tokens: int = DEFAULT_MAX_TOKENS,
                         temperature: float | None = None,
                         images: list[ImageInput] | None = None,
-                        effort: str | None = None) -> dict:
+                        effort: str | None = None,
+                        audio: bytes | None = None,
+                        audio_mime: str | None = None) -> dict:
     """``complete(json_mode=True)`` + ``parse_json``; yaroqsiz bo'lsa 1 marta qayta so'raydi."""
     kw: dict[str, Any] = {
         "json_mode": True, "node": node, "workspace_id": workspace_id,
         "max_tokens": max_tokens, "temperature": temperature,
-        "images": images, "effort": effort,
+        "images": images, "effort": effort, "audio": audio, "audio_mime": audio_mime,
     }
     res = await complete(tier, system, user, **kw)
     try:

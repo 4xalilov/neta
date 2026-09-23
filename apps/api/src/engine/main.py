@@ -53,6 +53,10 @@ from engine.api.style_routes import router as style_router
 
 app.include_router(style_router)
 
+from engine.api.voice_routes import router as voice_router
+
+app.include_router(voice_router)
+
 
 @app.get("/health")
 async def health() -> dict:

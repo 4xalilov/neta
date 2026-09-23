@@ -10,8 +10,11 @@ dependencies = [
   "arq", "redis", "boto3", "httpx",
   "azure-cognitiveservices-speech", "fal-client", "edge-tts",
   "bullmq>=2,<3", "psycopg[binary]", "pyyaml", "jsonschema",
+  "python-multipart",
 ]
 [project.optional-dependencies]
+# Lokal STT (roadmap 5.10, WhisperSTT): og'ir (CTranslate2 + PyAV) — default deps'da emas.
+stt-local = ["faster-whisper"]
 dev = ["pytest", "pytest-asyncio", "ruff", "mypy", "aiosqlite", "moto[s3]", "fakeredis"]
 [tool.ruff]
 line-length = 100

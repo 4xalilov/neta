@@ -37,6 +37,7 @@ from engine.models.crm import (
     Staff,
     Task,
 )
+from engine.models.owner import OwnerMemory
 from engine.models.style import STYLE_THEME_SOURCES, STYLE_THEME_STATUSES, StyleTheme
 from engine.models.vault import VaultNote
 
@@ -61,6 +62,7 @@ __all__ = [
     "Lead",
     "LeadSource",
     "LeadStage",
+    "OwnerMemory",
     "Post",
     "PostMetrics",
     "ReferenceVideo",

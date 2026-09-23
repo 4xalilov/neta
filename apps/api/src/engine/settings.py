@@ -58,6 +58,15 @@ class Settings(BaseSettings):
     # (JSON sxema, tema fayllari, ``npm run theme:validate`` CLI shu yerda ishlaydi).
     render_dir: str = "/app/render"
     style_gate_min_score: int = 8
+    # Ovozli boshqaruv (roadmap 5.10): STT → niyat → supervisor → javob matn + ovoz.
+    ffmpeg_bin: str = "ffmpeg"  # ogg/opus <-> wav/mp3 (api Dockerfile ffmpeg o'rnatadi)
+    uzbekvoice_api_key: str = ""  # UzbekvoiceSTT (endpoint TEKSHIRILMAGAN, stt.py)
+    stt_provider: str = "gemini"  # gemini | whisper | aisha | uzbekvoice | azure
+    stt_fallback: str = "whisper"
+    whisper_model: str = "small"  # faster-whisper (ixtiyoriy guruh: pip install -e ".[stt-local]")
+    intent_min_confidence: float = 0.7  # bundan past → aniqlashtiruvchi savol
+    voice_reply: bool = True  # javobni TTS → ogg/opus voice note qilib qaytarish
+    owner_memory_turns: int = 10  # niyat promptiga beriladigan oxirgi almashuvlar soni
 
 
 settings = Settings()
