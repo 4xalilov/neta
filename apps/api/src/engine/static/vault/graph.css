@@ -203,6 +203,51 @@ body {
   100% { width: 90px; height: 90px; opacity: 0; }
 }
 
+/* ---------------------------------------------------------------- legend */
+.legend {
+  position: absolute;
+  left: var(--gutter);
+  bottom: 14px;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-width: min(62%, 460px);
+  pointer-events: auto;
+}
+
+.legend-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(19, 26, 42, 0.72);
+  backdrop-filter: blur(6px);
+  color: var(--muted);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.18s, border-color 0.18s, color 0.18s, transform 0.18s;
+}
+.legend-chip:hover { color: var(--text); border-color: var(--accent); }
+.legend-chip[aria-pressed="true"] {
+  color: var(--text);
+  border-color: var(--text);
+  transform: translateY(-1px);
+}
+.legend-chip.dimmed { opacity: 0.4; }
+
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 6px currentColor;
+}
+
 /* ---------------------------------------------------------------- panel */
 .panel {
   width: 340px;
@@ -377,4 +422,36 @@ body {
   .panel-close { left: auto; right: 0; transform: none; }
 
   .ticker-label { display: none; }
+}
+
+/* body.phone — window.matchMedia("(max-width: 480px)") orqali JS'da qo'yiladi
+   (graph.js), shu bilan bir vaqtda resize + orientation change'da ham to'g'ri
+   ishlaydi (faqat CSS media query'ga tayanmaymiz). */
+body.phone .topbar {
+  flex-wrap: wrap;
+}
+body.phone .kpis {
+  order: 3;
+  width: 100%;
+  margin-left: 0;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 6px;
+  border-top: 1px solid var(--border);
+}
+body.phone .kpi { min-width: 0; flex: 1; }
+body.phone .topbar-actions { order: 2; margin-left: auto; }
+
+body.phone .legend {
+  max-width: calc(100% - 2 * var(--gutter));
+  bottom: 10px;
+}
+body.phone .legend-chip {
+  padding: 4px 8px;
+  font-size: 10px;
+}
+
+@media (max-width: 480px) {
+  .legend { max-width: calc(100% - 2 * var(--gutter)); bottom: 10px; }
+  .legend-chip { padding: 4px 8px; font-size: 10px; }
 }

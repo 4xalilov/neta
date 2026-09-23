@@ -1,5 +1,5 @@
 /* Bilim grafi — jonli force-graph (docs/10-obsidian-vault.md, roadmap 3.7).
- * Vanilla JS, tashqi kutubxonalar: force-graph (jsdelivr), marked (cdnjs).
+ * Vanilla JS, tashqi kutubxonalar: force-graph (vendored, CDN fallback), marked (vendored, CDN fallback).
  * WS ishlamasa ham `/v1/vault/graph` JSON snapshot bilan statik holda ishlaydi.
  */
 (() => {
@@ -14,10 +14,20 @@
     reference: "#A78BFA",
     plan: "#F472B6",
   };
+  const TYPE_LABEL_UZ = {
+    brand: "Brend",
+    sop: "SOP",
+    staff: "Xodim",
+    reference: "Referens",
+    plan: "Reja",
+    script: "Ssenariy",
+    report: "Hisobot",
+  };
   const DEFAULT_COLOR = "#8B95AD";
   const POP_MS = 600;
   const FADE_MS = 500;
   const RIPPLE_MS = 900;
+  const DIMMED_ALPHA = 0.15;
 
   const els = {
     graph: document.getElementById("graph"),
@@ -35,17 +45,21 @@
     connDot: document.getElementById("conn-dot"),
     demoToggle: document.getElementById("demo-toggle"),
     stage: document.querySelector(".stage"),
+    legend: document.getElementById("legend"),
   };
 
   const state = {
     nodesByPath: new Map(),
     links: [],
-    ripples: [],
     hoverNode: null,
     selectedPath: null,
     demo: false,
     demoTimer: null,
     wsConnected: false,
+    focusType: null,
+    tickerSeeded: false,
+    userZoomed: false,
+    suppressZoomEvent: false,
   };
 
   // ---------------------------------------------------------------- utils
@@ -61,6 +75,16 @@
     const c1 = 1.70158;
     const c3 = c1 + 1;
     return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+  }
+
+  function hexToRgba(hex, alpha) {
+    const clean = String(hex || "").replace("#", "");
+    const full = clean.length === 3 ? clean.split("").map((c) => c + c).join("") : clean;
+    const num = parseInt(full || "8B95AD", 16);
+    const r = (num >> 16) & 255;
+    const g = (num >> 8) & 255;
+    const b = num & 255;
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
   }
 
   function degreeMap() {
@@ -101,11 +125,16 @@
     animateCount(els.kpiLinks, links);
   }
 
-  function pushTicker(event, path) {
-    const icon = { added: "➕", updated: "✏️", removed: "➖" }[event] || "•";
-    const verb = { added: "qo'shildi", updated: "yangilandi", removed: "o'chirildi" }[event] || event;
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, (c) => (
+      { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]
+    ));
+  }
+
+  // ---------------------------------------------------------------- ticker
+  function pushTickerRaw(html) {
     const li = document.createElement("li");
-    li.innerHTML = `${icon} <b>${escapeHtml(path)}</b> ${verb} · ${fmtTime(new Date())}`;
+    li.innerHTML = html;
     els.ticker.appendChild(li);
     while (els.ticker.children.length > 8) {
       els.ticker.removeChild(els.ticker.firstChild);
@@ -113,19 +142,72 @@
     els.ticker.scrollLeft = els.ticker.scrollWidth;
   }
 
-  function escapeHtml(s) {
-    return String(s).replace(/[&<>"']/g, (c) => (
-      { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]
-    ));
+  function pushTicker(event, path) {
+    const icon = { added: "➕", updated: "✏️", removed: "➖" }[event] || "•";
+    const verb = { added: "qo'shildi", updated: "yangilandi", removed: "o'chirildi" }[event] || event;
+    pushTickerRaw(
+      `${icon} <b>${escapeHtml(path)}</b> ${verb} · ${fmtTime(new Date())}`
+    );
+  }
+
+  function seedTickerFromSnapshot(nodes) {
+    if (state.tickerSeeded) return;
+    state.tickerSeeded = true;
+    if (!nodes.length) return;
+    const recent = [...nodes]
+      .filter((n) => n.updated)
+      .sort((a, b) => String(b.updated).localeCompare(String(a.updated)))
+      .slice(0, 8)
+      .reverse(); // eskisi birinchi qo'shiladi, eng yangisi ro'yxat oxirida (o'ngda) tursin
+    for (const n of recent) {
+      const when = n.updated ? new Date(n.updated) : new Date();
+      pushTickerRaw(`📄 <b>${escapeHtml(n.path)}</b> · ${fmtTime(when)}`);
+    }
+  }
+
+  // ---------------------------------------------------------------- legend
+  function buildLegend() {
+    if (!els.legend) return;
+    els.legend.innerHTML = "";
+    for (const type of Object.keys(TYPE_COLOR)) {
+      const chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "legend-chip";
+      chip.dataset.type = type;
+      chip.setAttribute("aria-pressed", "false");
+      chip.innerHTML =
+        `<span class="legend-dot" style="background:${TYPE_COLOR[type]}"></span>` +
+        `<span>${TYPE_LABEL_UZ[type] || type}</span>`;
+      chip.addEventListener("click", () => toggleFocusType(type));
+      els.legend.appendChild(chip);
+    }
+  }
+
+  function toggleFocusType(type) {
+    state.focusType = state.focusType === type ? null : type;
+    for (const chip of els.legend.querySelectorAll(".legend-chip")) {
+      const active = chip.dataset.type === state.focusType;
+      chip.setAttribute("aria-pressed", String(active));
+      chip.classList.toggle("dimmed", Boolean(state.focusType) && !active);
+    }
+    Graph.refresh();
+  }
+
+  function typeAlphaFactor(type) {
+    if (!state.focusType) return 1;
+    return type === state.focusType ? 1 : DIMMED_ALPHA;
   }
 
   // ---------------------------------------------------------------- graph setup
   const Graph = ForceGraph()(els.graph)
     .backgroundColor("rgba(0,0,0,0)")
     .nodeId("path")
-    .linkColor(() => "rgba(139, 149, 173, 0.35)")
+    .linkColor((link) => linkColorFor(link))
     .linkWidth(1)
-    .linkDirectionalParticles(0)
+    .linkDirectionalParticles(2)
+    .linkDirectionalParticleSpeed(0.004)
+    .linkDirectionalParticleWidth(2)
+    .linkDirectionalParticleColor((link) => linkParticleColorFor(link))
     .warmupTicks(30)
     .cooldownTicks(200)
     .onNodeHover((node) => {
@@ -134,6 +216,10 @@
     })
     .onNodeClick((node) => openPanel(node))
     .onBackgroundClick(() => closePanel())
+    .onZoom(() => {
+      if (!state.suppressZoomEvent) state.userZoomed = true;
+    })
+    .onEngineStop(() => zoomToFitNow(false))
     .nodeCanvasObject((node, ctx, globalScale) => {
       drawNode(node, ctx, globalScale);
     })
@@ -145,33 +231,85 @@
       ctx.fill();
     });
 
+  function linkColorFor(link) {
+    const srcType = typeOfEndpoint(link.source);
+    const tgtType = typeOfEndpoint(link.target);
+    const relevant =
+      !state.focusType || srcType === state.focusType || tgtType === state.focusType;
+    return relevant ? "rgba(139, 149, 173, 0.35)" : "rgba(139, 149, 173, 0.06)";
+  }
+
+  function linkParticleColorFor(link) {
+    const srcType = typeOfEndpoint(link.source);
+    const relevant = !state.focusType || srcType === state.focusType;
+    const color = TYPE_COLOR[srcType] || DEFAULT_COLOR;
+    return hexToRgba(color, relevant ? 0.6 : 0.08);
+  }
+
+  function typeOfEndpoint(endpoint) {
+    const path = typeof endpoint === "object" && endpoint ? endpoint.path : endpoint;
+    const node = state.nodesByPath.get(path);
+    return node ? node.type : null;
+  }
+
   function nodeRadius(node) {
     const deg = state._degree ? state._degree.get(node.path) || 0 : 0;
     return 5 + Math.min(10, Math.sqrt(deg) * 3.2);
   }
 
+  function drawGlow(ctx, node, r, color, alpha) {
+    if (!Number.isFinite(node.x) || !Number.isFinite(node.y) || !(r > 0.01)) return;
+    const outerR = r * 4.2;
+    const outer = ctx.createRadialGradient(node.x, node.y, r * 0.5, node.x, node.y, outerR);
+    outer.addColorStop(0, hexToRgba(color, 0.30 * alpha));
+    outer.addColorStop(1, hexToRgba(color, 0));
+    ctx.fillStyle = outer;
+    ctx.beginPath();
+    ctx.arc(node.x, node.y, outerR, 0, 2 * Math.PI);
+    ctx.fill();
+
+    const innerR = r * 1.9;
+    const inner = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, innerR);
+    inner.addColorStop(0, hexToRgba(color, 0.55 * alpha));
+    inner.addColorStop(1, hexToRgba(color, 0));
+    ctx.fillStyle = inner;
+    ctx.beginPath();
+    ctx.arc(node.x, node.y, innerR, 0, 2 * Math.PI);
+    ctx.fill();
+  }
+
   function drawNode(node, ctx, globalScale) {
+    if (!Number.isFinite(node.x) || !Number.isFinite(node.y)) return;
     const target = nodeRadius(node);
     if (node._r === undefined) node._r = target;
+
+    let popT = 1;
     if (node._animStart) {
-      const t = Math.min(1, (performance.now() - node._animStart) / POP_MS);
-      node._r = target * Math.max(0, easeOutBack(t));
-      if (t >= 1) node._animStart = null;
+      popT = Math.min(1, (performance.now() - node._animStart) / POP_MS);
+      node._r = target * Math.max(0, easeOutBack(popT));
+      if (popT >= 1) node._animStart = null;
     }
     const r = Math.max(0.5, node._r);
-    let alpha = 1;
+
+    let fadeAlpha = 1;
     if (node._removing) {
       const t = Math.min(1, (performance.now() - node._removeStart) / FADE_MS);
-      alpha = 1 - t;
+      fadeAlpha = 1 - t;
     }
 
     const color = TYPE_COLOR[node.type] || DEFAULT_COLOR;
     const isHover = state.hoverNode && state.hoverNode.path === node.path;
     const isSelected = state.selectedPath === node.path;
+    const dimFactor = typeAlphaFactor(node.type);
+    const alpha = fadeAlpha * dimFactor;
 
     ctx.save();
     ctx.globalAlpha = alpha;
 
+    // 1) yumshoq ikki qatlamli halo (har doim, hover'da kuchayadi)
+    drawGlow(ctx, node, r, color, isHover ? 1.6 : 1);
+
+    // 2) asosiy doira
     if (isHover || isSelected) {
       ctx.shadowColor = color;
       ctx.shadowBlur = isHover ? 18 : 10;
@@ -182,29 +320,37 @@
     ctx.fill();
     ctx.shadowBlur = 0;
 
+    // 3) yupqa halqa (tur rangida)
+    ctx.strokeStyle = hexToRgba(color, 0.9);
+    ctx.lineWidth = 1.2 / Math.max(0.6, globalScale ** 0.15);
+    ctx.beginPath();
+    ctx.arc(node.x, node.y, r + 1.6, 0, 2 * Math.PI);
+    ctx.stroke();
+
     if (isSelected) {
       ctx.strokeStyle = "#E6EAF2";
       ctx.lineWidth = 1.5 / globalScale;
       ctx.beginPath();
-      ctx.arc(node.x, node.y, r + 2.5, 0, 2 * Math.PI);
+      ctx.arc(node.x, node.y, r + 4, 0, 2 * Math.PI);
       ctx.stroke();
     }
 
-    const showLabel = isHover || globalScale > 2.6;
-    if (showLabel) {
-      const label = node.title || node.path;
-      const fontSize = Math.max(10, 12 / globalScale);
+    // 4) sarlavha — doim ko'rinadi, "portlash" bilan birga paydo bo'ladi, qorong'i halo bilan
+    const label = node.title || node.path;
+    if (label) {
+      const fontSize = (isHover ? 13 : 12) / Math.max(globalScale, 0.6);
       ctx.font = `600 ${fontSize}px Manrope, sans-serif`;
-      const padX = 4;
-      const w = ctx.measureText(label).width + padX * 2;
-      const h = fontSize + 4;
-      ctx.fillStyle = "rgba(11, 15, 25, 0.85)";
-      ctx.fillRect(node.x - w / 2, node.y + r + 4, w, h);
-      ctx.fillStyle = "#E6EAF2";
       ctx.textAlign = "center";
       ctx.textBaseline = "top";
-      ctx.fillText(label, node.x, node.y + r + 6);
+      const ly = node.y + r + 5 / Math.max(globalScale, 0.6);
+      ctx.globalAlpha = alpha * popT;
+      ctx.lineWidth = 3 / Math.max(globalScale, 0.6);
+      ctx.strokeStyle = "rgba(5, 7, 13, 0.85)";
+      ctx.strokeText(label, node.x, ly);
+      ctx.fillStyle = `rgba(230, 234, 242, ${0.85 * alpha * popT})`;
+      ctx.fillText(label, node.x, ly);
     }
+
     ctx.restore();
 
     if (node._animStart) requestAnimationFrame(() => Graph.refresh());
@@ -218,6 +364,11 @@
       .filter((l) => state.nodesByPath.has(l.source) && state.nodesByPath.has(l.target))
       .map((l) => ({ source: l.source, target: l.target }));
     Graph.graphData({ nodes, links });
+    // Tugunlar bir-biriga yopishmasin: kuchliroq itarish va uzunroq bog'lanish
+    const charge = Graph.d3Force("charge");
+    if (charge) charge.strength(-260);
+    const linkF = Graph.d3Force("link");
+    if (linkF) linkF.distance(90);
     updateKpis();
   }
 
@@ -229,6 +380,24 @@
     el.style.top = `${coords.y}px`;
     els.stage.appendChild(el);
     setTimeout(() => el.remove(), RIPPLE_MS);
+  }
+
+  // ---------------------------------------------------------------- zoom-to-fit
+  function zoomToFitNow(force) {
+    if (!force && state.userZoomed) return;
+    state.suppressZoomEvent = true;
+    Graph.zoomToFit(600, 80);
+    setTimeout(() => {
+      // Kichik graflarda haddan tashqari yaqinlashmasin
+      if (Graph.zoom() > 3.2) Graph.zoom(3.2, 300);
+      setTimeout(() => { state.suppressZoomEvent = false; }, 350);
+    }, 650);
+  }
+
+  let settleTimer = null;
+  function scheduleSettleZoom() {
+    clearTimeout(settleTimer);
+    settleTimer = setTimeout(() => zoomToFitNow(true), 1500);
   }
 
   // ---------------------------------------------------------------- events
@@ -247,6 +416,7 @@
       setLinksFor(node.path, links || []);
       refreshGraphData();
       requestAnimationFrame(() => spawnRipple(merged));
+      zoomToFitNow(false);
     } else if (event === "updated") {
       const existing = state.nodesByPath.get(node.path) || {};
       state.nodesByPath.set(node.path, Object.assign({}, existing, node));
@@ -328,7 +498,6 @@
   }
 
   function applySnapshot(data) {
-    const now = performance.now();
     const nextPaths = new Set((data.nodes || []).map((n) => n.path));
     for (const path of state.nodesByPath.keys()) {
       if (!nextPaths.has(path)) state.nodesByPath.delete(path);
@@ -339,6 +508,8 @@
     }
     state.links = (data.links || []).map((l) => ({ source: l.source, target: l.target }));
     refreshGraphData();
+    seedTickerFromSnapshot(data.nodes || []);
+    scheduleSettleZoom();
   }
 
   // ---------------------------------------------------------------- WebSocket
@@ -451,9 +622,29 @@
   function fitCanvas() {
     Graph.width(els.graph.clientWidth).height(els.graph.clientHeight);
   }
-  window.addEventListener("resize", fitCanvas);
+
+  let resizeTimer = null;
+  window.addEventListener("resize", () => {
+    fitCanvas();
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => zoomToFitNow(false), 250);
+  });
   fitCanvas();
 
+  // Telefon eni (390px atrofida): legend ko'p qatorga o'tadi, KPI'lar
+  // o'z qatoriga tushib "stack" bo'ladi — body.phone klassi orqali.
+  const phoneMq = window.matchMedia("(max-width: 480px)");
+  function applyPhoneLayout(mq) {
+    document.body.classList.toggle("phone", mq.matches);
+  }
+  applyPhoneLayout(phoneMq);
+  if (phoneMq.addEventListener) {
+    phoneMq.addEventListener("change", applyPhoneLayout);
+  } else if (phoneMq.addListener) {
+    phoneMq.addListener(applyPhoneLayout); // eski Safari
+  }
+
+  buildLegend();
   loadSnapshotRest();
   connectWs();
 })();
