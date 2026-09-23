@@ -69,6 +69,100 @@ async def test_create_brief_extracts_job_id():
 
 
 @pytest.mark.asyncio
+async def test_voice_command_posts_multipart_with_audio():
+    seen = {}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen["path"] = request.url.path
+        seen["content_type"] = request.headers.get("content-type", "")
+        seen["body"] = request.content
+        return httpx.Response(
+            200,
+            json={
+                "transcript": "salom",
+                "intent": "greet",
+                "confidence": 0.9,
+                "reply_text": "Salom!",
+                "needs_confirmation": False,
+                "actions": [],
+                "audio_url": None,
+                "audio_b64": None,
+                "job_id": None,
+            },
+        )
+
+    api = _client_with_transport(httpx.MockTransport(handler))
+    result = await api.voice_command(123, audio=b"OggS-bytes", workspace_id="ws1", role="owner")
+
+    assert result["transcript"] == "salom"
+    assert seen["path"] == "/v1/voice/command"
+    assert seen["content_type"].startswith("multipart/form-data")
+    body = seen["body"]
+    assert b'name="chat_id"' in body and b"123" in body
+    assert b'name="fmt"' in body and b"ogg" in body
+    assert b'name="role"' in body and b"owner" in body
+    assert b'name="workspace_id"' in body and b"ws1" in body
+    assert b'name="audio"' in body and b"OggS-bytes" in body
+    await api.aclose()
+
+
+@pytest.mark.asyncio
+async def test_voice_command_text_only_has_no_audio_part():
+    seen = {}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen["body"] = request.content
+        return httpx.Response(
+            200,
+            json={
+                "transcript": "hammasiga ha",
+                "intent": "approve_all",
+                "confidence": 1.0,
+                "reply_text": "Bajarildi.",
+                "needs_confirmation": False,
+                "actions": [],
+                "audio_url": None,
+                "audio_b64": None,
+                "job_id": None,
+            },
+        )
+
+    api = _client_with_transport(httpx.MockTransport(handler))
+    result = await api.voice_command(1, text="hammasiga ha", role="staff")
+
+    assert result["reply_text"] == "Bajarildi."
+    assert b"text=hammasiga" in seen["body"]
+    assert b"role=staff" in seen["body"]
+    assert b'name="audio"' not in seen["body"]
+    await api.aclose()
+
+
+@pytest.mark.asyncio
+async def test_voice_command_requires_audio_or_text():
+    api = _client_with_transport(httpx.MockTransport(lambda r: httpx.Response(200, json={})))
+    with pytest.raises(ValueError):
+        await api.voice_command(1)
+    await api.aclose()
+
+
+@pytest.mark.asyncio
+async def test_voice_history_gets_list_with_query_params():
+    def handler(request: httpx.Request) -> httpx.Response:
+        assert request.url.path == "/v1/voice/history"
+        assert request.url.params["chat_id"] == "1"
+        assert request.url.params["n"] == "5"
+        return httpx.Response(
+            200, json=[{"role": "user", "text": "salom", "created_at": "2026-01-01T00:00:00Z"}]
+        )
+
+    api = _client_with_transport(httpx.MockTransport(handler))
+    history = await api.voice_history(1, n=5)
+
+    assert history == [{"role": "user", "text": "salom", "created_at": "2026-01-01T00:00:00Z"}]
+    await api.aclose()
+
+
+@pytest.mark.asyncio
 async def test_approve_video_uses_video_approve_path_and_action_body():
     seen = {}
 

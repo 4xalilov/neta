@@ -11,6 +11,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
+from redis.asyncio import Redis
 
 from bot.api_client import ApiClient
 from bot.handlers import build_router
@@ -22,12 +23,13 @@ logging.basicConfig(level=logging.INFO)
 log = logging.getLogger("bot")
 
 
-def build_dispatcher(api: ApiClient) -> Dispatcher:
+def build_dispatcher(api: ApiClient, redis: Redis) -> Dispatcher:
     dp = Dispatcher(storage=MemoryStorage())
     dp.update.outer_middleware(LoggingMiddleware())
     dp.callback_query.outer_middleware(OwnerOnlyMiddleware())
     dp.include_router(build_router())
     dp["api"] = api
+    dp["redis"] = redis  # bot/voice_mode.py: per-chat "🎙 Jarvis rejimi" flag
     return dp
 
 
@@ -40,7 +42,8 @@ async def run_polling() -> None:
         default=DefaultBotProperties(parse_mode=ParseMode.HTML),
     )
     api = ApiClient()
-    dp = build_dispatcher(api)
+    redis = Redis.from_url(settings.redis_url)
+    dp = build_dispatcher(api, redis)
 
     notify_task = start_notify_task(bot)
     try:
@@ -48,6 +51,7 @@ async def run_polling() -> None:
     finally:
         notify_task.cancel()
         await api.aclose()
+        await redis.aclose()
         await bot.session.close()
 
 
@@ -66,7 +70,8 @@ async def run_webhook() -> None:
         default=DefaultBotProperties(parse_mode=ParseMode.HTML),
     )
     api = ApiClient()
-    dp = build_dispatcher(api)
+    redis = Redis.from_url(settings.redis_url)
+    dp = build_dispatcher(api, redis)
 
     await bot.set_webhook(settings.webhook_url)
     start_notify_task(bot)

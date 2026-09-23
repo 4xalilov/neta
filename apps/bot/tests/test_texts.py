@@ -57,6 +57,17 @@ CASES = [
     (texts.SETTINGS_SAVED, {}),
     (texts.ERROR_GENERIC, {}),
     (texts.CANCELLED, {}),
+    (texts.VOICE_LISTENING, {}),
+    (
+        texts.VOICE_RESULT,
+        {"transcript": "hammasiga ha", "reply_text": "Bajarildi."},
+    ),
+    (texts.VOICE_ASK_CORRECTION, {}),
+    (texts.VOICE_RETRY, {}),
+    (texts.VOICE_MODE_HEADING, {"state": "Yoqilgan ✅"}),
+    (texts.JARVIS_HELP, {}),
+    (texts.VOICE_REPLY_NOTIFY, {"text": "Tayyor."}),
+    (texts.VOICE_CLARIFY, {"question": "Qaysi lidga?"}),
 ]
 
 
@@ -78,6 +89,13 @@ def test_first_line_is_bold_heading_with_emoji():
         texts.JARVIS_APPROVAL_REQUEST,
         texts.SETTINGS_HEADING,
         texts.ERROR_GENERIC,
+        texts.VOICE_LISTENING,
+        texts.VOICE_ASK_CORRECTION,
+        texts.VOICE_RETRY,
+        texts.VOICE_MODE_HEADING,
+        texts.JARVIS_HELP,
+        texts.VOICE_REPLY_NOTIFY,
+        texts.VOICE_CLARIFY,
     ]
     for tpl in headings:
         first_line = tpl.strip().splitlines()[0]

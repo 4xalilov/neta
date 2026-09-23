@@ -82,3 +82,29 @@ SETTINGS_SAVED = "✅ <b>Saqlandi</b>"
 PRONOUN_LABELS = {"siz": "Siz", "sen": "Sen"}
 VOICE_LABELS = {"madina": "Madina", "sardor": "Sardor"}
 REGISTER_LABELS = {"casual": "Erkin", "neutral": "Neytral", "formal": "Rasmiy"}
+
+# -- voice-first Jarvis (roadmap 5.10) ---------------------------------------------------
+VOICE_LISTENING = "🎙 <b>Eshitdim, bajaryapman…</b>"
+VOICE_RESULT = "🗣 <i>«{transcript}»</i>\n{reply_text}"
+VOICE_ASK_CORRECTION = "✏️ <b>Tuzatish</b>\nTo'g'ri matnni yozing."
+VOICE_RETRY = "🔁 <b>Qayta ayting</b>\nOvozli xabar yuboring."
+
+VOICE_MODE_HEADING = (
+    "🎙 <b>Jarvis rejimi</b>\n"
+    "Holat: {state}\n"
+    "Yoqilganda, oddiy matn xabarlar ham buyruq sifatida qabul qilinadi."
+)
+VOICE_MODE_LABELS = {True: "Yoqilgan ✅", False: "O'chirilgan ❌"}
+
+JARVIS_HELP = (
+    "🎙 <b>Jarvis rejimi</b>\n"
+    "• Azizga ayt, zakazni ertaga 3 gacha yopsin\n"
+    "• hammasiga ha\n"
+    "• kechagi hisobotni ayt\n"
+    "• issiq lidlarga yoz\n"
+    "• fitnes klub uchun 3 ta reels tayyorla"
+)
+
+# -- notify: voice_reply / clarify (API -> bot push, bot/notify.py) ---------------------------------------------------
+VOICE_REPLY_NOTIFY = "🗣 <b>Jarvis</b>\n{text}"
+VOICE_CLARIFY = "❓ <b>Aniqlashtirish</b>\n{question}"

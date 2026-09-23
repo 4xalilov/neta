@@ -47,7 +47,7 @@ class ApiClient:
             await self._client.aclose()
             self._client = None
 
-    async def _request(self, method: str, path: str, **kwargs: Any) -> dict:
+    async def _request(self, method: str, path: str, **kwargs: Any) -> Any:
         try:
             resp = await self._http().request(method, path, **kwargs)
             resp.raise_for_status()
@@ -131,3 +131,40 @@ class ApiClient:
         return await self._request(
             "PATCH", f"/v1/workspaces/{workspace_id}/brand-profile", json=fields
         )
+
+    # -- voice (roadmap 5.10) ---------------------------------------------------
+    async def voice_command(
+        self,
+        chat_id: int,
+        *,
+        audio: bytes | None = None,
+        text: str | None = None,
+        workspace_id: str | None = None,
+        role: str = "owner",
+        fmt: str = "ogg",
+    ) -> dict:
+        """POST /v1/voice/command, multipart form.
+
+        Exactly one of `audio` (raw ogg/opus bytes from Telegram) or `text`
+        (typed command, or an owner's "✏️ Tuzatish" correction) is sent, plus
+        `chat_id`, optional `workspace_id`, `fmt` ("ogg") and `role`
+        ("owner"|"staff" -- staff voice/text goes through the same endpoint,
+        distinguished only by this field). Returns a `VoiceResult`:
+        `{transcript, intent, confidence, reply_text, needs_confirmation,
+        actions: [{id, type, level, status, summary}], audio_url, audio_b64,
+        job_id}`.
+        """
+        if audio is None and text is None:
+            raise ValueError("voice_command requires audio or text")
+        data: dict[str, str] = {"chat_id": str(chat_id), "fmt": fmt, "role": role}
+        if workspace_id is not None:
+            data["workspace_id"] = workspace_id
+        if text is not None:
+            data["text"] = text
+        files = {"audio": ("voice.ogg", audio, "audio/ogg")} if audio is not None else None
+        return await self._request("POST", "/v1/voice/command", data=data, files=files)
+
+    async def voice_history(self, chat_id: int, n: int = 10) -> list[dict]:
+        """GET /v1/voice/history?chat_id=&n= -> [{role: "user"|"jarvis", text, created_at}]"""
+        result = await self._request("GET", "/v1/voice/history", params={"chat_id": chat_id, "n": n})
+        return result if isinstance(result, list) else []

@@ -1,3 +1,7 @@
+import json
+
+import pytest
+
 from bot.keyboards import (
     approval_request_kb,
     jarvis_report_kb,
@@ -48,3 +52,59 @@ def test_unknown_kind_falls_back_to_generic_error():
     text, kb = build_notification("mystery", {})
     assert "Xatolik" in text
     assert kb is None
+
+
+def test_voice_reply_kind_renders_text_with_no_keyboard():
+    payload = {"text": "6 ta issiq lidga yozildi.", "audio_url": "https://cdn.example.com/a.ogg"}
+    text, kb = build_notification("voice_reply", payload)
+    assert "6 ta issiq lidga yozildi." in text
+    assert kb is None  # the voice note itself is sent separately by _handle_message
+
+
+def test_clarify_kind_with_action_id_renders_confirm_keyboard():
+    payload = {"question": "Azizgami yoki Boburgami yozay?", "action_id": "a1"}
+    text, kb = build_notification("clarify", payload)
+    assert "Azizgami yoki Boburgami yozay?" in text
+    assert kb.inline_keyboard == approval_request_kb("a1").inline_keyboard
+
+
+def test_clarify_kind_without_action_id_has_no_keyboard():
+    text, kb = build_notification("clarify", {"question": "Qaysi lidga?"})
+    assert "Qaysi lidga?" in text
+    assert kb is None
+
+
+@pytest.mark.asyncio
+async def test_handle_message_sends_voice_note_for_voice_reply_with_audio_url():
+    from unittest.mock import AsyncMock
+
+    from bot.notify import _handle_message
+
+    bot = AsyncMock()
+    raw = json.dumps(
+        {
+            "chat_id": 42,
+            "kind": "voice_reply",
+            "payload": {"text": "Tayyor.", "audio_url": "https://cdn.example.com/a.ogg"},
+        }
+    )
+
+    await _handle_message(bot, raw)
+
+    bot.send_message.assert_awaited_once()
+    bot.send_voice.assert_awaited_once_with(42, "https://cdn.example.com/a.ogg")
+
+
+@pytest.mark.asyncio
+async def test_handle_message_skips_voice_note_when_no_audio_url():
+    from unittest.mock import AsyncMock
+
+    from bot.notify import _handle_message
+
+    bot = AsyncMock()
+    raw = json.dumps({"chat_id": 42, "kind": "voice_reply", "payload": {"text": "Tayyor."}})
+
+    await _handle_message(bot, raw)
+
+    bot.send_message.assert_awaited_once()
+    bot.send_voice.assert_not_awaited()

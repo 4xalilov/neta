@@ -28,6 +28,7 @@ def menu_kb() -> InlineKeyboardMarkup:
         inline_keyboard=[
             [_btn("📝 Brif", "menu", arg="brief"), _btn("📅 Reja", "menu", arg="plan")],
             [_btn("📊 Hisobot", "menu", arg="report"), _btn("⚙️ Sozlamalar", "menu", arg="settings")],
+            [_btn("🎙 Jarvis rejimi", "menu", arg="voice")],
         ]
     )
 
@@ -96,10 +97,11 @@ def approval_request_kb(action_id: str) -> InlineKeyboardMarkup:
 
 
 # -- settings ---------------------------------------------------
-def settings_kb(pronoun: str, voice: str, register: str) -> InlineKeyboardMarkup:
+def settings_kb(pronoun: str, voice: str, register: str, voice_mode: bool = True) -> InlineKeyboardMarkup:
     def mark(current: str, value: str) -> str:
         return "🔘" if current == value else "⚪"
 
+    voice_mark = "🔘" if voice_mode else "⚪"
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [
@@ -115,6 +117,7 @@ def settings_kb(pronoun: str, voice: str, register: str) -> InlineKeyboardMarkup
                 _btn(f"{mark(register, 'neutral')} Neytral", "set_register", arg="neutral"),
                 _btn(f"{mark(register, 'formal')} Rasmiy", "set_register", arg="formal"),
             ],
+            [_btn(f"{voice_mark} 🎙 Jarvis rejimi", "voice_mode_toggle")],
             [_btn("◀️ Orqaga", "menu", arg="home")],
         ]
     )
@@ -122,3 +125,32 @@ def settings_kb(pronoun: str, voice: str, register: str) -> InlineKeyboardMarkup
 
 def back_cancel_kb() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(inline_keyboard=[[_btn("❌ Bekor", "cancel")]])
+
+
+# -- voice mode toggle screen (from the menu) ---------------------------------------------------
+def voice_mode_kb(on: bool) -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                _btn(f"{'🔘' if on else '⚪'} Yoqilgan", "voice_mode_set", arg="on"),
+                _btn(f"{'🔘' if not on else '⚪'} O'chirilgan", "voice_mode_set", arg="off"),
+            ],
+            [_btn("◀️ Orqaga", "menu", arg="home")],
+        ]
+    )
+
+
+# -- voice command result screen ---------------------------------------------------
+def voice_result_kb(
+    *, action_id: str | None = None, show_confirm: bool = False
+) -> InlineKeyboardMarkup:
+    rows: list[list[InlineKeyboardButton]] = []
+    if show_confirm and action_id:
+        rows.append(
+            [
+                _btn("✅ Ha", "voice_yes", id_=action_id),
+                _btn("❌ Yo'q", "voice_no", id_=action_id),
+            ]
+        )
+    rows.append([_btn("✏️ Tuzatish", "voice_fix"), _btn("🔁 Qayta ayting", "voice_retry")])
+    return InlineKeyboardMarkup(inline_keyboard=rows)

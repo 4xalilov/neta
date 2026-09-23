@@ -29,6 +29,8 @@ OWNER_ONLY_ACTIONS = {
     "set_pron",
     "set_voice",
     "set_register",
+    "voice_mode_toggle",
+    "voice_mode_set",
 }
 
 

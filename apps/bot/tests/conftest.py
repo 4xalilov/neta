@@ -20,21 +20,59 @@ class FakeMessage:
         text: str | None = None,
         from_user: FakeUser | None = None,
         chat_title: str | None = None,
+        chat_id: int = 1,
         reply_markup: Any = None,
+        voice: Any = None,
+        audio: Any = None,
     ) -> None:
         self.text = text
         self.from_user = from_user or FakeUser(id=1, full_name="Test User")
-        self.chat = SimpleNamespace(title=chat_title)
+        self.chat = SimpleNamespace(title=chat_title, id=chat_id)
         self.reply_markup = reply_markup
+        self.voice = voice
+        self.audio = audio
         self.answer = AsyncMock(side_effect=self._answer)
+        self.answer_voice = AsyncMock(side_effect=self._answer_voice)
         self.edit_text = AsyncMock()
         self.edit_reply_markup = AsyncMock()
         self._children: list[FakeMessage] = []
+        self.voice_notes_sent: list[Any] = []
 
     async def _answer(self, text: str, reply_markup: Any = None) -> FakeMessage:
-        msg = FakeMessage(text=text, from_user=self.from_user, reply_markup=reply_markup)
+        msg = FakeMessage(
+            text=text, from_user=self.from_user, chat_id=self.chat.id, reply_markup=reply_markup
+        )
         self._children.append(msg)
         return msg
+
+    async def _answer_voice(self, voice: Any, **kwargs: Any) -> FakeMessage:
+        self.voice_notes_sent.append(voice)
+        msg = FakeMessage(from_user=self.from_user, chat_id=self.chat.id)
+        self._children.append(msg)
+        return msg
+
+
+class FakeBot:
+    """Minimal stand-in for aiogram's Bot, only `download()` is used by handlers."""
+
+    def __init__(self, downloaded: bytes = b"fake-ogg-bytes") -> None:
+        import io
+
+        self._buf = io.BytesIO(downloaded)
+        self.download = AsyncMock(return_value=self._buf)
+
+
+class FakeRedis:
+    """In-memory stand-in for redis.asyncio.Redis, enough for bot/voice_mode.py."""
+
+    def __init__(self) -> None:
+        self.store: dict[str, str] = {}
+
+    async def get(self, key: str) -> str | None:
+        return self.store.get(key)
+
+    async def set(self, key: str, value: str) -> None:
+        self.store[key] = value
 
 
 class FakeCallbackQuery:

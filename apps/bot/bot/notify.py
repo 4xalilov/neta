@@ -2,7 +2,7 @@
 
 Message format (JSON, published to the `tg:notify` channel)::
 
-    {"chat_id": 123456, "kind": "script|video|report|approval", "payload": {...}}
+    {"chat_id": 123456, "kind": "script|video|report|approval|voice_reply|clarify", "payload": {...}}
 
 See `apps/bot/README.md` for each `payload` shape. `build_notification` is the
 pure renderer (kind + payload -> text, keyboard) used both by the subscriber
@@ -69,6 +69,20 @@ def build_notification(kind: str, payload: dict) -> tuple[str, InlineKeyboardMar
         text = texts.JARVIS_APPROVAL_REQUEST.format(description=payload.get("description", "-"))
         return text, approval_request_kb(payload["action_id"])
 
+    if kind == "voice_reply":
+        # Jarvis's spoken/typed reply to a voice command (roadmap 5.10). The
+        # voice note itself (if `audio_url` is present) is sent separately by
+        # `_handle_message`, after this text screen.
+        text = texts.VOICE_REPLY_NOTIFY.format(text=payload.get("text", "-"))
+        return text, None
+
+    if kind == "clarify":
+        # Low-confidence intent (< 0.7) -> a clarifying question, same
+        # ✅/❌/✏️ shape as the "approval" kind, keyed by `action_id` when given.
+        text = texts.VOICE_CLARIFY.format(question=payload.get("question", "-"))
+        action_id = payload.get("action_id")
+        return text, (approval_request_kb(action_id) if action_id else None)
+
     log.warning("unknown notify kind: %s", kind)
     return texts.ERROR_GENERIC, None
 
@@ -85,6 +99,12 @@ async def _handle_message(bot: Bot, raw: bytes | str) -> None:
 
     text, keyboard = build_notification(kind, payload)
     await bot.send_message(chat_id, text, reply_markup=keyboard)
+
+    if kind == "voice_reply" and payload.get("audio_url"):
+        try:
+            await bot.send_voice(chat_id, payload["audio_url"])
+        except Exception:
+            log.exception("failed to send voice note for voice_reply")
 
 
 async def run_notify_subscriber(bot: Bot, redis_url: str | None = None) -> None:
