@@ -64,7 +64,9 @@ Poydevor: Chatwoot + Twenty CRM (docs/07). Meta App Review'ni 3-bosqichdan boshl
 - [ ] 5.7 `TaskManager`: xodimga vazifa (Telegram + Twenty Task), deadline (egadan/SLA), eslatma, eskalatsiya
 - [ ] 5.8 `Reporter`: kunlik 09:00 hisobot (matn + TTS ovozli), kampaniya ROI (Twenty + post_metrics)
 - [ ] 5.9 `staff_memory`: xodim odatlari; `lead_memory`: suhbat xulosalari
-**Qabul:** IG DM'dan lid → 2 daqiqada egaga xabar va Twenty'da karta; vazifa muddati o'tsa eskalatsiya; kunlik hisobot keladi.
+- [ ] 5.10 **Ovozli boshqaruv (ega yozmaydi, gapiradi)**: Telegram voice → STT adapter (`integrations/stt.py`: gemini audio | whisper/faster-whisper | aisha/uzbekvoice | azure uz-UZ; `evals/stt_test.md` 50 buyruq) → `jarvis/intents.py` niyat tahlili (report, assign_task, approve/reject, message_lead, call_lead, query, brief, schedule, settings; ishonch < 0.7 → ovozli aniqlashtirish savoli) → supervisor → javob matn + ovoz (TTS → ogg/opus voice note); ega suhbat xotirasi (`owner_memory`: oxirgi 10 almashuv, "uni ertaga qil" kabi havolalar); "🎙 Jarvis" rejimi — har voice xabar buyruq; transkript ko'rsatiladi (✏️ tuzatish); kunlik hisobot ovozli
+- [ ] 5.11 Agentlik rejimi (ko'p mijoz) — 7.3 dan oldinga: har mijoz = workspace, ega ovozda mijoz nomini aytadi ("Fitnes klub uchun..."), Jarvis workspace'ni tanlaydi; xodim ↔ mijoz biriktirish; mijozlar bo'yicha jamlama hisobot
+**Qabul:** IG DM'dan lid → 2 daqiqada egaga xabar va Twenty'da karta; vazifa muddati o'tsa eskalatsiya; kunlik hisobot keladi; ega 10 ovozli buyruqdan ≥ 9 tasini yozmasdan bajartira oladi (STT+niyat ≥ 90%).
 
 ## Bosqich 6 — Jarvis telefon rejimi (LiveKit) (2–3 hafta)
 - [ ] 6.1 `infra/livekit/` — LiveKit server + SIP service self-host; mahalliy operator SIP trunk, test raqami
